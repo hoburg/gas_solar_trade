@@ -288,11 +288,10 @@ class Mission(Model):
 def test():
     M = Mission(latitude=31)
     M.cost = M["W_{total}"]
-    M.solve("mosek")
+    M.solve()
 
 if __name__ == "__main__":
     M = Mission(latitude=31)
     M.cost = M["W_{total}"]
     sol = M.solve("mosek")
     h = altitude(np.hstack([sol(sv).magnitude for sv in sol("\\rho")]))
-
