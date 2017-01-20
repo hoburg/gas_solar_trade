@@ -142,6 +142,8 @@ class SolarCells(Model):
         g = Variable("g", 9.81, "m/s**2", "gravitational constant")
         S = Variable("S", "ft**2", "solar cell area")
         W = Variable("W", "lbf", "solar cell weight")
+        etasolar = Variable("\\eta_{solar}", 0.2, "-",
+                            "Solar cell efficiency")
 
         constraints = [W >= rhosolar*S*g]
 
@@ -155,11 +157,9 @@ class SolarCellPerf(Model):
     def setup(self, static, state):
 
         E = Variable("E", "J", "solar cell energy collected")
-        etasolar = Variable("\\eta_{solar}", 0.2, "-",
-                            "Solar cell efficiency")
 
         constraints = [
-            state["(E/S)_{irr}"]*etasolar*static["S"] >= E]
+            state["(E/S)_{irr}"]*static["\\eta_{solar}"]*static["S"] >= E]
 
         return constraints
 
@@ -219,7 +219,7 @@ class FlightState(Model):
     def setup(self, latitude=45, day=355):
 
         df = DF[DF["latitude"] == latitude]
-        esirr, td, tn = get_Eirr(latitude, day)
+        esirr, td, tn, _ = get_Eirr(latitude, day)
 
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
         V = Variable("V", "m/s", "true airspeed")
@@ -309,5 +309,7 @@ if __name__ == "__main__":
     M = Mission(latitude=31)
     M.cost = M["W_{total}"]
     sol = M.solve("mosek")
+    mn = [max(M[sv].descr["modelnums"]) for sv in sol("(E/S)_{irr}") if
+          abs(sol["sensitivities"]["constants"][sv]) > 0.01][0]
     # sol = M.localsolve("mosek")
     h = altitude(np.hstack([sol(sv).magnitude for sv in sol("\\rho")]))
