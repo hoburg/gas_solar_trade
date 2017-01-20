@@ -27,15 +27,23 @@ def get_Eirr(latitude, day):
 
     r0 = 149.597e6 # avg distance from earth to sun km
     Reo = r0*(1 + 0.017*sin(2*np.pi*(day-93)/365))
-    Esun = 63372630 # energy from sun surface W/m^2
+    Psun = 63372630 # energy from sun surface W/m^2
     Rsun = 695842 # radius of the sun, km
-    E0 = Esun*4*np.pi*Rsun**2/4/np.pi/Reo**2
+    P0 = Psun*4*np.pi*Rsun**2/4/np.pi/Reo**2
     tau = np.exp(-0.175/costhsun)
-    E = E0*costhsun# *tau
-    #fig, ax = plt.subplots()
-    #ax.plot(t, E)
-    #ax.set_xlabel("Time [hr]")
-    #ax.set_ylabel("Available Solar Power [W/m$^2$]")
-    #ax.grid()
-    #fig.savefig("lat45.pdf", bbox_inches="tight")
-    return np.trapz(E)*(abs(tend-tstart))/50.0, tstart*2, 24-tstart*2
+    P = P0*costhsun# *tau
+    E = np.trapz(P)*(abs(tend-tstart))/50.0
+    tday = tstart*2
+    tnight = 24-tstart*2
+    plot = [P, t]
+    return E, tday, tnight, plot
+
+if __name__ == "__main__":
+    ES, td, tn, p = get_Eirr(45, 31+28+21)
+    fig, ax = plt.subplots()
+    ax.plot(p[1], p[0])
+    ax.set_xlabel("Time [hr]")
+    ax.set_ylabel("Available Solar Power [W/m$^2$]")
+    ax.grid()
+    fig.savefig("lat45.pdf", bbox_inches="tight")
+
