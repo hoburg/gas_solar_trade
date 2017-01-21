@@ -1,6 +1,9 @@
+" solar irrandiance model "
 import numpy as np
-from numpy import sin, arctan, tan, cos, arcsin, arccos, deg2rad, rad2deg
+from numpy import sin, tan, cos, arccos, deg2rad
 import matplotlib.pyplot as plt
+from gpfit.fit import fit
+import pandas as pd
 plt.rcParams.update({'font.size':15})
 
 def get_Eirr(latitude, day):
@@ -12,6 +15,7 @@ def get_Eirr(latitude, day):
     ESirr: Solar energy per unit area of from the sun Whr/m^2
     tday: time of daylight
     tnight: time of daylight
+    p: 2d array [2, 50] Power per unit area [0] and time array [1]
     """
     assert isinstance(day, int)
 
@@ -47,3 +51,68 @@ if __name__ == "__main__":
     ax.grid()
     fig.savefig("lat45.pdf", bbox_inches="tight")
 
+    data = {}
+    for l in range(20, 61):
+
+        ES, td, tn, p = get_Eirr(l, 355)
+        params = [l]
+
+        P = p[0][p[1] > 0]
+        t = p[1][p[1] > 0]
+        f = np.array([np.trapz(P[:i+1])*(t[0]-t[i])/i for i in
+                      range(1, len(P)-1)])
+        ends = np.array([P[i]*(t[0]-t[i]) for i in range(1, len(P))][:-1])
+        Eday = np.array([P[i]*t[i] for i in range(1, len(P))][:-1])
+        C = ends - f
+        B = Eday + f
+
+        x = np.log(P[1:-15])
+        y = np.log(2*C[:-14])
+        cn, rm = fit(x, y, 1, "MA")
+        print "RMS error: %.4f" % rm
+        fig, ax = plt.subplots()
+        yfit = cn.evaluate(x)
+        ax.plot(P[1:-15], 2*C[:-14], "o")
+        ax.plot(P[1:-15], np.exp(yfit))
+        ax.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
+        ax.set_ylabel("Battery Energy Needed for Sunrise/Sunset [Whr/m$^2$]")
+        ax.grid()
+        fig.savefig("irr_plots/Cenergyl%d.pdf" % l)
+        plt.close()
+        params.append(cn[0].right.c)
+        params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])
+
+        x = np.log(P[1:-15])
+        y = np.log(2*B[:-14])
+        cn, rm = fit(x, y, 1, "MA")
+        print "RMS error: %.4f" % rm
+        fig, ax = plt.subplots()
+        yfit = cn.evaluate(x)
+        ax.plot(P[1:-15], 2*B[:-14], "o")
+        ax.plot(P[1:-15], np.exp(yfit))
+        ax.grid()
+        ax.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
+        ax.set_ylabel("Solar Cell Energy Needed for Daytime [Whr/m$^2$]")
+        fig.savefig("irr_plots/Benergy%d.pdf" % l)
+        plt.close()
+        params.append(cn[0].right.c)
+        params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])
+        data["%d" % l] = params
+
+
+    df = pd.DataFrame(data).transpose()
+    colnames = ["latitude", "Cc", "Ce", "Bc", "Be"]
+    df.columns = colnames
+    df.to_csv("solarirrdata.csv")
+
+    # tday = np.array([2*n for n in t])
+    # tnight = 24-tday
+    # x = np.log(P[1:-10])
+    # y = np.log(tnight[1:-10])
+    # cn, rm = fit(x, y, 1, "MA")
+    # print "RMS error: %.4f" % rm
+    # yfit = cn.evaluate(x)
+    # fig, ax = plt.subplots()
+    # ax.plot(P[1:], tnight[1:], "--")
+    # ax.plot(P[1:-10], np.exp(yfit))
+    # fig.savefig("pvstday.pdf")
