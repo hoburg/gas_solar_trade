@@ -6,7 +6,7 @@ from gpfit.fit import fit
 import pandas as pd
 plt.rcParams.update({'font.size':15})
 
-def get_Eirr(latitude, day):
+def get_Eirr(latitude, day, N=50.0):
     """
     day is juilian day, measured from Jan 1st
     latitude is in degrees
@@ -26,7 +26,7 @@ def get_Eirr(latitude, day):
              0.002697*cos(3*beta) + 0.00148*sin(3*beta))
     tstart = 12/np.pi*arccos(-tan(delta)*tan(lat))
     tend = -tstart
-    t = np.linspace(tstart, tend, 50)
+    t = np.linspace(tstart, tend, N)
     costhsun = sin(delta)*sin(lat) + cos(delta)*cos(lat)*cos(2*np.pi*t/24)
 
     r0 = 149.597e6 # avg distance from earth to sun km
@@ -36,23 +36,55 @@ def get_Eirr(latitude, day):
     P0 = Psun*4*np.pi*Rsun**2/4/np.pi/Reo**2
     tau = np.exp(-0.175/costhsun)
     P = P0*costhsun# *tau
-    E = np.trapz(P)*(abs(tend-tstart))/50.0
+    E = np.trapz(P)*(abs(tend-tstart))/N
     tday = tstart*2
     tnight = 24-tstart*2
     plot = [P, t]
     return E, tday, tnight, plot
 
 if __name__ == "__main__":
-    ES, td, tn, p = get_Eirr(45, 31+28+21)
+    ES, td, tn, p = get_Eirr(30, 355, N=1000)
     fig, ax = plt.subplots()
-    ax.plot(p[1], p[0])
+    ax.fill_between([-12, -td/2], 0, 80, alpha=0.5, facecolor="b",
+                    linewidth=2, color="b")
+    ax.fill_between([td/2, 12], 0, 80, alpha=0.5, facecolor="b", linewidth=2,
+                    color="b")
+    ax.fill_between(p[1], p[0], 80, where=p[0] < 80, linewidth=2, color="b",
+                    facecolor="m", alpha=0.5)
+    ax.fill_between(p[1], 0, p[0], hatch="xx", color="r", linewidth=2,
+                    facecolor="none")
+    newp = []
+    for pp in p[0]:
+        if pp < 80:
+            newp.append(pp)
+        else:
+            newp.append(80)
+    ax.fill_between(p[1], 0, newp, linewidth=2, color="g", facecolor="g",
+                    alpha=0.5)
     ax.set_xlabel("Time [hr]")
     ax.set_ylabel("Available Solar Power [W/m$^2$]")
+    ax.set_xlim([-12, 12])
+    ax.text(-1.2, 400, "$(E/S)_{\mathrm{sun}}$", fontsize=15)
+    ax.text(-10, 30, "$E_{\mathrm{batt}}/S_{\mathrm{solar}}$", fontsize=15)
+    ax.text(7, 30, "$E_{\mathrm{batt}}/S_{\mathrm{solar}}$", fontsize=15)
+    ax.text(-1.2, 30, "$(E/S)_{\mathrm{day}}$", fontsize=15)
+    ax.annotate("$(E/S)_C$", xy=(-4.9, 70), xytext=(-9, 220),
+                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5,
+                                headwidth=10, frac=0.1))
+    ax.annotate("", xy=(5.5, 70), xytext=(-6.8, 205),
+                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5,
+                                headwidth=10, frac=0.025))
     ax.grid()
-    fig.savefig("lat45.pdf", bbox_inches="tight")
+    ax2 = ax.twinx()
+    ax2.set_yticks([0, 80, 900])
+    ax2.set_yticklabels(["", "$(P/S)_{\mathrm{min}}$", ""])
+    fig.savefig("../../gassolarpaper/lat30.pdf", bbox_inches="tight")
 
     data = {}
-    for l in range(20, 61):
+    fig1, ax1 = plt.subplots()
+    fig2, ax2 = plt.subplots()
+    # for l in range(20, 61):
+    for l, col in zip([30], ["g"]):
 
         ES, td, tn, p = get_Eirr(l, 355)
         params = [l]
@@ -70,15 +102,12 @@ if __name__ == "__main__":
         y = np.log(2*C[:-14])
         cn, rm = fit(x, y, 1, "MA")
         print "RMS error: %.4f" % rm
-        fig, ax = plt.subplots()
         yfit = cn.evaluate(x)
-        ax.plot(P[1:-15], 2*C[:-14], "o")
-        ax.plot(P[1:-15], np.exp(yfit))
-        ax.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
-        ax.set_ylabel("Battery Energy Needed for Sunrise/Sunset [Whr/m$^2$]")
-        ax.grid()
-        fig.savefig("irr_plots/Cenergyl%d.pdf" % l)
-        plt.close()
+        ax1.plot(P[1:-15], 2*C[:-14], "o", c=col, markerfacecolor="none")
+        ax1.plot(P[1:-15], np.exp(yfit), c=col, label="%dth Latitude" % l)
+        ax1.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
+        ax1.set_ylabel("Extra Required Battery Energy $(E/S)_C}$ [Whr/m$^2$]")
+        ax1.grid()
         params.append(cn[0].right.c)
         params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])
 
@@ -86,33 +115,19 @@ if __name__ == "__main__":
         y = np.log(2*B[:-14])
         cn, rm = fit(x, y, 1, "MA")
         print "RMS error: %.4f" % rm
-        fig, ax = plt.subplots()
         yfit = cn.evaluate(x)
-        ax.plot(P[1:-15], 2*B[:-14], "o")
-        ax.plot(P[1:-15], np.exp(yfit))
-        ax.grid()
-        ax.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
-        ax.set_ylabel("Solar Cell Energy Needed for Daytime [Whr/m$^2$]")
-        fig.savefig("irr_plots/Benergy%d.pdf" % l)
-        plt.close()
+        ax2.plot(P[1:-15], 2*B[:-14], "o", c=col, markerfacecolor="none")
+        ax2.plot(P[1:-15], np.exp(yfit), c=col, label="%dth Latitude" % l)
+        ax2.grid()
+        ax2.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
+        ax2.set_ylabel("Daytime Energry for Solar Cells $(E/S)_{\mathrm{day}}$ [Whr/m$^2$]")
         params.append(cn[0].right.c)
         params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])
         data["%d" % l] = params
 
-
-    df = pd.DataFrame(data).transpose()
-    colnames = ["latitude", "Cc", "Ce", "Bc", "Be"]
-    df.columns = colnames
-    df.to_csv("solarirrdata.csv")
-
-    # tday = np.array([2*n for n in t])
-    # tnight = 24-tday
-    # x = np.log(P[1:-10])
-    # y = np.log(tnight[1:-10])
-    # cn, rm = fit(x, y, 1, "MA")
-    # print "RMS error: %.4f" % rm
-    # yfit = cn.evaluate(x)
-    # fig, ax = plt.subplots()
-    # ax.plot(P[1:], tnight[1:], "--")
-    # ax.plot(P[1:-10], np.exp(yfit))
-    # fig.savefig("pvstday.pdf")
+    fig1.savefig("../../gassolarpaper/Cenergy.pdf")
+    fig2.savefig("../../gassolarpaper/Benergy.pdf")
+    # df = pd.DataFrame(data).transpose()
+    # colnames = ["latitude", "Cc", "Ce", "Bc", "Be"]
+    # df.columns = colnames
+    # df.to_csv("solarirrdata.csv")
