@@ -855,75 +855,75 @@ where the solar cell density and the battery energy density are assumed to be $\
 % 
 % Because of limited information about these aircraft the optimization predictions are not exact. However, it does validate the proposition that the geometric programming optimzation model is useful for approximating the size and performance of long-endurance aircraft because the results of the optimization are within the same order of manitude as the existing aircarft. 
 
-\section{Long-endurance Aircraft Trade Space}
-
-One way to analyze the trade space is to determine the structural weight of the aircraft as some percentage of the total aircraft weight, 
-
-\begin{equation}
-    \label{e:structualfraction}
-    W_{\text{structural}} \geq f_{\text{structural}}MTOW.
-\end{equation}
-
-where the structural fraction is assumed to be, $f_{\text{structural}} = 0.35$. Using this assumption and models described in section III, a comparison of the long-endurance trade space is achieved by comparing solar-electric and gas powered aircraft for different parameters. 
-
-% \begin{longtable}{llll}
-% \caption{Fixed Optimization Parameters} \\
-% \toprule
-% \toprule
-% \multicolumn{2}{c}{Gas Powered} & \multicolumn{2}{c}{Solar Powered}\\
-% \midrule
-% Latitude [deg]       & 45     & Latitude [deg]       & 30 \\
-% Altitude [ft]        & 16,000 & Altitude [ft]        & 50,000        \\
-% Payload Weight [lbf] & 10     & Payload Weight [lbf] & 10            \\
-% $\eta_{prop}$        & 0.75   & $\eta_{prop}$        & 0.75          \\
-% $A$                 & 25     & $A$                 & 25              \\
-% $f_{\text{structural}}$ & 0.35   & $f_{\text{structural}}$ & 0.35    \\
-% $c_{d_0}$            & 0.005  & $c_{d_0}$            & 0.002         \\ 
-% $BSFC$               & 0.6    & $\eta_{\text{charge}}$      & 0.98   \\
-% Endurance [days]     & 8      & $\eta_{\text{discharge}}$   & 0.98   \\
-%                      &        & $h_{\text{battery}}$ [Whr/kg]  & 350 \\
-%                      &        & $\rho_{\text{solar}}$ [kg/m$^2$] & 0.3 \\
-%                      &        & Day of the Year      & 355 (Dec 21st)\\
-% \bottomrule
-% \label{t:gassolarparams}
-%  \end{longtable}
-
-
-\subsection{Sizing for Different Latitude Bands}
-
-An analysis of the max take off weight required to operate at different latitudes reveals that is it is more difficult for solar-electric powered aircraft to operate at higher wind speeds than it is for gas powered aircraft.
-This analysis is achieved by minimizing the max take off weight in both the gas and solar-electric powered optimization models at different latitudes. 
-For this study, the gas-powered aircraft is constrained to fly for 8 days. 
-
-\begin{figure}[H]
- \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Gas Powered\label{f:mtowvslatgassimple}]{\includegraphics{mtowvslatgassimple.pdf}}
-     \subfigure[Solar-Electric Powered\label{f:mtowvslatsolarsimple}]{\includegraphics{mtowvslatsolarsimple.pdf}}
- \end{subfigmatrix}
- \caption{\textbf{ Trade study of max take off weight and latitude. Plots show required maximum take off weight required to operate between a band of latitudes.   A comparison of the solar and gas powered latitude analysis shows that gas powered aircraft are more robust to operating in higher wind speeds. }}
- \label{f:latvsmtowtrade}
-\end{figure}
-
-One way to interpret Figure~\ref{f:latvsmtowtrade} is that a solar-powered aircraft weighing 175 lbs is able to operate between $\pm$40 degrees North latitude in 90th percentile wind speeds.  
-This analysis shows that gas powered architectures are able to operate in more locations than solar-electric powered aircraft.  
-Figure~\ref{f:mtowvslatgas} levels off around 35 degrees latitude because wind speeds are highest at that latitude at 15,000 ft. 
-Thus, if the gas powered aircraft can fly at 35 degrees latitude it can fly in any band of latitudes.  
-On the other hand, solar-electric powered aircraft design becomes less feasible at higher latitudes because even though wind speeds peak around 42 degrees latitude at 60,000 ft, solar flux continues to decrease at higher latitudes making it difficult to reach latitude bands greater than $\pm$50 degrees. 
-
-\subsection{Gas Powered Endurance}
-
-While, gas powered aircraft may be more robust to high wind speeds, solar-electric powered aircraft can achieve higher endurance. 
-The gas powered optimization model was set to minimize max take off weight for different endurance requirements to understand what endurance limits are possible. 
-
-\begin{figure}[H]
-	\begin{center}
-	\includegraphics[width=0.6\textwidth]{mtowvsendsimple.pdf}
-    \caption{ \textbf{ Trade study between endurance and max take off weight for a gas powered archicture. }}
-	\label{f:mtowvsendsimple}
-	\end{center}
-\end{figure}
-
-For a gas-powered architecture, achieving endurances above 10 days is difficult.  Solar-electric powered aircraft, however, can theoretically fly indefinitely. 
+% \section{Long-endurance Aircraft Trade Space}
+% 
+% One way to analyze the trade space is to determine the structural weight of the aircraft as some percentage of the total aircraft weight, 
+% 
+% \begin{equation}
+%     \label{e:structualfraction}
+%     W_{\text{structural}} \geq f_{\text{structural}}MTOW.
+% \end{equation}
+% 
+% where the structural fraction is assumed to be, $f_{\text{structural}} = 0.35$. Using this assumption and models described in section III, a comparison of the long-endurance trade space is achieved by comparing solar-electric and gas powered aircraft for different parameters. 
+% 
+% % \begin{longtable}{llll}
+% % \caption{Fixed Optimization Parameters} \\
+% % \toprule
+% % \toprule
+% % \multicolumn{2}{c}{Gas Powered} & \multicolumn{2}{c}{Solar Powered}\\
+% % \midrule
+% % Latitude [deg]       & 45     & Latitude [deg]       & 30 \\
+% % Altitude [ft]        & 16,000 & Altitude [ft]        & 50,000        \\
+% % Payload Weight [lbf] & 10     & Payload Weight [lbf] & 10            \\
+% % $\eta_{prop}$        & 0.75   & $\eta_{prop}$        & 0.75          \\
+% % $A$                 & 25     & $A$                 & 25              \\
+% % $f_{\text{structural}}$ & 0.35   & $f_{\text{structural}}$ & 0.35    \\
+% % $c_{d_0}$            & 0.005  & $c_{d_0}$            & 0.002         \\ 
+% % $BSFC$               & 0.6    & $\eta_{\text{charge}}$      & 0.98   \\
+% % Endurance [days]     & 8      & $\eta_{\text{discharge}}$   & 0.98   \\
+% %                      &        & $h_{\text{battery}}$ [Whr/kg]  & 350 \\
+% %                      &        & $\rho_{\text{solar}}$ [kg/m$^2$] & 0.3 \\
+% %                      &        & Day of the Year      & 355 (Dec 21st)\\
+% % \bottomrule
+% % \label{t:gassolarparams}
+% %  \end{longtable}
+% 
+% 
+% \subsection{Sizing for Different Latitude Bands}
+% 
+% An analysis of the max take off weight required to operate at different latitudes reveals that is it is more difficult for solar-electric powered aircraft to operate at higher wind speeds than it is for gas powered aircraft.
+% This analysis is achieved by minimizing the max take off weight in both the gas and solar-electric powered optimization models at different latitudes. 
+% For this study, the gas-powered aircraft is constrained to fly for 8 days. 
+% 
+% \begin{figure}[H]
+%  \begin{subfigmatrix}{2}% number of columns
+%      \subfigure[Gas Powered\label{f:mtowvslatgassimple}]{\includegraphics{mtowvslatgassimple.pdf}}
+%      \subfigure[Solar-Electric Powered\label{f:mtowvslatsolarsimple}]{\includegraphics{mtowvslatsolarsimple.pdf}}
+%  \end{subfigmatrix}
+%  \caption{\textbf{ Trade study of max take off weight and latitude. Plots show required maximum take off weight required to operate between a band of latitudes.   A comparison of the solar and gas powered latitude analysis shows that gas powered aircraft are more robust to operating in higher wind speeds. }}
+%  \label{f:latvsmtowtrade}
+% \end{figure}
+% 
+% One way to interpret Figure~\ref{f:latvsmtowtrade} is that a solar-powered aircraft weighing 175 lbs is able to operate between $\pm$40 degrees North latitude in 90th percentile wind speeds.  
+% This analysis shows that gas powered architectures are able to operate in more locations than solar-electric powered aircraft.  
+% Figure~\ref{f:mtowvslatgas} levels off around 35 degrees latitude because wind speeds are highest at that latitude at 15,000 ft. 
+% Thus, if the gas powered aircraft can fly at 35 degrees latitude it can fly in any band of latitudes.  
+% On the other hand, solar-electric powered aircraft design becomes less feasible at higher latitudes because even though wind speeds peak around 42 degrees latitude at 60,000 ft, solar flux continues to decrease at higher latitudes making it difficult to reach latitude bands greater than $\pm$50 degrees. 
+% 
+% \subsection{Gas Powered Endurance}
+% 
+% While, gas powered aircraft may be more robust to high wind speeds, solar-electric powered aircraft can achieve higher endurance. 
+% The gas powered optimization model was set to minimize max take off weight for different endurance requirements to understand what endurance limits are possible. 
+% 
+% \begin{figure}[H]
+% 	\begin{center}
+% 	\includegraphics[width=0.6\textwidth]{mtowvsendsimple.pdf}
+%     \caption{ \textbf{ Trade study between endurance and max take off weight for a gas powered archicture. }}
+% 	\label{f:mtowvsendsimple}
+% 	\end{center}
+% \end{figure}
+% 
+% For a gas-powered architecture, achieving endurances above 10 days is difficult.  Solar-electric powered aircraft, however, can theoretically fly indefinitely. 
 
 \subsection{Sensitivity Analysis}
 
