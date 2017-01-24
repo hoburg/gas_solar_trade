@@ -296,12 +296,12 @@ If a gas-powered aircraft can fly at the latitude with the worst wind speed in c
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{mtowvsendurance.pdf}
-    \caption{ \textbf{ Trade study showing how gas powered aircraft weight increases with endurance.  }}
+    \caption{\textbf{Trade study showing how gas powered aircraft weight increases with endurance.}}
 	\label{f:mtowvsendurance}
 	\end{center}
 \end{figure}
 
-To capture the key trade offs like those presented in Figures~\ref{f:solarstart} and ~\ref{f:mtowvsendurance} a geometric programm is built that models for both gas and solar-electric powered, long-endurance aircraft.  
+To capture the key trade offs like those presented in Figures~\ref{f:solarstart} and~\ref{f:mtowvsendurance} a geometric programm is built that models for both gas and solar-electric powered, long-endurance aircraft.  
 Equations governing the underlying physics of aerodynamic performance, solar energy collection and storage, and fuel burn are written in a geometric programming form, which can then be solved as an optimization problem.
 Then by changing the design parameters, such as endurance, latitude, and percentile wind speeds, multiple solutions can be rapidly generated to observe how the aircraft size and weight is affected by different requirements. 
 
@@ -311,6 +311,133 @@ Solar-powered aircraft have greater endurance but are limited operationally by t
 This optimization methodology can quantify the difference in weight and endurance between and gas and solar-electric powered aircraft for the same set of requirements. 
 Similar trade offs are calculated for other requirements and performance metrics to determine under what conditions which platform is best suited to meet a set of requirements.
 
+\section{Requirements Analysis}
+
+Design requirements to operate at specific altitudes, latitudes, and percentile wind speeds each of which will affect the performance and design of the aircraft.\cite{zephyr} 
+To station keep an aircraft must fly faster than the wind speed,
+
+\begin{equation}
+    \label{e:availreq}
+    V \geq V_{\text{wind}}.
+\end{equation}
+
+The wind speed at a station is a function of latitude, altitude, season or day of the year, and percentile wind speed,
+
+\begin{equation}
+    \label{e:windspeed}
+    V_{\text{wind}} = f(\phi, h, DOY, p_{\text{wind}}).
+    \end{equation}
+
+Wind speed data was collected from the ERA Interim atmospheric datasets for the years 2005-2015.\cite{wind} 
+It is assumed that the wind speeds can be approximated by using wind data across all longitudes. 
+
+\subsection{Endurance}
+
+Long-endurance gas powered aircraft, the endurance requirement the amount of time the aircraft needs to remain in the air without refueling.  
+If solar-electric powered aircraft can fly during the shortest day of the year, December 21st, then it can theortically fly at any time the year.  
+Therefore, the endurance requirement for solar-electric powere aircaft is assumed to be a requirement to fly during the winter solstice.  
+To achieve this design constraint the aircraft must be able to fly with limited solar energy, discussed in Section , and with higher wind speeds as shown in Figure~\ref{f:windvsmonth}.
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics[width=0.6\textwidth]{windvsmonth.pdf}
+    \caption{\textbf{Variation of wind speed by month at 45 degrees latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Lower bound, upper bound and middle lines represent 85th, 95th, and 90th percentile winds respectively.}}
+	\label{f:windvsmonth}
+	\end{center}
+\end{figure}
+
+\subsection{Altitude}
+
+Gas powered aircraft generally fly at a given altitude to meet a payload requirement.  
+A naturally aspirated engine and linearly increasing wind speeds from 0 to 35,000 ft shown in Figure~\ref{f:altvswind} mean that gas powered aircraft will generally be more efficiect at lower altitude and generally fly between 5,000 at 25,000 ft depending on the payload requirement.  
+For this design study, it is assume d that the aircraft is flying at 15,000 ft. 
+
+Solar-electric powered aircraft tend to fly around 60,000 ft to meet payload requirements, avoid cloud coverage and fly in lower wind speeds which have a minimum around 60,000 shown in Figure~\ref{f:altvswind}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics[width=0.6\textwidth]{altvswind.pdf}
+    \caption{\textbf{Variation of wind speed with altitude at latitudes of 30, 35, and 45 degrees.  Left bound, right bound and middle lines represent 85th, 95th, and 90th percentile winds respectively. Wind data includes winds during December for the year 2005-2015.}}
+	\label{f:altvswind}
+	\end{center}
+\end{figure}
+
+The altitude also determines atmospheric properties such as air density and viscosity.  For the solar aircraft air density is calculated using equations specific to the tropopause,\cite{isaatm} 
+
+\begin{align}
+    \label{e:tropopress}
+    p &= \rho R_{\text{spec}}T_{11} \\
+    \label{e:tropoalt}
+    h &= 11,000 - \frac{R_{\text{spec}}T_{11}}{g}\frac{p}{p_{11}} 
+\end{align}
+
+According to Sutherland's law\cite{fluiddyhandbook}, viscosity varies with temperature.  Because temperature is assumed constant above 11,000 meters\cite{isaatm}, viscosity is also assumed to be constant, $\mu=\num{1.42d-5}$. \\
+
+For the gas powered aircraft air density is calculated using atmospheric equations specific to the troposphere,\cite{isaatm} 
+
+\begin{align}
+    \label{e:Talt}
+    T_{\text{atm}} = T_{\text{sl}} - Lh \\
+    \label{e:rhot}
+    \rho = \frac{T_{\text{sl}}T_{\text{atm}}^{\left( \frac{g}{R_{\text{spec}}L} -1 \right)}}{R T_{\text{sl}}^{\frac{g}{R_{\text{spec}}L}}}.
+\end{align}
+
+Air viscosity is also computer prior to solving and is assumed to vary according to Sutherland's law,\cite{fluiddyhandbook}
+
+\begin{equation}
+    \label{e:sutherland}
+    \mu = \mu_0 \frac{T_0 + C}{T+C} \left( \frac{T}{T_0} \right)^{\frac{3}{2}}
+\end{equation}
+
+where $\mu_0 = 1.827\text{e}-5$ [Ns/m$^2$], $T_0 = 291.15$ [K], and $C = 120$ [K].
+
+\subsection{Latitude}
+
+Latitude affects both the solar-electric and the gas powered aircraft because wind speed varies with latitude. 
+Figure~\ref{f:latvswind} shows how the wind speed varies with latitude in the Northern Hemisphere. 
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics[width=0.6\textwidth]{latvswind.pdf}
+    \caption{\textbf{Variation of wind speed with latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Left bound, right bound and middle lines represent 85th, 95th, and 90th percentile winds respectively. Wind data includes winds during December for the year 2005-2015.}}
+	\label{f:latvswind}
+	\end{center}
+\end{figure}
+
+Latitude additionally affects the solar-electric powered aircraft because at higher latitudes there is less daylight and therefore less solar energy during the winter months. This is further discussed in Section.
+
+Operationally, long-endurance aircraft will fly within a band of latitudes (i.e. $\pm$45 degrees latitude).  
+For example, an aircraft optimized for the 35th latitude would be able to operate at any latitude between $\pm35$ degrees latitude. 
+This can be imposed in the optimization model as multiple constraints. For the 35 degree latitude case, 70 separate wind and solar flux constraints that must be satisfied, one for each latitude.
+
+\subsection{Percentile Wind Speed}
+
+For the purposes of this design study, a percentile wind speed corresponds to that percentile of wind speed data in December across all longitudes and spanning the years 2005-2015.  
+To understand what a certain percentile wind speed implies operationally an autocorrelation analysis was done for multiple cites at varying latitudes at 60,000 during December. 
+Boston and Rome during December of 2015 are shown in Figures~\ref{f:bostonwinds} and~\ref{f:romewinds}. 
+
+\begin{figure}[H]
+ \begin{subfigmatrix}{2}% number of columns
+     \subfigure[Autocorrelation of Boston wind speeds\label{f:bostonwindatuo}]{\includegraphics{Boston_dec_2015auto.pdf}}
+     \subfigure[Boston wind speed data\label{f:bostonwind}]{\includegraphics{Boston_dec_2015.pdf}}
+ \end{subfigmatrix}
+ \caption{\textbf{Wind speed analysis at 60,000 ft over Boston, Massachusetts during December, 2015. One lag is equivalent to 6 hours. }}
+ \label{f:bostonwinds}
+\end{figure}
+
+\begin{figure}[H]
+ \begin{subfigmatrix}{2}% number of columns
+     \subfigure[Autocorrelation of Rome wind speeds\label{f:romewindatuo}]{\includegraphics{Rome_dec_2015auto.pdf}}
+     \subfigure[Rome wind speed data\label{f:romewind}]{\includegraphics{Rome_dec_2015.pdf}}
+ \end{subfigmatrix}
+ \caption{\textbf{Wind speed analysis at 60,000 ft over Rome, Italy during December, 2015. One lag is equivalent to 6 hours. }}
+ \label{f:romewinds}
+\end{figure}
+
+This analysis shows high wind speeds can last for days at a time.  
+An aircraft designed for 90th percentile winds will likely be able to remain on station for 90\% of the time.  
+However, during times that wind speeds exceed the 90th percentile they could last for days at a time, possibly requiring the aircraft to relocate or land. 
+
 \section{Geometric Programming\cite{gp}}
 
 Geometric programs (GPs) are a mathematical optimization problem characterized by the convexity of the objective and constraint functions. GPs have the form
@@ -318,8 +445,8 @@ Geometric programs (GPs) are a mathematical optimization problem characterized b
 \begin{align} 
 \label{e:gpform}
 \text{minimize } f_0(\bold{x}) & \nonumber \\
-\text{subject to  } f_i(\bold{x}) &\leq 1, i=1,...,m \\
-g_i (\bold{x}) &= 1, i = 1,...,p \nonumber 
+\text{subject to  } f_i(\bold{x}) &\leq 1, i=1,\ldots,m \\
+g_i (\bold{x}) &= 1, i = 1,\ldots,p \nonumber 
 \end{align}
 
 where the functions $f_i$ must be \emph{monomial} functions and the functions $g_i$ must be \emph{posynomial} functions. \emph{Monomials} and \emph{posynomials} have the forms
@@ -344,96 +471,7 @@ Equations from these models are then expressed in a GP-compatible form to enable
 Understanding the models that are used in a GP is important because the solution to a GP is only as accurate as the models that are used to construct the program.  
 To obtain higher fidelity results from the optimization, higher fidelity models can be implemented. 
 
-\subsection{Station Keeping} 
-
-The design problem considered is a long-endurance, station keeping aircraft or an aircraft capable of remaining in one location in the air for long periods of time. 
-Long-endurance, station keeping aircraft are generally required to operate at specific latitudes, altitudes, and percentile wind speeds.\cite{zephyr} 
-Both wind speeds and atmospheric quantities depend on the station keeping requirements. 
-
-\subsubsection{Wind Speeds}
-
-To station keep, an aircraft must fly faster than the wind speed.  
-Therefore, the aircraft speed is constrained for both the gas and solar-electric powered cases,
-
-\begin{equation}
-    \label{e:availreq}
-    V \geq V_{\text{wind}}.
-\end{equation}
-
-The wind speed at a station is a function of latitude, altitude, season or day of the year, and percentile wind speed,
-
-\begin{equation}
-    \label{e:windspeed}
-    V_{\text{wind}} = f(\phi, h, DOY, p_{\text{wind}}).
-    \end{equation}
-
-Wind speed data was collected from the ERA Interim atmospheric datasets for the years 2005-2015.\cite{wind} 
-It is assumed that the wind speeds can be approximated by using wind data across all longitudes. 
-
-An analysis was done of how wind speeds vary from month to month to determine during which seasons or months the wind speeds are higher. Figure~\ref{f:windvsmonth} reveals that wind speeds are significantly worse during the winter months. 
-Because the constraining case for solar-electric powered aircraft is the winter solstice and because the wind speeds are highest during the winter months only the wind speed data from December will be used for aircraft the sizing and performance analysis presented in this paper. 
-
-\begin{figure}[H]
-	\begin{center}
-	\includegraphics[width=0.6\textwidth]{windvsmonth.pdf}
-    \caption{ \textbf{ Variation of wind speed by month at 45 degrees latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Left bound, right bound and middle lines represent 85th, 95th, and 90th percentile winds respectively. }}
-	\label{f:windvsmonth}
-	\end{center}
-\end{figure}
-
-Figure~\ref{f:latvswind} shows how the wind speed varies with latitude in the Northern Hemisphere. 
-Because the gas-powered aircraft is assumed to have a naturally aspirated engine, it will fly between 5,000 and 25,000 ft depending on payload requirement. 
-The solar-electric powered aircraft will operate around 60,000 ft to avoid cloud coverage.  
-Variations of wind speed with latitude are shown for altitudes at both 15,000 ft at and 60,000 ft.  \\
-
-\begin{figure}[H]
-	\begin{center}
-	\includegraphics[width=0.6\textwidth]{latvswind.pdf}
-    \caption{ \textbf{ Variation of wind speed with latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Left bound, right bound and middle lines represent 85th, 95th, and 90th percentile winds respectively. Wind data includes winds during December for the year 2005-2015.}}
-	\label{f:latvswind}
-	\end{center}
-\end{figure}
-
-Wind speeds also vary significantly with altitude. (Figure~\ref{f:altvswind})
-The high winds around 30,000-40,000 ft makes it difficult for both solar-electric and gas powered long-endurance aircraft to fly in that range of altitudes.  
-Solar-electric powered aircraft, that do not have aspirated engines, fly around 60,000 ft take advantage of lower wind speeds and limited cloud coverage.
-Gas powered aircraft with aspirated engines can have difficulty operating at 60,000 ft and generally perform better in the lower wind speeds below 25,000 ft.
-
-\begin{figure}[H]
-	\begin{center}
-	\includegraphics[width=0.6\textwidth]{altvswind.pdf}
-    \caption{ \textbf{ Variation of wind speed with altitude at latitudes of 30, 35, and 45 degrees.  Left bound, right bound and middle lines represent 85th, 95th, and 90th percentile winds respectively. Wind data includes winds during December for the year 2005-2015.}}
-	\label{f:altvswind}
-	\end{center}
-\end{figure}
-
-To understand what a certain percentile wind speed implies operationally an autocorrelation analysis was done for multiple cites at varying latitudes at 60,000 during December. 
-Boston and Rome during December of 2015 are shown in Figures~\ref{f:bostonwinds} and~\ref{f:romewinds}. 
-One lag is equivalent to 6 hours. 
-
-\begin{figure}[H]
- \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Autocorrelation of Boston wind speeds\label{f:bostonwindatuo}]{\includegraphics{Boston_dec_2015auto.pdf}}
-     \subfigure[Boston wind speed data\label{f:bostonwind}]{\includegraphics{Boston_dec_2015.pdf}}
- \end{subfigmatrix}
- \caption{\textbf{Wind speed analysis at 60,000 ft over Boston, Massachusetts during December, 2015. One lag is equivalent to 6 hours. }}
- \label{f:bostonwinds}
-\end{figure}
-
-\begin{figure}[H]
- \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Autocorrelation of Rome wind speeds\label{f:romewindatuo}]{\includegraphics{Rome_dec_2015auto.pdf}}
-     \subfigure[Rome wind speed data\label{f:romewind}]{\includegraphics{Rome_dec_2015.pdf}}
- \end{subfigmatrix}
- \caption{\textbf{Wind speed analysis at 60,000 ft over Rome, Italy during December, 2015. One lag is equivalent to 6 hours. }}
- \label{f:romewinds}
-\end{figure}
-
-This analysis shows high wind speeds can last for days at a time.  
-An aircraft designed for 90th percentile winds will likely be able to remain on station for 90\% of the time.  
-However, during times that wind speeds exceed the 90th percentile they could last for days at a time, possibly requiring the aircraft to relocate or land. 
-
-\subsubsection{Optimizing Altitude for Solar-Electric Powered Aircraft}
+\subsection{Wind Speeds}
 
 There exists an optimum flight altitude for solar-electric powered aircraft.  
 The local minimum in wind speed around 63,000 ft and the variation of air density with altitude suggest that the altitude should be an output of the optimization. 
@@ -441,10 +479,6 @@ To accomplish this, constraints relating wind speed an altitude are imposed to o
 This approach agrees from an operational perspective as a solar-electric powered aircraft will not be confined to fly at a single altitude, but will fly at the altitude where conditions are most favorable. 
 
 Because wind speeds also vary with latitude several constraints are needed to optimize altitude. 
-Operationally, aircraft, such as the solar-electric powered aircraft, will fly within a band of latitudes (i.e. $\pm$45 degrees latitude).  
-For example, an aircraft optimized for the 35th latitude would be able to operate at any latitude between $\pm35$ degrees latitude. 
-This is imposed in the optimization model as multiple constraints. For the 35 degree latitude case, 70 separate wind and solar flux constraints that must be satisfied, one for each latitude.
-
 Constraints relating wind speed and air density were generated using the data fitting technique described by Hoburg\cite{fitting}.
 Air density was chosen as the dependent variable instead of altitude to eliminate an extra equation relating altitude to air density. 
 Altitude can be post-calculated from the optimized air density. 
@@ -464,48 +498,16 @@ where $V_{\text{ref}} = 100$ [m/s] and $p_{\text{wind}}$ is the percentile wind 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{windfitl35.pdf}
-    \caption{ \textbf{ Comparison of a fitted equation of wind speed to air density and percentile wind speed~\eqref{e:windfit35}. (Log space RMS error = 0.043.) Wind speed data includes December wind speeds from 2005-2015 at the 35th degree latitude. }}
+    \caption{\textbf{Comparison of a fitted equation of wind speed to air density and percentile wind speed~\eqref{e:windfit35}. (Log space RMS error = 0.043.) Wind speed data includes December wind speeds from 2005-2015 at the 35th degree latitude.}}
 	\label{f:windfitl35}
 	\end{center}
 \end{figure}
-
 
 For the gas powered aircraft, the altitude is not optimized.  
 Gas-powered aircraft, which are naturally aspirated will be less efficient at higher altitudes.  
 Additionally, wind speeds increase nearly linearly up to 30,000 ft.  
 Therefore, the altitude for gas-powered aircraft is determined as a requirement of the payload and the minimum altitude necessary for the payload to be effective.\cite{orion}
 For this sizing study, the altitude requirement for the gas powered aircraft is $h=15,000$ ft.
-
-\subsubsection{Atmospheric Quantities}
-
-For the solar aircraft air density is being optimized and the operating altitude is computed after the fact using equations specific to the tropopause,\cite{isaatm} 
-
-\begin{align}
-    \label{e:tropopress}
-    p &= \rho R_{\text{spec}}T_{11} \\
-    \label{e:tropoalt}
-    h &= 11,000 - \frac{R_{\text{spec}}T_{11}}{g}\frac{p}{p_{11}} 
-\end{align}
-
-According to Sutherland's law\cite{fluiddyhandbook}, viscosity varies with temperature.  Because temperature is assumed constant above 11,000 meters\cite{isaatm}, viscosity is also assumed to be constant, $\mu=\num{1.42d-5}$. \\
-
-Because altitude is a requirement for the gas powered aircraft, density is pre-computed prior to solving the optimization using atmospheric equations specific to the troposphere,\cite{isaatm} 
-
-\begin{align}
-    \label{e:Talt}
-    T_{\text{atm}} = T_{\text{sl}} - Lh \\
-    \label{e:rhot}
-    \rho = \frac{T_{\text{sl}}T_{\text{atm}}^{\left( \frac{g}{R_{\text{spec}}L} -1 \right)}}{R T_{\text{sl}}^{\frac{g}{R_{\text{spec}}L}}}.
-\end{align}
-
-Air viscosity is also computer prior to solving and is assumed to vary according to Sutherland's law,\cite{fluiddyhandbook}
-
-\begin{equation}
-    \label{e:sutherland}
-    \mu = \mu_0 \frac{T_0 + C}{T+C} \left( \frac{T}{T_0} \right)^{\frac{3}{2}}
-\end{equation}
-
-where $\mu_0 = 1.827\text{e}-5$ [Ns/m$^2$], $T_0 = 291.15$ [K], and $C = 120$ [K].
 
 \subsection{Solar-Electric Power}
 
