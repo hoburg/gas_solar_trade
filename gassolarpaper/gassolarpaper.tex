@@ -74,8 +74,8 @@
  \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 
  \author{
-  Michael Burton \thanks{Master's Candidate, Aeronautical and Astronautical Engineering, 77 Mass Ave, Cambridge MA, 02139, AIAA Student.}
-  \ and Warren Hoburg\thanks{Professor, Aeronautical and Astronautical Engineering, 77 Mass Ave, Cambridge MA, 02139, AIAA Member.}\\
+  Michael Burton \thanks{Master's Candidate, Aeronautics and Astronautics Engineering, 77 Mass Ave, Cambridge MA, 02139, AIAA Student.}
+  \ and Warren Hoburg\thanks{Assistant Professor, Aeronautical and Astronautical Engineering, 77 Mass Ave, Cambridge MA, 02139, AIAA Member.}\\
   {\normalsize\itshape
    Massachusetts Institute of Technology, Cambridge, 02139, USA}\\
  }
@@ -99,10 +99,10 @@
 \maketitle
 
 \begin{abstract}
-    Using geometric programming, a comparison of solar-electric and gas powered, long-endurance aircraft is accomplished.
-    Long-endurance aircraft present a complicated systems engineering problem because of the multifaceted interaction of various requirements, such as endurance, velocity and coverage footprint.
+    Recently, several companies have invested in developing aircraft that can provide long-endurance (days to weeks) persistent aerial coverage. 
+    These aircraft present a complicated systems engineering problem because of the multifaceted interaction of various requirements, such as endurance, wind speeds, operational capability and coverage footprint.
+    In this paper, a comparison of solar-electric and gas powered, long-endurance aircraft is accomplished.
     Geometric programming, a form of convex optimization, can reliably solve problems with thousands of variables in seconds and is used as an optimization tool to evaluate the design trade offs between architectures and requirements.
-    Using this approach, a gas powered and a solar-electric powered aircraft were considered.  
     The results show that long-endurance, gas powered aircraft are generally more robust to higher wind speeds than solar-powered aircraft.  
     However, gas powered aircraft are limited in their endurance by the amount of fuel that they can carry. 
     While solar-electric powered aircraft can theoretically fly for months, they are operationally limited by limited sunlight during the winter and wind speeds at higher latitudes.
@@ -119,7 +119,7 @@
 $A$ \> wing aspect ratio \\
 $\bar{A}$ \> non-dimensional cross sectional area \\
 $b$ \> wing span [ft] \\
-$BSFC$ \> brake specific fuel consumption [lb/hr/hp] \\
+BSFC \> brake specific fuel consumption [lb/hr/hp] \\
 $c$ \> wing chord [m] \\
 $C_D$ \> drag coefficient \\
 $C_{d_0}$ \> non-wing drag coefficient \\
@@ -134,7 +134,7 @@ $d$ \> tail boom diameter [m] \\
 $D_{\text{boom}}$ \> tail boom drag [N] \\
 $\Delta W$ \> wing section weight [N] \\
 $\Delta y$ \> wing section length [m] \\
-$DOY$ \> day of the year \\
+DOY \> day of the year \\
 $e$ \> Oswald efficiency factor \\
 $E$ \> Young's Modulus [Pa] \\
 $E_{\text{battery}}$ \> energy stored in battery [J] \\
@@ -163,7 +163,7 @@ $m_{\text{motor}}$ \> electric motor mass \\
 $m_{\text{w}}$ \> modified wing lift coefficient \\
 $\dot{m}_{\text{fuel}}$ \> fuel flow rate [kg/s] \\
 $\mathcal{M}$ \> wing bending moment [Nm] \\
-$MTOW$ \> max take-off weight [N] \\
+MTOW \> max take-off weight [N] \\
 $n$ \> number of wing segments \\
 $N$ \> number of flight segments \\
 $N_{\text{max}}$ \> load factor\\
@@ -256,7 +256,7 @@ $\tau_{\text{v}}$ \> vertical tail thickness to chord ratio \\
 $\tau_w$ \> cap spar width to chord ratio \\
 $\theta$ \> angle normal to surface \\
 $\theta_{\text{boom}}$ \> tail boom deflection angle \\
-$\Theta$ \> bending deflection angle 
+$\Theta$ \> wing bending deflection angle 
  \end{tabbing}
 
 \end{multicols}
@@ -277,7 +277,7 @@ Models and equations representing the interaction of the various disciplines are
 The optimization is solved multiple times for different design parameters such as endurance, latitude, and percentile wind speed to observe how aircraft size and weight are affected by different requirements. 
 
 The driving requirement that sizes solar-electric powered aircraft is the ability to operate at multiple locations and during all seasons.  
-To achieve a feasible design, solar-electric powered aircraft must carry enough solar cells and batteries required to fly during the day while storing enough energy to fly through the night.\cite{solartech}
+To fly multiple days, solar-electric powered aircraft must carry enough solar cells and batteries required to fly during the day while storing enough energy to fly through the night.\cite{solartech}
 If this condition can be achieved during the winter solstice, when the solar flux is at a minimum, then it can theoretically fly during any time of the year for long durations. \cite{solartech}
 This becomes more difficult to achieve at higher latitudes as the solar flux during the winter solstice decreases.  
 Additionally, to station keep the aircraft must fly faster than the local wind speeds.  
@@ -310,7 +310,7 @@ The wind speed at a station is a function of latitude, altitude, season or day o
 
 \begin{equation}
     \label{e:windspeed}
-    V_{\text{wind}} = f(\phi, h, DOY, p_{\text{wind}}).
+    V_{\text{wind}} = f(\phi, h, \text{DOY}, p_{\text{wind}}).
     \end{equation}
 
 Wind speed data was collected from the ERA Interim atmospheric datasets for the years 2005-2015.\cite{wind} 
@@ -582,7 +582,7 @@ The angle $\theta$, depends on the time of day $t$, latitude $\phi$, and declina
         & 0.000907\sin{2\beta} - 0.002697\cos{3\beta} + 0.00148\sin{3\beta},
     \end{align}
 
-    where $\beta = 2\pi (DOY-1)/365$.
+    where $\beta = 2\pi (\text{DOY}-1)/365$.
     The time of day $t_{\text{day}}$, and the time of night $t_{\text{night}}$, can be calculated using a derivation Equation~\eqref{e:solartheta}, \cite{solar}
 
     \begin{align}
@@ -604,7 +604,7 @@ The angle $\theta$, depends on the time of day $t$, latitude $\phi$, and declina
         \label{e:solarp0}
         P_0 & = P_{\text{sun surface}} \frac{R_{\text{sun}}^2}{R_{\text{earth orbit}}^2}, \\
         \label{e:solareo}
-        R_{\text{earth orbit}} & = r_0 \left[ 1 + 0.017 \sin{\left( 2\pi \frac{DOY-93}{365}\right)} \right],
+        R_{\text{earth orbit}} & = r_0 \left[ 1 + 0.017 \sin{\left( 2\pi \frac{\text{DOY}-93}{365}\right)} \right],
     \end{align}
     
     where 
@@ -626,7 +626,7 @@ For GP-compatibility and to optimize endurance, not range, a variation of the Br
 
 \begin{equation}
     \label{e:breguetendurance}
-    t = \frac{W_{\text{ave}}}{P_{\text{shaft}}BSFCg} \ln{\left( \frac{W_{\text{initial}}}{W_{\text{final}}}\right)}.
+    t = \frac{W_{\text{ave}}}{P_{\text{shaft}}\text{BSFC}g} \ln{\left( \frac{W_{\text{initial}}}{W_{\text{final}}}\right)}.
 \end{equation}
 
 The derivation begins with the differential form of Breguet Range,\cite{br2}
@@ -636,34 +636,34 @@ The derivation begins with the differential form of Breguet Range,\cite{br2}
     -\frac{dW}{dt} = g\dot{m}_{\text{fuel}}.
 \end{equation}
 
-Using the definition of $BSFC$
+Using the definition of $\text{BSFC}$
 
 \begin{equation}
     \label{e:brBSFC}
-    BSFC = \frac{\dot{m}_{\text{fuel}}}{P_{\text{shaft}}},
+    \text{BSFC} = \frac{\dot{m}_{\text{fuel}}}{P_{\text{shaft}}},
 \end{equation}
 
 Equation~\eqref{e:breguetdiff} can be written as
 
 \begin{equation}
     \label{e:brdiff2}
-    -dW = g P_{\text{shaft}} BSFC dt.
+    -dW = g P_{\text{shaft}} \text{BSFC} dt.
 \end{equation}
 
-It is assumed that $BSFC$ and the power to weight ratio, $(P_{\text{shaft}}/W)$, are constant during the considered flight segment. 
+It is assumed that $\text{BSFC}$ and the power to weight ratio, $(P_{\text{shaft}}/W)$, are constant during the considered flight segment. 
 A constant power to weight ratio assumes constant velocity and constant lift coefficient.\cite{br2}
 Dividing by $W$,
 
 \begin{equation}
     \label{e:brdiff2}
-    -\frac{dW}{W} = \frac{g P_{\text{shaft}}BSFC }{W} dt,
+    -\frac{dW}{W} = \frac{g P_{\text{shaft}}\text{BSFC} }{W} dt,
 \end{equation}
 
 and integrating, the Breguet Range equation can be expressed as
 
 \begin{equation}
     \label{e:be1}
-    \ln{\left( \frac{W_{\text{initial}}}{W_{\text{final}}} \right)} = \frac{gP_{\text{shaft}}BSFC}{W_{\text{ave}}} t,
+    \ln{\left( \frac{W_{\text{initial}}}{W_{\text{final}}} \right)} = \frac{gP_{\text{shaft}}\text{BSFC}}{W_{\text{ave}}} t,
 \end{equation}
 
 where $W_{\text{ave}}$ is the average weight of the aircraft during the flight segment.  $W_{\text{ave}}$ is assumed to be the geometric mean, defined as
@@ -677,7 +677,7 @@ where $W_{\text{ave}}$ is the average weight of the aircraft during the flight s
 
 \begin{align}
     \label{e:brzbre}
-    z_{\text{bre}} &\geq \frac{P_{\text{shaft}}t BSFC g}{W}\\
+    z_{\text{bre}} &\geq \frac{P_{\text{shaft}}t \text{BSFC} g}{W}\\
     \label{e:brtaylor}
     \frac{W_{\text{fuel}}}{W_\text{final}} &\geq z_{\text{bre}} + \frac{z_{\text{bre}}^2}{2} + \frac{z_{\text{bre}}^3}{6} + \frac{z_{\text{bre}}^4}{24} + \dots
 \end{align}
@@ -690,12 +690,12 @@ where $W_{\text{ave}}$ is the average weight of the aircraft during the flight s
     \label{e:slfweightd}
     \sqrt{W_i W_{i+1}} &= \frac{1}{2} \rho_i V_i^2 C_{L_i} S \\
     \label{e:brzbred}
-    z_{bre_i} &\geq \frac{P_{\text{shaft}_i}t_i BSFC g}{\sqrt{W_i W_{i+1}}}\\
+    z_{bre_i} &\geq \frac{P_{\text{shaft}_i}t_i \text{BSFC} g}{\sqrt{W_i W_{i+1}}}\\
     \label{e:brtaylord}
     \frac{W_{\text{fuel}_i}}{W_{i+1}} &\geq z_{bre_i} + \frac{z_{bre_i}^2}{2} + \frac{z_{bre_i}^3}{6} + \frac{z_{bre_i}^3}{24} 
     \end{align}
 
-    For evaluation of long-endurance, gas-powered aircraft a discretization of $N=5$ is used. Additionally, it is assumed that the break specific fuel consumption is constant, $BSFC = 0.6$ [lb/hp/hr].\cite{bsfcperf}
+    For evaluation of long-endurance, gas-powered aircraft a discretization of $N=5$ is used. Additionally, it is assumed that the break specific fuel consumption is constant, $\text{BSFC} = 0.6$ [lb/hp/hr].\cite{bsfcperf}
 
 \subsection{Steady Level Flight}
 
@@ -762,14 +762,14 @@ The weight breakdown for the gas powered aircraft is a summation of the structur
 
 \begin{align}
     \label{e:weightmtow}
-    MTOW &\geq W_{\text{structural}}  + W_{\text{payload}} + W_{\text{fuel}} \\
+    \text{MTOW} &\geq W_{\text{structural}}  + W_{\text{payload}} + W_{\text{fuel}} \\
 \end{align}
 
 A similiar weight breakdown is done for the solar-electric powered aircraft, 
 
 \begin{align}
     \label{e:weightsmtow}
-    MTOW &\geq W_{\text{structural}} + W_{\text{payload}} + W_{\text{solar}} + W_{\text{battery}} \\
+    \text{MTOW} &\geq W_{\text{structural}} + W_{\text{payload}} + W_{\text{solar}} + W_{\text{battery}} \\
     W_{\text{solar}} &\geq \rho_{\text{solar}} S_{\text{solar}} g \\
     W_{\text{battery}} &\geq \frac{E_{\text{battery}}}{h_{\text{battery}}} g
 \end{align}
@@ -808,7 +808,7 @@ where the solar cell density and the battery energy density are assumed to be $\
 %      $\eta_{prop}$        & 0.65   \\
 %      $A$                 & 25     \\
 %      $f_{\text{structural}}$     & 0.35   \\
-%      $BSFC$ [lb/hp/hr]    & 0.6    \\
+%      $\text{BSFC}$ [lb/hp/hr]    & 0.6    \\
 %      \bottomrule
 %      \label{t:compparams}
 %  \end{longtable}
@@ -846,7 +846,7 @@ where the solar cell density and the battery energy density are assumed to be $\
 % 
 % \begin{equation}
 %     \label{e:structualfraction}
-%     W_{\text{structural}} \geq f_{\text{structural}}MTOW.
+%     W_{\text{structural}} \geq f_{\text{structural}}\text{MTOW}.
 % \end{equation}
 % 
 % where the structural fraction is assumed to be, $f_{\text{structural}} = 0.35$. Using this assumption and models described in section III, a comparison of the long-endurance trade space is achieved by comparing solar-electric and gas powered aircraft for different parameters. 
@@ -864,7 +864,7 @@ where the solar cell density and the battery energy density are assumed to be $\
 % % $A$                 & 25     & $A$                 & 25              \\
 % % $f_{\text{structural}}$ & 0.35   & $f_{\text{structural}}$ & 0.35    \\
 % % $c_{d_0}$            & 0.005  & $c_{d_0}$            & 0.002         \\ 
-% % $BSFC$               & 0.6    & $\eta_{\text{charge}}$      & 0.98   \\
+% % $\text{BSFC}$               & 0.6    & $\eta_{\text{charge}}$      & 0.98   \\
 % % Endurance [days]     & 8      & $\eta_{\text{discharge}}$   & 0.98   \\
 % %                      &        & $h_{\text{battery}}$ [Whr/kg]  & 350 \\
 % %                      &        & $\rho_{\text{solar}}$ [kg/m$^2$] & 0.3 \\
@@ -1354,7 +1354,7 @@ where $W_{\text{engine-ref}} = 10$ [lbs] and $P_{\text{ref}} = 10$ [hp].  Equati
 \subsection{Gas Powered Engine Performance}
 
 Two characteristics of gas engines affect the performance of long-endurance aircraft.  
-The first is break specific fuel consumption, $BSFC$; a lower $BSFC$ will result in increased endurance.  
+The first is break specific fuel consumption, $\text{BSFC}$; a lower $\text{BSFC}$ will result in increased endurance.  
 The second is the lapse rate.  
 Assuming a propeller driven aircraft and a naturally aispirated engine, as the aircraft reaches higher altitudes, the engine will have decreased available power. 
 To account for these two affects a two-stroke, double cylinder engine, the DF70 from RCV Engines Ltd, England, was selected as a representative engine.  
@@ -1364,16 +1364,16 @@ Thus, this engine performance model is only valid for IC engines.
 
 \subsubsection{Break Specific Fuel Consumption Constraint}
 
-A GP-compatible curve was generated from the DF70 data to relate $BSFC$ and shaft power, 
+A GP-compatible curve was generated from the DF70 data to relate $\text{BSFC}$ and shaft power, 
 
 \begin{equation}
     \label{e:rpmtobsfc}
-    \left( \frac{BSFC}{BSFC_{\text{min}}} \right)^{18.5563} \geq \num{8.66321d-3}\left( \frac{P_{\text{shaft}}}{P_{\text{max}}}\right)^{-7.70161} + 1.38628\left( \frac{P_{\text{shaft}}}{P_{\text{max}}} \right)^{1.12921} \\
+    \left( \frac{\text{BSFC}}{\text{BSFC}_{\text{min}}} \right)^{18.5563} \geq \num{8.66321d-3}\left( \frac{P_{\text{shaft}}}{P_{\text{max}}}\right)^{-7.70161} + 1.38628\left( \frac{P_{\text{shaft}}}{P_{\text{max}}} \right)^{1.12921} \\
 \end{equation}
 
-where $BSFC_{\text{min}} = 0.3162$ [lb/hp/hr].\cite{rcvengines}
-Using this approximations the required shaft power determines the $BSFC$.
-A comparison of the GP-compatible approximations to the manufacturing data from RCV engines is presented in Figure~\ref{f:powervsweightfit}. A comparison of the DF70 data provided by RCV Engine Ltd in Figure~\ref{f:powervsweightfit} to the $BSFC$ to power curves in Goering\cite{bsfcperf} verify that this performance curve is representative of engines of a similar class. 
+where $\text{BSFC}_{\text{min}} = 0.3162$ [lb/hp/hr].\cite{rcvengines}
+Using this approximations the required shaft power determines the $\text{BSFC}$.
+A comparison of the GP-compatible approximations to the manufacturing data from RCV engines is presented in Figure~\ref{f:powervsweightfit}. A comparison of the DF70 data provided by RCV Engine Ltd in Figure~\ref{f:powervsweightfit} to the $\text{BSFC}$ to power curves in Goering\cite{bsfcperf} verify that this performance curve is representative of engines of a similar class. 
 
 \begin{figure}[H]
 	\begin{center}
