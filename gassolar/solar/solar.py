@@ -10,9 +10,10 @@ from gpkitmodels.aircraft.GP_submodels.tail_boom import TailBoomState
 from gpkitmodels.aircraft.GP_submodels.tail_boom_flex import TailBoomFlexibility
 from gpkitmodels.helpers import summing_vars
 
-path = os.path.abspath(__file__).replace(os.path.basename(__file__), "").replace(os.sep+"solar"+os.sep, os.sep+"environment"+os.sep)
-DF = pd.read_csv(path + "windaltfitdata.csv")
-DF2 = pd.read_csv("solarirrdata.csv")
+basepath = os.path.abspath(__file__).replace(os.path.basename(__file__), "")
+windpath = basepath.replace(os.sep+"solar"+os.sep, os.sep+"environment"+os.sep)
+DF = pd.read_csv(windpath + "windaltfitdata.csv")
+DF2 = pd.read_csv(basepath + "solarirrdata.csv")
 
 class Aircraft(Model):
     "vehicle"
@@ -129,7 +130,7 @@ class SolarCells(Model):
         g = Variable("g", 9.81, "m/s**2", "gravitational constant")
         S = Variable("S", "ft**2", "solar cell area")
         W = Variable("W", "lbf", "solar cell weight")
-        etasolar = Variable("\\eta", 0.2, "-", "Solar cell efficiency")
+        etasolar = Variable("\\eta", 0.22, "-", "Solar cell efficiency")
 
         constraints = [W >= rhosolar*S*g]
 

@@ -87,11 +87,19 @@ if LAT:
 """ wind operating """
 if WIND:
     M = Mission(latitude=31)
-    M.substitutions.update({"W_{pay}": 10})
-    M.substitutions.update({"\\rho_{solar}": 0.25})
     for vk in M.varkeys["CDA_0"]:
         M.substitutions.update({vk: 0.002})
     M.cost = M["W"]
-    sol = M.solve("mosek")
-    fig, ax = windalt_plot(31, sol)
+    sol1 = M.solve("mosek")
+    from gassolar.solar.solar import Mission
+    M = Mission(latitude=31)
+    M.cost = M["W_{total}"]
+    sol2 = M.solve("mosek")
+    fig, ax = windalt_plot(31, sol1, sol2)
+    ax.annotate("structural weight fraction", xy=(66.2, 33), xytext=(47, 10),
+                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5,
+                                headwidth=10))
+    ax.annotate("detailed structural model", xy=(60, 49), xytext=(62, 70),
+                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5,
+                                headwidth=10))
     fig.savefig("../../../gassolarpaper/windaltopersimple.pdf", bbox_inches="tight")

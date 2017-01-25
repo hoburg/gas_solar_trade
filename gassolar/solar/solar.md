@@ -8,10 +8,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from plotting import windalt_plot, labelLines
 
-LATITUDE = True
+LATITUDE = False
 WIND = False
 CON = False
 COMP = False
+SENS = True
 
 """ contour """
 
@@ -135,19 +136,13 @@ if LATITUDE:
         for l in lat:
             if runagain:
                 M = Mission(latitude=l)
-                M.substitutions.update({"W_{pay}": 10})
                 for vk in M.varkeys["p_{wind}"]:
                     M.substitutions.update({vk: a/100.0})
-                M.substitutions.update({"\\rho_{solar}": 0.25})
                 # M.cost = M["b_Mission, Aircraft, Wing"]
                 M.cost = M["W_{total}"]
                 try:
                     sol = M.solve("mosek")
                     # W.append(sol("b_Mission, Aircraft, Wing").magnitude)
-                    mn = [max(M[sv].descr["modelnums"]) for sv in sol("(E/S)_{irr}") if abs(sol["sensitivities"]["constants"][sv]) > 0.01][0]
-                    Poper = [sol(sv) for sv in sol("P_{oper}") if mn in 
-                             M[sv].descr["modelnums"]][0]
-                    print Poper/sol("\\eta_{solar}")/sol("S_Mission, Aircraft, SolarCells")
                     W.append(sol("W_{total}").magnitude)
                 except RuntimeWarning:
                     W.append(np.nan)
@@ -170,11 +165,23 @@ if LATITUDE:
 """ wind operating """
 if WIND:
     M = Mission(latitude=31)
-    M.substitutions.update({"W_{pay}": 10})
-    M.substitutions.update({"\\rho_{solar}": 0.25})
     M.cost = M["W_{total}"]
     sol = M.solve("mosek")
     fig, ax = windalt_plot(31, sol)
     fig.savefig("../../gassolarpaper/windaltoper.pdf", bbox_inches="tight")
 
+from print_sens import sens_table
+if SENS:
+    sols = []
+    for l in [25, 30]:
+        for p in [85, 90]:
+            M = Mission(latitude=l)
+            M.cost = M["W_{total}"]
+            for vk in M.varkeys["p_{wind}"]:
+                M.substitutions.update({vk: p/100.0})
+            sol = M.solve("mosek")
+            sols.append(sol)
+            
+    sens_table(sols, ["p_{wind}", "\\eta_Mission, Aircraft, SolarCells", "\\eta_{charge}", "\\eta_{discharge}", "\\rho_{solar}", "t_{night}", "(E/S)_{irr}", "m_{fac}_Mission, Aircraft, Wing", "h_{batt}", "W_{pay}"])
+```
 
