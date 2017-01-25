@@ -264,46 +264,31 @@ $\Theta$ \> bending deflection angle
 
 \section{Introduction}
 
-The design problem of a long-endurance, station-keeping aircraft is considered.
-Solar electric and gas powered architectures are proposed as solutions to this problem.
-Because sizing long-endurance aircraft is so multifaceted and the interaction between aerodynamics, structural weight, energy and other disciplines is so intertwined, a systematic and rapid approach is needed to explore this design space.
-Geometric programming, a form of convex optimization, is chosen as a means of evaluating the design space because of its rapid solve time and guaranteed convergence to a global optimum.
+Long-endurance, station-keeping aircraft are potential solutions to providing internet, communication, and persistent survellience. 
+Recently, tech companies such as Google and Facebook have explored the possibility of using solar-electric powered aircraft to provide internet to parts of the world where 4G or 3G network is not available. 
+Defense contractors like AeroVironment and small engineering firms like Vanailla Aircraft have developed gas powered long-endurance platforms as a means of providing continual survellience for days at a time.  
+However, sizing a long-endurance aircraft is not obvious because of the multifacted interaction between aerodynamics, structural weight, solar energy, wind speed, and other disciplines.
+Additionally, because few long-endurance gas powered aircraft have been built and only Airbus's Zephyr solar aircraft has been successfully flown, the operational limits of these aircraft is relatively unknown. 
+Even more unclear is understanding the trade offs between gas powered and solar-electric powered archictures. 
 
-The driving condition that sizes solar-electric powered aircraft is the ability to operate at multiple locations and during all seasons.  
+This paper presents a physics-based optimization model that uses geometric programming as systematic and rapid approach to explore this design space and highlight trade offs between the two proposed architecutres.
+Geometric programming, a form of convex optimization, is chosen as a means of evaluating the design space because of its rapid solve time and guaranteed convergence to a global optimum.\cite{gp}
+Models and equations representing the interaction of the various disciplines are expressed in a geometric programming form that are then combined to form an optimization model. 
+The optimization is solved multiple times for different design parameters such as endurance, latitude, and percentile wind speed to observe how aircraft size and weight are affected by different requirements. 
+
+The driving requirement that sizes solar-electric powered aircraft is the ability to operate at multiple locations and during all seasons.  
 To achieve a feasible design, solar-electric powered aircraft must carry enough solar cells and batteries required to fly during the day while storing enough energy to fly through the night.\cite{solartech}
 If this condition can be achieved during the winter solstice, when the solar flux is at a minimum, then it can theoretically fly during any time of the year for long durations. \cite{solartech}
 This becomes more difficult to achieve at higher latitudes as the solar flux during the winter solstice decreases.  
 Additionally, to station keep the aircraft must fly faster than the local wind speeds.  
 Wind speeds are a function of latitude, altitude, and season and tend to increase at higher latitudes and during winter months. 
 Therefore, a key sizing study of solar-electric powered aircraft is the effect of latitude on aircraft size.  
-Figure~\ref{f:solarstart} shows that in order to operate at higher latitudes during the winter a larger aircraft is required. 
-
-\begin{figure}[H]
-	\begin{center}
-	\includegraphics[width=0.6\textwidth]{mtowvslatsolar.pdf}
-    \caption{ \textbf{ Trade study showing how solar-electric powered aircraft size increases with latitude operating capacity.  }}
-	\label{f:solarstart}
-	\end{center}
-\end{figure}
 
 The key driving requirement for a gas powered aircraft is endurance.  
 As gas-powered aircraft are endurance limited by the amount of fuel that they can carry, longer endurance requires more fuel and hence a larger aircraft.  
 Therefore, a trade study was done for the gas powered aircraft to determine how weight increases for longer endurance.
 Because gas-powered aircraft are not affected by the solar flux, their station-keeping ability at different latitude only depends on wind speed. 
 If a gas-powered aircraft can fly at the latitude with the worst wind speed in can theoretically fly anywhere else in the world.  
- (Figure~\ref{f:mtowvsendurance}) 
-
-\begin{figure}[H]
-	\begin{center}
-	\includegraphics[width=0.6\textwidth]{mtowvsendurance.pdf}
-    \caption{\textbf{Trade study showing how gas powered aircraft weight increases with endurance.}}
-	\label{f:mtowvsendurance}
-	\end{center}
-\end{figure}
-
-To capture the key trade offs like those presented in Figures~\ref{f:solarstart} and~\ref{f:mtowvsendurance} a geometric programm is built that models for both gas and solar-electric powered, long-endurance aircraft.  
-Equations governing the underlying physics of aerodynamic performance, solar energy collection and storage, and fuel burn are written in a geometric programming form, which can then be solved as an optimization problem.
-Then by changing the design parameters, such as endurance, latitude, and percentile wind speeds, multiple solutions can be rapidly generated to observe how the aircraft size and weight is affected by different requirements. 
 
 Using this methodology, trade offs are observed between different aircraft configurations, power sources, and requirements.  
 The results show that gas-powered aircraft can generally be built lighter and can fly faster and can therefore fly at higher latitudes and in higher percentile wind speeds.  
@@ -950,10 +935,11 @@ where the solar cell density and the battery energy density are assumed to be $\
 
 A wing spar is modeled as one of the main structural elements of both aircraft. 
 A conservative approach to calculating the size of the spar is to assume that the spar carries all of the bending loads caused by the lifting loads and weight of the aircraft.  
+It is assumed that there are two out of plane bending cases to which both the gas powered and the solar-electric powered aircraft are subject: steady level flight bending case and gust load case. 
 
-\subsubsection{Loading Case for Gas Powered Aircraft}
+\subsubsection{Steady Level Flight Wing Loading Case}
 
-It is assumed that the key spar sizing case for the gas powered aircraft is standard wing bending during steady level flight, fully fueled. The distributed load is a combination of the lifting distribution and weight distribution along the wing
+During steady level flight there exists a distributed load along the wing that is a combination of the lifting distribution and weight distribution along the wing
 
 \begin{equation}
     \label{e:wloading}
@@ -997,32 +983,34 @@ is inputted into a standard beam model to predict the bending moments and deflec
     W_{\text{cent}} \geq W_{\text{fuel}} + W_{\text{fuselage}} + W_{\text{engine}} + W_{\text{payload}} + W_{\text{empennage}}.
 \end{equation}
 
-\subsubsection{Loading Case for Solar-electric Powered Aircraft}
-
-The key sizing case for the solar-electric aircraft spar is a gust load that varies across the span.  
-It is assumed that the solar aircraft is span loaded, meaning the majority of the weight lies along the wings, 
-
-\begin{align}
-    W_{\text{wing}} &\geq W_{\text{cap}} + W_{\text{skin}} + W_{\text{battery}} + W_{\text{solar}}\\
-    W_{\text{cent}} &\geq W_{\text{payload}} + W_{\text{motor}} + W_{\text{empennage}}.
-\end{align}
-
-For steady level flight, the same loading distribution as for the gas powered aircraft is assumed,
+The center weight for the solar powered aircraft is
 
 \begin{equation}
-    \label{e:qbar}
-    q(y) = \frac{N_{\text{max}}W_{\text{cent}}}{b}\frac{2}{1+\lambda} \left( 1 + (\lambda - 1) \frac{2y}{b} \right).
+    W_{\text{cent}} \geq W_{\text{payload}} + W_{\text{motor}} + W_{\text{empennage}}.
 \end{equation}
 
-Because of the wing's large moment of inertia, caused by the weight of the batteries inside the wings, the solar-electric aircraft is considered a highly flexible aircraft. 
-To account for this flexiblity and size a structural wing spar that will ensure enough rigidity in the event of a gust load, a distributed gust lifting load is added to the loading distribution
+
+\subsubsection{Gust Loading Case}
+
+Because long-endurance aircraft typically have high aspect ratio wing they are considered flexible aircraft. 
+To account for this flexiblity and size a structural wing spar that will ensure enough rigidity in the event of a gust load, a distributed gust lifting load is added to the steady level flight loading distribution in Equation~\ref{e:qbar}
 
 \begin{align}
     q(y) &= \frac{N_{\text{max}}W_{\text{cent}}}{b}\bar{c}(y) + c_{l_{\alpha}} \alpha_{\text{gust}} \frac{1}{2} \rho V^2 \frac{S}{b}\bar{c}(y) \\
     \bar{q}(y) = \frac{q(y)b}{W_{\text{cent}}N_{\text{max}}} &\geq \bar{c}(y) \left[1 + \frac{c_{l_{\alpha}}}{C_L} \alpha_{\text{gust}} (y) \left(1 + \frac{W_{\text{wing}}}{W_{\text{cent}}} \right) \right]
 \end{align}
 
-where $\bar{c}(y)$ is pre-computed prior to the optimization solve for a taper ratio $\lambda = 0.5$.
+where $\bar{c}(y)$ is pre-computed prior to the optimization solve for a taper ratio $\lambda = 0.5$. The weight of the wing for the gas powered aircraft is assumed to be the weight of the spar cap plus the weight of the wing
+
+\begin{equation}
+    W_{\text{wing}} \geq W_{\text{spar}} + W_{\text{skin}}.
+\end{equation}
+
+For the solar-electric powered aircraft the batteries and solar cells are also included in the wing weight
+
+\begin{equation}
+    W_{\text{wing}} \geq W_{\text{spar}} + W_{\text{skin}} + W_{\text{batt}} + W_{\text{solar}}.
+\end{equation}
 
 Because the gust velocity is assumed to be vertical to the flight path, the local angle of attack is approximated by 
 
@@ -1037,7 +1025,7 @@ This approximation is graphically shown in Figure~\ref{f:arctanfit} for the expe
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{arctanfit.pdf}
-    \caption{ \textbf{ Comparison of monomial approximation of $f(x) = \arctan{x}$ to real function, $x \in [0,0.7]$. (Log space RMS error = 0.044) }}
+    \caption{\textbf{Comparison of monomial approximation of $f(x) = \arctan{x}$ to real function, $x \in [0,0.7]$. (Log space RMS error = 0.044)}}
 	\label{f:arctanfit}
 	\end{center}
 \end{figure}
