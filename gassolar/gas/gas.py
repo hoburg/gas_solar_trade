@@ -28,11 +28,13 @@ class Aircraft(Model):
         Wzfw = Variable("W_{zfw}", "lbf", "zero fuel weight")
         Wpay = Variable("W_{pay}", 10, "lbf", "payload weight")
         Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight")
+        Wwing = Variable("W_{wing}", "lbf", "wing weight for loading")
 
         self.empennage.substitutions["V_h"] = 0.55
         self.empennage.substitutions["m_h"] = 0.4
         constraints = [
             Wzfw >= sum(summing_vars(components, "W")) + Wpay + Wavn,
+            Wwing >= sum(summing_vars([self.wing], "W")),
             self.empennage.horizontaltail["V_h"] <= (
                 self.empennage.horizontaltail["S"]
                 * self.empennage.horizontaltail["l_h"]/self.wing["S"]**2
@@ -53,14 +55,14 @@ class Aircraft(Model):
     def flight_model(self, state):
         return AircraftPerf(self, state)
 
-    def loading(self, Wcent):
-        return AircraftLoading(self, Wcent)
+    def loading(self, Wcent, Wwing, V, CL):
+        return AircraftLoading(self, Wcent, Wwing, V, CL)
 
 class AircraftLoading(Model):
     "aircraft loading model"
-    def setup(self, aircraft, Wcent):
+    def setup(self, aircraft, Wcent, Wwing, V, CL):
 
-        loading = [aircraft.wing.loading(Wcent)]
+        loading = [aircraft.wing.loading(Wcent, Wwing, V, CL)]
         loading.append(aircraft.empennage.loading())
 
         # tbstate = TailBoomState()
@@ -152,13 +154,14 @@ class Mission(Model):
         LS = Variable("(W/S)", "lbf/ft**2", "wing loading")
 
         JHO = Aircraft(Wfueltot, DF70)
-        loading = JHO.loading(Wcent)
 
         climb1 = Climb(JHO, 10, altitude=np.linspace(0, 15000, 11)[1:])
         cruise1 = Cruise(JHO, 1, R=200)
         loiter1 = Loiter(JHO, 5)
         cruise2 = Cruise(JHO, 1)
         mission = [climb1, cruise1, loiter1, cruise2]
+
+        loading = JHO.loading(Wcent, JHO["W_{wing}"], loiter1["V"][0], loiter1["C_L"][0])
 
         constraints = [
             mtow >= climb1["W_{start}"][0],
