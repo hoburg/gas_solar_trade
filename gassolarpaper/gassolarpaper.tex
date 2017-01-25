@@ -925,32 +925,6 @@ where the solar cell density and the battery energy density are assumed to be $\
 % 
 % For a gas-powered architecture, achieving endurances above 10 days is difficult.  Solar-electric powered aircraft, however, can theoretically fly indefinitely. 
 
-\subsection{Sensitivity Analysis}
-
-When a GP is solved, the sensitivity of the objective function with respect to each constraint is also returned.  From this information, the sensitivity to each inputted variable with respect to the objective function can be extracted.\cite{hoburgthesis} 
-For example, if the objective function were weight and the sensitivity to solar cell efficiency were -0.5, then a 1\% increase in the solar cell efficiecy would result in a -0.5\% decrease in weight.  
-From a design standpoint the sensitivity result is useful in that variables with high sensitivities are important to the vehicle design. 
-To achieve a more accurate numbers for these variable they can be replaced with higher fidelity models.  
-For example, the structural weight fraction $f_{\text{structrual}}$, which has a high sensitivity, could be replaced by a structural model of the wing, fuselage and empennage. 
-Table~\ref{t:sens} shows the varialbes with the highest sensitivities for both the solar-electric powered aircraft optimized at the $\pm$40 degree latitude requirement minimizing weight. 
-
-\begin{longtable}{ll}
-\caption{Sensitivities} \\
-\toprule
-\toprule
- Varialbe & Sensitivities \\
-\midrule
-$h_{\text{batt}}$         & -3.475 \\
-$\eta_{\text{solar}}$     & -1.268 \\
-$f_{\text{structural}}$   & 2.445  \\
-$\eta_{\text{discharge}}$ & -5.068 \\
-$\eta_{\text{prop}}$      & -4.743 \\
-$c_{d_0}$                 & 0.9935 \\
-\bottomrule
-\label{t:sens}
- \end{longtable}
-
-
 % \subsection{Solar-electric Powered Trade Space Exploration}
 % 
 % For a broader picture of the design space the solar optimization is solved multiple times, producing a set of contour plots for various battery energy densities, structural fraction weights, altitudes, and availabilities.  (Figure~\ref{f:solarcontours}) 
@@ -971,15 +945,6 @@ $c_{d_0}$                 & 0.9935 \\
 %  \caption{ \textbf{Matrix of contour plots of battery energy density and structural weight fraction vs wing span for solar-electric powered aircraft. Each point on the graph corresponds to a unique design.} }
 %  \label{f:solarcontours}
 % \end{figure}
-
-\section{Detailed Models}
-
-To improve the fidelity of the optimization, higher fidelity models can be implemented.  
-A spar and structural wing model are added to both the gas and solar-electric powered optimization models.  
-An empennage model is added to account for the additional weight and drag of horizontal and vertical tails and a tail boom.  
-Additional models were added to the gas powered aircraft optimization model to account for engine weight and performance. 
-These models, similar to those described in section III, are a set of constraints derived from governing first principles put in a GP-compatible form. 
-This results in a more comprehensive and detailed optimization model for aircraft sizing.   \\
 
 \subsection{Wing Spar Model}
 
@@ -1467,72 +1432,88 @@ where $W$, is the weight of the aircraft during climb.
 
 \section{Results}
 
-With more detailed structural and performance models the accuracy of the optimization results improves. 
-Figure~\ref{f:latvsmtowtrade} was recalculated with the additional constraints included from Section V and is presented in Figure~\ref{f:latvsmtowtradet}. 
-The higher fidelity models reveal a more realistic limit to the size of the solar-electirc powered aircraft and actually improve the performance of the gas powered aircraft.
+To achieve sizing results for the solar-electric and gas powered long-endurance aircraft the optimization models were solve by minimizing the wing span across different bands of latitudes, shown in Figure~\ref{f:latvsspantrade}.
 
 \begin{figure}[H]
  \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Gas Powered\label{f:mtowvslatgas}]{\includegraphics{mtowvslatgas.pdf}}
-     \subfigure[Solar-Electric Powered\label{f:mtowvslatsolar}]{\includegraphics{mtowvslatsolar.pdf}}
+     \subfigure[Gas Powered\label{f:spanvslatgas}]{\includegraphics{spanvslatgas.pdf}}
+     \subfigure[Solar-Electric Powered\label{f:spanvslatsolar}]{\includegraphics{spanvslatsolar.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{ Recalulation of trade study of max take off weight and latitude with more detailed structural and performance models.   }}
- \label{f:latvsmtowtradet}
+ \caption{\textbf{Trade study of wingspan and latitude. Plots show required maximum take off weight required to operate between a band of latitudes.   A comparison of the solar and gas powered latitude analysis shows that gas powered aircraft are more robust to operating in higher wind speeds.}}
+ \label{f:latvsspantradet}
 \end{figure}
 
-One way in which adding higher fidelity models increases the accuracy of the optimization is that higher fidelity models allow new varibles to be solved by the optimizer instead of being inputs. 
-For example, the aspect ratio and non-wing drag coefficient, which were previously inputs, can now be optimized with more detailed models.  
-At 31 degrees latitude and 90th percentile winds the optimum aspect ratio is $A=32.6$ and the the non-wing drag coefficient is $C_{d_0} = 0.0043$ for the solar-electric powered aircraft.
+One way to interpret Figure~\ref{f:latvsspantrade} is that a solar-powered aircraft weighing 175 lbs is able to operate between $\pm$40 degrees North latitude in 90th percentile wind speeds.  
+This analysis shows that gas powered architectures are able to operate in more locations than solar-electric powered aircraft.  
+Figure~\ref{f:mtowvslatgas} levels off around 35 degrees latitude because wind speeds are highest at that latitude at 15,000 ft. 
+Thus, if the gas powered aircraft can fly at 35 degrees latitude it can fly in any band of latitudes.  
+On the other hand, solar-electric powered aircraft design becomes less feasible at higher latitudes because even though wind speeds peak around 42 degrees latitude at 60,000 ft, solar flux continues to decrease at higher latitudes making it difficult to reach latitude bands greater than $\pm$50 degrees. 
 
-Additional models also improve the optimization accuracy because of new variable dependencies. 
-By adding in a wing structural model, air density has a larger effect on the operating altitude of the solar-electric powered aircraft.  
-It might be assumed that because the wind speeds are lowest at 67,000 ft at 31 degrees latitude, that the aircraft will always fly at 67,000 ft.  
-Figure~\ref{f:altopersimple} confirms that without a structural model the aircraft will want to fly almost exactly at 67,000 ft.  
-However, by adding a structural model larger wings now have a weight penalty and according to Equation~\eqref{e:slfweight}, for the same $C_L$, with a smaller wing, higher air density will generate more lift. 
-Therefore, by adding a structural model the optimization seeks a smaller wing to save weight and operates at a lower altitude to increase density. 
-Figure~\ref{f:altoper} shows that with a wing structural model the optimum operating point is not at the minimum wind speed. 
-
-\begin{figure}[H]
- \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Structural weight fraction\label{f:altopersimple}]{\includegraphics{windaltopersimple.pdf}}
-     \subfigure[Detailed structural model\label{f:wstruct}]{\includegraphics{windaltoper.pdf}}
- \end{subfigmatrix}
- \caption{\textbf{Comparison of optimum operating altitude for the solar-electric powered aircraft with and without a detailed structural model.  With only a structural fraction as the structural model the optimum point is at the minimum wind speed.  With a more detailed structural model the optimum operating altitude is not at the minimum wind speed because of variable interaction between wing weight, air density, and wind speed. }}
- \label{f:altoper}
-\end{figure}
-
-Higher fidelity results can also been seen using detailed structural and performance models in the gas powered aircraft. 
-Interesting, a direct comparison between the simple and detailed optimization models shows a cross over around an endurance of 6.5 days, Figure~\ref{f:simpdetcomp}. The comparison was run at a latitude of 38 degrees and 90th percentile winds.
-
-\begin{figure}[H]
- \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Max take off weight comparison\label{f:simpdetcomp}]{\includegraphics{simpdetcomp.pdf}}
-     \subfigure[Non-wing drag coefficient comparison\label{f:nonwingdrag}]{\includegraphics{nonwingdrag.pdf}}
- \end{subfigmatrix}
- \caption{\textbf{Comparison of gas powered optimization with and without detailed structural and performance model.  Non-wing drag variation due to Reynolds number effects cause of cross over in Figure~\ref{f:simpdetcomp}. }}
- \label{f:gasdetcomp}
-\end{figure}
-
-An analysis of the non-wing drag coefficienct, Figure~\ref{f:nonwingdrag}, reveals that cross over between the static non-wing drag coefficient $C_{d_0}=0.01$, and the more detailed component drag breakdown is one cause of the discrepancy between the detailed and non-detailed optimization models. 
-The decrease in non-wing drag, even as the size of the aircraft increases, is due to a Reynolds number effect.  
-For a constant airspeed, air density and viscosity, as the aircraft increases in size, Reynolds number will increase which will decrease the non-wing drag coefficient.
-
-\subsection{Solar-electric Powered Trade Space Exploration}
-
-One way analyze the trade space of the solar-electirc powered aircraft it is to change the objective function.  
-High efficiency solar cells are expensive and from a manufacturing perspective, a larger aircraft that requires fewer solar cells could be advantageous.
-Altering the objective function to solar cell area can show difference configurations that meet the same requirements. 
+Because gas-powered aircraft are endurance limited by the amount of fuel that they can carry, a trade study was done for the gas powered aircraft to determine how weight increases for longer endurance.
+Because gas-powered aircraft are not affected by the solar flux, their station-keeping ability at different latitude only depends on wind speed. 
+If a gas-powered aircraft can fly at the latitude with the worst wind speed (38 degrees latitude at 15,000 ft) it can theoretically fly at any latitude.  
+Figure~\ref{f:spanvsendurance} shows the endurance versus size analysis for a gas powered aircraft by minimizing wing span at $\pm$38 degrees latitude.
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{solarobjcomp.pdf}
-    \caption{\textbf{Solar aircraft sizing study for two different objective functions: wing span $b$, and solar cell area $S_{\text{solar}}$. }}
-	\label{f:solarobjcomp}
+	\includegraphics[width=0.6\textwidth]{spanvsendurance.pdf}
+    \caption{\textbf{Trade study of endurance and size for gas powered architecture.}}
+	\label{f:spanvsendurance}
 	\end{center}
 \end{figure}
 
-For a broader picture of the design space the solar optimization is solved multiple times, producing a set of contour plots for various battery energy densities, solar cell efficiencies, altitudes, and availabilities.  (Figure~\ref{f:solarcontours}) 
-The matrix contour plot map is a useful reference tool designed to give understanding to key trade offs in the solar-electric powered aircraft sizing problem.
+Changing the objective function can be informative to the design space. 
+High efficiency solar cells are expensive and from a manufacturing perspective, a larger aircraft that requires fewer solar cells could be advantageous.
+By altering the objective function to solar cell area it is observed that when the objective function is solar cell area the airplane is slightly bigger but requires few solar cells. (Figure~\ref{f:solarobjcomp})
+
+\begin{figure}[H]
+ \begin{subfigmatrix}{2}% number of columns
+     \subfigure[Wingspan\label{f:span}]{\includegraphics{span.pdf}}
+     \subfigure[Solar Cell Area\label{f:solarcell}]{\includegraphics{solarcell.pdf}}
+ \end{subfigmatrix}
+    \caption{\textbf{Solar aircraft sizing study for two different objective functions: wing span $b$, and solar cell area $S_{\text{solar}}$.}}
+    \label{f:solarobjcomp}
+\end{figure}
+
+\subsection{Changing Assumptions}
+
+By altering the aircraft structural model it can be observed how air density trades for wing weight. 
+It might be assumed that because the wind speeds are lowest at 67,000 ft at 31 degrees latitude, that the aircraft will always fly at 67,000 ft.  
+If it is assumed that the structural weight of the aircraft can be modeled as a fraction of the total weight 
+
+\begin{equation}
+    W_{\text{structural}} \geq \text{MTOW} f_{\text{structural}}
+\end{equation}
+
+where $f_{\text{structural}} = 0.35$ then the optimized flight altitude is almost exactly 67,000 ft as shown in Figure~\ref{f:altoper}.  
+However, if the structural weight is modeled as explained in Section larger wings have a weight penalty and the optimization trades air density for wing weight.
+Therefore, by adding a structural model the optimization seeks a smaller wing to save weight and operates at a lower altitude to increase density. 
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics[width=0.6\textwidth]{windaltoper.pdf}
+ \caption{\textbf{Comparison of optimum operating altitude for the solar-electric powered aircraft with and without a detailed structural model.  With only a structural fraction as the structural model the optimum point is at the minimum wind speed.  With a more detailed structural model the optimum operating altitude is not at the minimum wind speed because of variable interaction between wing weight, air density, and wind speed.}}
+ \label{f:altoper}
+	\end{center}
+\end{figure}
+
+Another interesting result is the operating lift to drag ratio for the gas powere aircraft.  
+The optimum lift to drag ratio to maximize endurance for gas powered aircraft is at the maximum $C_L^{1.5}/C_D$.\cite{br2}  
+However, while station keeping the aircraft will maintain a constant velocity during high wind speeds.  
+At a constant velocity or constant Reynolds number the lift to drag ratio will not be at the maximum $C_L^{1.5}/C_D$.  
+If it is assumed that wind speeds are negligible or that station-keeping is not important then velocity will be optimized such that the lift to drag ratio is at the maximum $C_L^{1.5}/C_D$ as shown in Figure~\ref{f:polarmission}.
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics[width=0.6\textwidth]{polarmission.pdf}
+    \caption{\textbf{Comparision of operating lift to drag ratio with and without the wind speed constraint. Solid lines are drag polars at various Reynolds numbers. Without the wind speed constraint velocity is optimized to reach the maximum $C_L^{1.5}/C_D$ value.  With the wind speed constraint, velocity and Reynolds number is constant operating off the maximum endurance lift to drag ratio.}}
+ \label{f:polarmission}
+	\end{center}
+\end{figure}
+
+The solar aircraft size and design depends on the assumed solar cell efficiency and battery energy density. 
+By solving the model for different assumed solar cell efficiency and battery energy density values a broader picture of the design space is achieved.   
+Figure~\ref{f:solarcontours} shows a maxtrix contour map of the solar-electric powered aircraft for multiple solar cell efficiencies, battery energy densities, latitudes, and percentile wind speeds.
 
  \begin{figure}[H]
  \begin{subfigmatrix}{3}% number of columns
@@ -1546,9 +1527,26 @@ The matrix contour plot map is a useful reference tool designed to give understa
   \subfigure[25th Latitude, 85\% Wind Speed]{\includegraphics{bcontourl25a85.pdf}}
   \subfigure[25h Latitude, 90\% Wind Speed]{\includegraphics{bcontourl25a90.pdf}}
  \end{subfigmatrix}
- \caption{ \textbf{Matrix of contour plots of battery energy density and solar cell efficiency vs wing span for solar-electric powered aircraft. Each point on the graph corresponds to a unique design.} }
+ \caption{\textbf{Matrix of contour plots of battery energy density and solar cell efficiency vs wing span for solar-electric powered aircraft. Each point on the graph corresponds to a unique design.}}
  \label{f:solarcontours}
 \end{figure}
+
+\subsection{Sensitivities}
+
+When a GP is solved, the sensitivity of the objective function with respect to each constraint is also returned.  From this information, the sensitivity to each inputted variable with respect to the objective function can be extracted.\cite{hoburgthesis} 
+For example, if the objective function were weight and the sensitivity to solar cell efficiency were -0.5, then a 1\% increase in the solar cell efficiecy would result in a -0.5\% decrease in weight.  
+From a design standpoint the sensitivity result is useful in that variables with high sensitivities are important to the vehicle design. 
+Table~\ref{t:sens} shows the varialbes with the highest sensitivities the solar-electric powered aircraft optimized at various latitudes and percentile wind speeds by minimizing weight. 
+
+It is intersting to note that the battery discharge efficiency sensitivity is higher than the battery charge efficiency sensitivity.
+This ocurrs because the discharge efficiency is directly related to the operating power which goes by the cube of velocity. ($P_{\text{oper}}\sim V^3$)
+Thus, the discharge efficiency sensitivity shares similiar growth to the percentil wind speed, while the charge efficiency sensitivity does not. 
+
+It is also interesting to note that the design is significantly more sensitivity to the battery energy density than to the solar cell efficiency.  
+Thus to design a smaller, lighter aircraft, the sensitivity analysis reveals that it is more benefical to invest in higher quality batteries than solar cells. 
+
+The margin factor for the wing weight $m_{\text{fac-wing}}$, is a measure of the inaccuracy of the wind structural model.  
+If the wing weight is actually 5\% heavier than predicted then the aircraft will be approximately 4\% to 5\% heavier according Table~\ref{e:sens}.
 
 \input{sens.generated.tex}
 

@@ -182,6 +182,6 @@ if SENS:
             sol = M.solve("mosek")
             sols.append(sol)
             
-    sens_table(sols, ["p_{wind}", "\\eta_Mission, Aircraft, SolarCells", "\\eta_{charge}", "\\eta_{discharge}", "\\rho_{solar}", "t_{night}", "(E/S)_{irr}", "m_{fac}_Mission, Aircraft, Wing", "h_{batt}", "W_{pay}"])
+    sens_table(sols, ["p_{wind}", "\\eta_Mission, Aircraft, SolarCells", "\\eta_{charge}", "\\eta_{discharge}", "\\rho_{solar}", "t_{night}", "(E/S)_{irr}", "m_{fac}_Mission, Aircraft, Wing", "h_{batt}", "W_{pay}", "\\eta_{prop}"])
 ```
 
