@@ -65,9 +65,12 @@ def plot_fits(xdata, ydata, yfit, latitude, rm=None):
     fig, ax = plt.subplots()
     for p, y, yf, cl in zip(x2, ydata.reshape(len(x2), len(x1)),
                             yfit.reshape(len(x2), len(x1)), colors):
-        ax.plot(np.exp(x1), np.exp(y)*WIND_NORM, "o", markeredgecolor=cl, markerfacecolor="none")
-        ax.plot(np.exp(x1), np.exp(yf)*WIND_NORM, c=cl,
-                label="%d Percentile Winds" % np.rint(np.exp(p)*PERCT_NORM))
+        pp = np.exp(p)
+        if pp == 0.75 or pp == 0.85 or pp == 0.95:
+            ax.plot(np.exp(x1), np.exp(y)*WIND_NORM, "o", mec=cl, mfc="none",
+                    mew=1.5)
+            ax.plot(np.exp(x1), np.exp(yf)*WIND_NORM, c=cl, lw=2,
+                    label="%d Percentile Winds" % np.rint(np.exp(p)*PERCT_NORM))
     ax.legend(loc=2, fontsize=15)
     ax.set_xlabel("Air Density [kg/m$^3$]")
     ax.set_ylabel("Wind Speed [m/s]")

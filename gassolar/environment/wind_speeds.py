@@ -89,7 +89,7 @@ if __name__ == "__main__":
         Wind90 = [get_windspeed(l, 90, al, 355) for l in np.arange(70)]
         Wind95 = [get_windspeed(l, 95, al, 355) for l in np.arange(70)]
         Ax.fill_betweenx(np.arange(70), Wind85, Wind95, alpha=0.5, facecolor=c)
-        Ax.plot(Wind90, np.arange(70), c, label="Altitude=%d" % al)
+        Ax.plot(Wind90, np.arange(70), c, label="Altitude=%d" % al, lw=2)
     Ax.set_ylabel("Latitude [deg]")
     Ax.set_xlabel("Wind speed [m/s]")
     Ax.set_ylim([0, 70])
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         Wind90 = get_windspeed(l, 90, Alt, 355)
         Wind95 = get_windspeed(l, 95, Alt, 355)
         Ax.fill_betweenx(Alt, Wind85, Wind95, alpha=0.5, facecolor=c)
-        Ax.plot(Wind90, Alt, c, label="Latitude=%d" % l)
+        Ax.plot(Wind90, Alt, c, label="Latitude=%d" % l, lw=2)
     Ax.set_ylabel("Altitude [ft]")
     Ax.set_xlabel("Wind speed [m/s]")
     Ax.set_ylim([0, 80000])
@@ -126,7 +126,7 @@ if __name__ == "__main__":
         Wind95 = [get_windspeed(45, 95, al, d) for d in Mid]
         Ax.fill_between(range(13), Wind85 + [Wind85[0]], Wind95 + [Wind95[0]],
                         alpha=0.5, facecolor=c)
-        Ax.plot(range(13), Wind90 + [Wind90[0]], c, label="Altitude=%d" % al)
+        Ax.plot(range(13), Wind90 + [Wind90[0]], c, label="Altitude=%d" % al, lw=2)
     Ax.set_xticks(np.arange(12))
     Ax.set_xticks(np.arange(12)+0.5, minor=True)
     Ax.set_xticklabels(Mos, minor=True)
