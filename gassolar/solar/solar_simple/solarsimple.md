@@ -5,7 +5,7 @@
 #inPDF: skip
 from solarsimple import Mission
 from gassolar.environment.wind_speeds import get_windspeed
-from gassolar.solar.plotting import windalt_plot
+from gassolar.solar.plotting import windalt_plot, labelLine
 from solar.solar_irradiance import get_Eirr
 import matplotlib.pyplot as plt
 import numpy as np
@@ -86,20 +86,21 @@ if LAT:
 
 """ wind operating """
 if WIND:
-    M = Mission(latitude=31)
+    lat = 29
+    M = Mission(latitude=lat)
     for vk in M.varkeys["CDA_0"]:
         M.substitutions.update({vk: 0.002})
     M.cost = M["W"]
     sol1 = M.solve("mosek")
     from gassolar.solar.solar import Mission
-    M = Mission(latitude=31)
+    M = Mission(latitude=lat)
     M.cost = M["W_{total}"]
     sol2 = M.solve("mosek")
-    fig, ax = windalt_plot(31, sol1, sol2)
-    ax.annotate("structural weight fraction", xy=(66.2, 33), xytext=(47, 10),
+    fig, ax = windalt_plot(lat, sol1, sol2)
+    ax.annotate("structural weight fraction", xy=(66.2, 30), xytext=(46, 10),
                 arrowprops=dict(facecolor='black', shrink=0.05, width=1.5,
                                 headwidth=10))
-    ax.annotate("detailed structural model", xy=(60, 49), xytext=(62, 70),
+    ax.annotate("detailed structural model", xy=(58, 50), xytext=(61, 65),
                 arrowprops=dict(facecolor='black', shrink=0.05, width=1.5,
                                 headwidth=10))
-    fig.savefig("../../../gassolarpaper/windaltopersimple.pdf", bbox_inches="tight")
+    fig.savefig("../../../gassolarpaper/windaltoper.pdf", bbox_inches="tight")

@@ -25,7 +25,7 @@ def windalt_plot(latitude, sol1, sol2):
 
     vwind = (np.exp(softmax_affine(x, params)[0])*100).reshape(6, 20)[3]
     fig, ax = plt.subplots()
-    ax.plot(alt/1000.0, vwind*1.95384, linewidth=2)
+    l = ax.plot(alt/1000.0, vwind*1.95384, linewidth=2)
     for sol in [sol1, sol2]:
         altsol = altitude(min([sol(sv).magnitude for sv in sol("\\rho")]))
         vsol = max([sol(sv).to("knots").magnitude for sv in sol("V")])

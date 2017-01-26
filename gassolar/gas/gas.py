@@ -31,6 +31,7 @@ class Aircraft(Model):
         Wwing = Variable("W_{wing}", "lbf", "wing weight for loading")
 
         self.empennage.substitutions["V_h"] = 0.55
+        self.empennage.substitutions["V_v"] = 0.04
         self.empennage.substitutions["m_h"] = 0.4
         constraints = [
             Wzfw >= sum(summing_vars(components, "W")) + Wpay + Wavn,
@@ -175,6 +176,12 @@ class Mission(Model):
             constraints.extend([
                 mission[i]["W_{end}"][-1] == fs["W_{start}"][0]
                 ])
+
+        for vk in loading.varkeys["N_{max}"]:
+            if "ChordSparL" in vk.descr["models"]:
+                loading.substitutions.update({vk: 5})
+            if "GustL" in vk.descr["models"]:
+                loading.substitutions.update({vk: 2})
 
         return JHO, mission, loading, constraints
 

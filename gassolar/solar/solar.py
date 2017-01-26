@@ -34,7 +34,7 @@ class Aircraft(Model):
         Wcent = Variable("W_{cent}", "lbf", "center weight")
 
         self.empennage.substitutions["V_h"] = 0.45
-        self.empennage.substitutions["V_v"] = 0.02
+        self.empennage.substitutions["V_v"] = 0.04
         self.empennage.substitutions["m_h"] = 5.514
 
         constraints = [
@@ -286,7 +286,10 @@ class Mission(Model):
         loading = self.solar.loading(self.solar["W_{cent}"], self.solar["W_{wing}"], mission[-1]["V"], mission[-1]["C_L"])
         # loading = self.solar.loading(self.solar["W_{cent}"], mission[-1]["\\rho"], mission[-1]["V"], self.solar.wing["S"])
         for vk in loading.varkeys["N_{max}"]:
-            loading.substitutions.update({vk: 1.5})
+            if "ChordSparL" in vk.descr["models"]:
+                loading.substitutions.update({vk: 5})
+            if "GustL" in vk.descr["models"]:
+                loading.substitutions.update({vk: 2})
 
         return self.solar, mission, loading
 
@@ -296,7 +299,7 @@ def test():
     M.solve()
 
 if __name__ == "__main__":
-    M = Mission(latitude=31)
+    M = Mission(latitude=25)
     M.cost = M["W_{total}"]
     sol = M.solve("mosek")
     mn = [max(M[sv].descr["modelnums"]) for sv in sol("(E/S)_{irr}") if

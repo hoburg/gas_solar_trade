@@ -15,8 +15,8 @@ print "RMS error: %.4f" % rm
 
 yfit = evaluate_fit(cn, x, "MA")
 fig, ax = plt.subplots()
-ax.plot(u, w)
-ax.plot(u, np.exp(yfit))
+ax.plot(u, w, lw=2)
+ax.plot(u, np.exp(yfit), "--", lw=2)
 ax.set_xlim([0, 0.7])
 ax.grid()
 ax.set_xlabel("$V_{\\mathrm{gust}}/V$")

@@ -10,18 +10,18 @@ from gpkit.tools.autosweep import sweep_1d
 import numpy as np
 plt.rcParams.update({'font.size':19})
 
-END = False
-LAT = False
+END = False 
+LAT = False 
 DRAG = False
 BSFC = False
-LD = False
-SENS = True
+LD = True
 
 """ MTOW vs Endurance """
 
 if END:
     plt.rcParams.update({'font.size':15})
     M = Mission()
+    # M.cost = M["b_Mission, Aircraft, Wing"]
     M.cost = M["MTOW"]
     fig, ax = plt.subplots()
     lower = 1
@@ -46,7 +46,7 @@ if END:
                 upper -= 0.1
                 xmin_ = np.linspace(lower, upper, 100)
     
-        ax.plot(xmin_, bst["cost"].__call__(xmin_))
+        ax.plot(xmin_, bst["cost"].__call__(xmin_), lw=2)
     ax.grid()
     ax.set_ylim([0, 1000])
     ax.set_xlabel("Endurance [days]")
@@ -62,6 +62,7 @@ if LAT:
     M = Mission()
     M.substitutions.update({"W_{pay}": 10})
     M.substitutions.update({"t_Mission, Loiter": 7})
+    # M.cost = M["b_Mission, Aircraft, Wing"]
     M.cost = M["MTOW"]
     for a in [80, 90, 95]:
         mtow = []
@@ -73,18 +74,19 @@ if LAT:
                 M.substitutions.update({v: maxwind})
             try:
                 sol = M.solve("mosek")
+                # mtow.append(sol("b_Mission, Aircraft, Wing").magnitude)
                 mtow.append(sol("MTOW").magnitude)
             except RuntimeWarning:
                 mtow.append(np.nan)
-        ax.plot(lat, mtow)
+        ax.plot(lat, mtow, lw=2)
     
-    ax.set_ylim([0, 600])
-    ax.set_xlim([20, 50])
+    ax.set_ylim([0, 800])
+    ax.set_xlim([20, 45])
     ax.grid()
     ax.set_xlabel("Latitude [deg]")
     ax.set_ylabel("Max Take Off Weight [lbf]")
     labels = ["$\\pm$" + item.get_text() for item in ax.get_xticklabels()]
-    labels = ["$\\pm$%d" % l for l in np.linspace(20, 50, len(labels))]
+    labels = ["$\\pm$%d" % l for l in np.linspace(20, 45, len(labels))]
     ax.set_xticklabels(labels)
     ax.legend(["%d Percentile Winds" % a for a in [80, 90, 95]], loc=2, fontsize=15)
     fig.savefig("../../gassolarpaper/mtowvslatgas.pdf", bbox_inches="tight")
@@ -206,7 +208,7 @@ if LD:
                xvals=[0.95, 0.75, 0.6])
     ax.set_xlabel("$C_L$")
     ax.set_ylabel("$c_{d_p}$")
-    ax.legend(["$C_L^{1.5}/C_D$", "With Wind Constraint", "Without Wind Constraint"], fontsize=15, loc=2)
+    ax.legend(["max($C_L^{1.5}/C_D$)", "With Wind Constraint", "Without Wind Constraint"], fontsize=15, loc=2)
     ax.grid()
     fig.savefig("../../gassolarpaper/polarmission.pdf", bbox_inches="tight")
 
