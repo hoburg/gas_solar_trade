@@ -45,12 +45,12 @@ def get_Eirr(latitude, day, N=50.0):
 if __name__ == "__main__":
     ES, td, tn, p = get_Eirr(30, 355, N=1000)
     fig, ax = plt.subplots()
-    ax.fill_between([-12, -td/2], 0, 80, alpha=0.5, facecolor="b",
+    ax.fill_between([-12, -td/2], 0, 80, alpha=0.3, facecolor="b",
                     linewidth=2, color="b")
-    ax.fill_between([td/2, 12], 0, 80, alpha=0.5, facecolor="b", linewidth=2,
+    ax.fill_between([td/2, 12], 0, 80, alpha=0.3, facecolor="b", linewidth=2,
                     color="b")
     ax.fill_between(p[1], p[0], 80, where=p[0] < 80, linewidth=2, color="b",
-                    facecolor="m", alpha=0.5)
+                    facecolor="m", alpha=0.3)
     ax.fill_between(p[1], 0, p[0], hatch="xx", color="r", linewidth=2,
                     facecolor="none")
     newp = []
@@ -60,7 +60,7 @@ if __name__ == "__main__":
         else:
             newp.append(80)
     ax.fill_between(p[1], 0, newp, linewidth=2, color="g", facecolor="g",
-                    alpha=0.5)
+                    alpha=0.3)
     ax.set_xlabel("Time [hr]")
     ax.set_ylabel("Available Solar Power [W/m$^2$]")
     ax.set_xlim([-12, 12])

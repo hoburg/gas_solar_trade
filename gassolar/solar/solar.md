@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from plotting import windalt_plot, labelLines
 
-LATITUDE = False
+LATITUDE = True
 WIND = False
-CON = True
+CON = False
 COMP = False
 SENS = False
 
