@@ -72,7 +72,9 @@
  \usepackage[labelfont=bf]{caption}
  \usepackage{multirow}
  \usepackage{setspace}
- \doublespacing
+ % \usepackage[dvipdfmx]{graphicx} 
+ % \usepackage{bmpsize}
+ % \doublespacing
 
  \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 
@@ -332,7 +334,7 @@ Because the endurance requirement for solar-electric powered aircraft is set by 
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{windvsmonth.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=501,natheight=385]{windvsmonth.pdf}
     \caption{\textbf{Variation of wind speed by month at 45 degrees latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Lower, middle and upper lines represent 85th, 90th and 95th percentile winds respectively.}}
 	\label{f:windvsmonth}
 	\end{center}
@@ -347,7 +349,7 @@ Solar-electric powered aircraft tend to fly around 60,000 ft to meet payload req
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{altvswind.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=538,natheight=405]{altvswind.pdf}
     \caption{\textbf{Variation of wind speed with altitude at latitudes of 30, 35, and 45 degrees.  Left, middle and right lines represent 85th, 90th and 95th percentile winds respectively. Wind data includes winds during December for the years 2005-2015.}}
 	\label{f:altvswind}
 	\end{center}
@@ -389,7 +391,7 @@ Figure~\ref{f:latvswind} shows how the wind speed varies with latitude in the No
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{latvswind.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=576,natheight=432]{latvswind.pdf}
     \caption{\textbf{Variation of wind speed with latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Left, middle and right lines represent 85th, 90th and 95th percentile winds respectively. Wind data includes winds during December for the years 2005-2015.}}
 	\label{f:latvswind}
 	\end{center}
@@ -408,8 +410,8 @@ Wind speeds at 60,000 ft over Boston and Rome during December of 2015 are shown 
 
 \begin{figure}[H]
  \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Autocorrelation of Boston wind speeds\label{f:bostonwindatuo}]{\includegraphics{Boston_dec_2015auto.pdf}}
-     \subfigure[Boston wind speed data\label{f:bostonwind}]{\includegraphics{Boston_dec_2015.pdf}}
+     \subfigure[Autocorrelation of Boston wind speeds\label{f:bostonwindatuo}]{\includegraphics[natwidth=560,natheight=420]{Boston_dec_2015auto.pdf}}
+     \subfigure[Boston wind speed data\label{f:bostonwind}]{\includegraphics[natwidth=560,natheight=420]{Boston_dec_2015.pdf}}
  \end{subfigmatrix}
  \caption{\textbf{Wind speed analysis at 60,000 ft over Boston, Massachusetts during December, 2015.}}
  \label{f:bostonwinds}
@@ -417,8 +419,8 @@ Wind speeds at 60,000 ft over Boston and Rome during December of 2015 are shown 
 
 \begin{figure}[H]
  \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Autocorrelation of Rome wind speeds\label{f:romewindatuo}]{\includegraphics{Rome_dec_2015auto.pdf}}
-     \subfigure[Rome wind speed data\label{f:romewind}]{\includegraphics{Rome_dec_2015.pdf}}
+     \subfigure[Autocorrelation of Rome wind speeds\label{f:romewindatuo}]{\includegraphics[natwidth=560,natheight=420]{Rome_dec_2015auto.pdf}}
+     \subfigure[Rome wind speed data\label{f:romewind}]{\includegraphics[natwidth=560,natheight=420]{Rome_dec_2015.pdf}}
  \end{subfigmatrix}
  \caption{\textbf{Wind speed analysis at 60,000 ft over Rome, Italy during December, 2015.}}
  \label{f:romewinds}
@@ -437,7 +439,7 @@ Geometric programs (GPs) are a mathematical optimization problem characterized b
 \label{e:gpform}
 \text{minimize } f_0(\bold{x}) & \nonumber \\
 \text{subject to  } f_i(\bold{x}) &\leq 1, i=1,\ldots,m \\
-g_i (\bold{x}) &= 1, i = 1,\ldots,p \nonumber 
+g_i (\bold{x}) &= 1, i = 1,\ldots,p 
 \end{align}
 
 where the functions $g_i$ must be \emph{monomial} functions and the functions $f_i$ must be \emph{posynomial} functions. \emph{Monomials} and \emph{posynomials} have the forms
@@ -491,7 +493,7 @@ where $V_{\text{ref}} = 100$ [m/s] and $p_{\text{wind}}$ is the percentile wind 
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{windfitl35.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=511,natheight=405]{windfitl35.pdf}
     \caption{\textbf{Comparison of a fitted equation of wind speed to air density and percentile wind speed~\eqref{e:windfit35}. (Log space RMS error = 0.043.) Wind speed data includes December wind speeds from 2005-2015 at the 35th degree latitude.}}
 	\label{f:windfitl35}
 	\end{center}
@@ -527,7 +529,7 @@ Equations~\eqref{e:solarreq} and~\eqref{e:solarbatt} are graphically represented
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.7\textwidth]{lat30.pdf}
+	\includegraphics[width=0.7\textwidth,natwidth=572,natheight=405]{lat30.pdf}
     \caption{\textbf{The available solar power per unit area during the winter solstice in the Northern Hemisphere at $\phi=30^{\circ}$. For a solar-electric powered aircraft to be operational for more than 24 hours, the area under the red curve must be greater than the areas shown in blue, magenta and green.}}
 	\label{f:lat30}
 	\end{center}
@@ -537,7 +539,7 @@ In order for the aircraft to begin charging batteries there must be a minimum so
 
 \begin{align}
     (P/S)_{\text{min}} &= \frac{P_{\text{oper}}}{\eta_{\text{solar}} S_{\text{solar}}} \\
-    \eta_{\text{motor}} P_{\text{oper}} &\geq P_{\text{shaft}} + P_{\text{avionics}}. \\
+    \eta_{\text{motor}} P_{\text{oper}} &\geq P_{\text{shaft}} + P_{\text{avionics}}.
 \end{align}
 
 where $\eta_{\text{motor}} = 0.95$. Thus for a given latitude and day, and therfore total solar energy $(E/S)_{\text{sun}}$, both $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$ are functions of $(P/S)_{\text{min}}$.  
@@ -546,8 +548,8 @@ Figure~\ref{f:energyapprox} shows sample monomial approximations at 30 degrees l
 
 \begin{figure}[H]
  \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Monomial Approxmiation for $(E/S)_{\text{day}}$\label{f:Benergy}]{\includegraphics{Benergy.pdf}}
-     \subfigure[Monomial Approximation for $(E/S)_{\text{twilight}}$\label{f:Cenergy}]{\includegraphics{Cenergy.pdf}}
+     \subfigure[Monomial Approxmiation for $(E/S)_{\text{day}}$\label{f:Benergy}]{\includegraphics[natwidth=576,natheight=432]{Benergy.pdf}}
+     \subfigure[Monomial Approximation for $(E/S)_{\text{twilight}}$\label{f:Cenergy}]{\includegraphics[natwidth=575,natheight=432]{Cenergy.pdf}}
  \end{subfigmatrix}
  \caption{\textbf{Monomial approximations for $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$ as functions for $(P/S)_{\text{min}}$ at 30 degrees latitude. (Log-space RMS error = 0.007 and 0.0180)}}
  \label{f:energyapprox}
@@ -750,7 +752,7 @@ The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from th
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{JH01polar.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=536,natheight=405]{JH01polar.pdf}
     \caption{\textbf{The posynomial fit, Equation~\eqref{e:aerodragprof}, of the \emph{JH01} airfoil drag polar is represented as solid lines at different Reynolds numbers.  The open circles are the calculated drag polars from XFOIL. (Log space RMS error~=~0.00489.)}}
 	\label{f:JH01polar}
 	\end{center}
@@ -795,8 +797,8 @@ The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from th
 % 
 %  \begin{figure}[H]
 %  \begin{subfigmatrix}{2}% number of columns
-%      \subfigure[MTOW Comparison\label{f:mtowvehiclecomp}]{\includegraphics{mtowvehiclecomp.pdf}}
-%      \subfigure[Span Comparison\label{f:bvehiclecomp}]{\includegraphics{bvehiclecomp.pdf}}
+%      \subfigure[MTOW Comparison\label{f:mtowvehiclecomp}]{\includegraphics[natwidth=610,natheight=642]{mtowvehiclecomp.pdf}}
+%      \subfigure[Span Comparison\label{f:bvehiclecomp}]{\includegraphics[natwidth=610,natheight=642]{bvehiclecomp.pdf}}
 %  \end{subfigmatrix}
 %  \caption{ \textbf{Comparison of optimization results to existing platforms.  Each aircraft's unique parameters from table~\ref{t:existingparams} are set as fixed constants in the optimization model.} }
 %  \label{f:vehiclecomp}
@@ -862,8 +864,8 @@ The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from th
 % 
 % \begin{figure}[H]
 %  \begin{subfigmatrix}{2}% number of columns
-%      \subfigure[Gas Powered\label{f:mtowvslatgassimple}]{\includegraphics{mtowvslatgassimple.pdf}}
-%      \subfigure[Solar-Electric Powered\label{f:mtowvslatsolarsimple}]{\includegraphics{mtowvslatsolarsimple.pdf}}
+%      \subfigure[Gas Powered\label{f:mtowvslatgassimple}]{\includegraphics[natwidth=610,natheight=642]{mtowvslatgassimple.pdf}}
+%      \subfigure[Solar-Electric Powered\label{f:mtowvslatsolarsimple}]{\includegraphics[natwidth=610,natheight=642]{mtowvslatsolarsimple.pdf}}
 %  \end{subfigmatrix}
 %  \caption{\textbf{ Trade study of max take off weight and latitude. Plots show required maximum take off weight required to operate between a band of latitudes.   A comparison of the solar and gas powered latitude analysis shows that gas powered aircraft are more robust to operating in higher wind speeds. }}
 %  \label{f:latvsmtowtrade}
@@ -882,7 +884,7 @@ The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from th
 % 
 % \begin{figure}[H]
 % 	\begin{center}
-% 	\includegraphics[width=0.6\textwidth]{mtowvsendsimple.pdf}
+% 	\includegraphics[natwidth=610,natheight=642][width=0.6\textwidth,natwidth=610,natheight=642]{mtowvsendsimple.pdf}
 %     \caption{ \textbf{ Trade study between endurance and max take off weight for a gas powered archicture. }}
 % 	\label{f:mtowvsendsimple}
 % 	\end{center}
@@ -897,15 +899,15 @@ The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from th
 % 
 %  \begin{figure}[H]
 %  \begin{subfigmatrix}{3}% number of columns
-%   \subfigure[40th Latitude, 80\% Wind Speed]{\includegraphics{bcontourl40a80.pdf}}
-%   \subfigure[40th Latitude, 85\% Wind Speed]{\includegraphics{bcontourl40a85.pdf}}
-%   \subfigure[40th Latitude, 90\% Wind Speed]{\includegraphics{bcontourl40a90.pdf}}
-%   \subfigure[35th Latitude, 80\% Wind Speed]{\includegraphics{bcontourl35a80.pdf}}
-%   \subfigure[35th Latitude, 85\% Wind Speed]{\includegraphics{bcontourl35a85.pdf}}
-%   \subfigure[35th Latitude, 90\% Wind Speed]{\includegraphics{bcontourl35a90.pdf}}
-%   \subfigure[30th Latitude, 80\% Wind Speed]{\includegraphics{bcontourl30a80.pdf}}
-%   \subfigure[30th Latitude, 85\% Wind Speed]{\includegraphics{bcontourl30a85.pdf}}
-%   \subfigure[30th Latitude, 90\% Wind Speed]{\includegraphics{bcontourl30a90.pdf}}
+%   \subfigure[40th Latitude, 80\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl40a80.pdf}}
+%   \subfigure[40th Latitude, 85\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl40a85.pdf}}
+%   \subfigure[40th Latitude, 90\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl40a90.pdf}}
+%   \subfigure[35th Latitude, 80\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl35a80.pdf}}
+%   \subfigure[35th Latitude, 85\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl35a85.pdf}}
+%   \subfigure[35th Latitude, 90\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl35a90.pdf}}
+%   \subfigure[30th Latitude, 80\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl30a80.pdf}}
+%   \subfigure[30th Latitude, 85\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl30a85.pdf}}
+%   \subfigure[30th Latitude, 90\% Wind Speed]{\includegraphics[natwidth=610,natheight=642]{bcontourl30a90.pdf}}
 %  \end{subfigmatrix}
 %  \caption{ \textbf{Matrix of contour plots of battery specific energy and structural weight fraction vs wing span for solar-electric powered aircraft. Each point on the graph corresponds to a unique design.} }
 %  \label{f:solarcontours}
@@ -995,7 +997,7 @@ This approximation is graphically shown in Figure~\ref{f:arctanfit} for the expe
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{arctanfit.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=517,natheight=408]{arctanfit.pdf}
     \caption{\textbf{Comparison of monomial approximation to Equation~\ref{e:gustalpha} for $V/V_{\text{gust}} \in [0,0.7]$. (Log space RMS error = 0.0246)}}
 	\label{f:arctanfit}
 	\end{center}
@@ -1059,7 +1061,7 @@ A cap spar is considered for the solar-electric and gas powered aircraft.  Both 
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.8\textwidth]{capspar2.jpg}
+	\includegraphics[width=0.8\textwidth,natwidth=3242,natheight=1195]{capspar2.jpg}
     \caption{\textbf{Cross sectional view of a cap spar.  The two caps are made of carbon fiber, separated by a foam core. A thin shear web is wrapped around the caps and foam to prevent shearing and buckling.}}
 	\label{f:capspar}
 	\end{center}
@@ -1236,7 +1238,7 @@ A comparison of the XFOIL data and Equation~\eqref{e:taildrag} is shown in Figur
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{taildragpolar.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=538,natheight=405]{taildragpolar.pdf}
     \caption{\textbf{Comparison of XFOIL data for NACA airfoils to GP-compatible generated fit,~\eqref{e:taildrag}. (Log space RMS error = 0.0173)}}
 	\label{f:taildragpolar}
 	\end{center}
@@ -1311,7 +1313,7 @@ where $W_{\text{engine-ref}} = 10$ [lbs] and $P_{\text{ref}} = 10$ [hp].  Equati
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{powervsweightfit.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=524,natheight=405]{powervsweightfit.pdf}
     \caption{\textbf{Comparison of power law fit and engine data from University of North Dakota technical report.\cite{gasengine} (Log space RMS error = 0.34)}}
 	\label{f:powervsweightfit}
 	\end{center}
@@ -1343,7 +1345,7 @@ A comparison of the GP-compatible approximation to the manufacturing data from R
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{powertobsfcfit.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=530,natheight=414]{powertobsfcfit.pdf}
     \caption{\textbf{Comparison of GP-compatible approximation to RCV manufacturing data for the DF70 engine.  Function is representative of engine performance for engines of similar size.  (Log-space RMS error is 0.007) }}
 	\label{f:powervsweightfit}
 	\end{center}
@@ -1416,7 +1418,7 @@ To compare the gas-powered and solar-electric architectures the optimization mod
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{mtowvslat.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=528,natheight=405]{mtowvslat.pdf}
     \caption{\textbf{Trade study comparing the lowest possible max take off weight across a range of possible latitude band requirements. Each point is a unique solution from the optimization. Lower, middle and upper curves were evaluated at the 80th, 90th and 95th percentile winds respectively.  The endurance requirement for the gas powered aircraft in this trade study is 7 days. The next integer latitude value for each of the solar-electric curves is infeasible for the given assumptions.}}
     \label{f:latvsmtowtrade}
 	\end{center}
@@ -1433,7 +1435,7 @@ Figure~\ref{f:spanvsendurance} shows the endurance versus size analysis for a ga
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{mtowvsendurance.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=527,natheight=405]{mtowvsendurance.pdf}
     \caption{\textbf{Trade study of endurance and size for gas powered architecture., Lower, middle and upper curves were evaluated at the 80th, 90th and 95th percentile winds respectively. Max take off weight was minimized for this analysis.}}
 	\label{f:spanvsendurance}
 	\end{center}
@@ -1445,8 +1447,8 @@ By altering the objective function to solar cell area it is observed that when t
 
 \begin{figure}[H]
  \begin{subfigmatrix}{2}% number of columns
-     \subfigure[Wingspan\label{f:span}]{\includegraphics{solarobjcomp.pdf}}
-     \subfigure[Solar Cell Area\label{f:solarcell}]{\includegraphics{solarobjcomp2.pdf}}
+     \subfigure[Wingspan\label{f:span}]{\includegraphics[natwidth=511,natheight=398]{solarobjcomp.pdf}}
+     \subfigure[Solar Cell Area\label{f:solarcell}]{\includegraphics[natwidth=514,natheight=405]{solarobjcomp2.pdf}}
  \end{subfigmatrix}
     \caption{\textbf{Solar aircraft sizing study for two different objective functions: wing span $b$, and solar cell area $S_{\text{solar}}$. Lower, middle and upper curves were evaluated at the 80th, 90th and 95th percentile winds respectively.}}
     \label{f:solarobjcomp}
@@ -1468,7 +1470,7 @@ Therefore, by adding a structural model the optimization seeks a smaller wing to
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{windaltoper.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=519,natheight=405]{windaltoper.pdf}
  \caption{\textbf{Comparison of optimum operating altitude for the solar-electric powered aircraft with and without a detailed structural model.  With only a structural fraction as the structural model the optimum point is at the minimum wind speed.  With a more detailed structural model the optimum operating altitude is not at the minimum wind speed because of variable interaction between wing weight, air density, and wind speed.}}
  \label{f:altoper}
 	\end{center}
@@ -1482,7 +1484,7 @@ If it is assumed that wind speeds are negligible or that station-keeping is not 
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth]{polarmission.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=555,natheight=415]{polarmission.pdf}
     \caption{\textbf{Circles and squares represent the optimized drag and lift coefficient values during the course of mission with and without the wind speed constraint. Solid lines are drag polars at various Reynolds numbers.  The maximum $C_L^{1.5}/C_D$ are marked by a plus sign on the polar curve.}}
  \label{f:polarmission}
 	\end{center}
@@ -1494,15 +1496,15 @@ Figure~\ref{f:solarcontours} shows a matrix contour map of the solar-electric po
 
  \begin{figure}[H]
  \begin{subfigmatrix}{3}% number of columns
-  \subfigure[35th Latitude, 80\% Wind Speed]{\includegraphics{bcontourl35a80.pdf}}
-  \subfigure[35th Latitude, 85\% Wind Speed]{\includegraphics{bcontourl35a85.pdf}}
-  \subfigure[35th Latitude, 90\% Wind Speed]{\includegraphics{bcontourl35a90.pdf}}
-  \subfigure[30th Latitude, 80\% Wind Speed]{\includegraphics{bcontourl30a80.pdf}}
-  \subfigure[30th Latitude, 85\% Wind Speed]{\includegraphics{bcontourl30a85.pdf}}
-  \subfigure[30th Latitude, 90\% Wind Speed]{\includegraphics{bcontourl30a90.pdf}}
-  \subfigure[25th Latitude, 80\% Wind Speed]{\includegraphics{bcontourl25a80.pdf}}
-  \subfigure[25th Latitude, 85\% Wind Speed]{\includegraphics{bcontourl25a85.pdf}}
-  \subfigure[25th Latitude, 90\% Wind Speed]{\includegraphics{bcontourl25a90.pdf}}
+  \subfigure[35th Latitude, 80\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl35a80.pdf}}
+  \subfigure[35th Latitude, 85\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl35a85.pdf}}
+  \subfigure[35th Latitude, 90\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl35a90.pdf}}
+  \subfigure[30th Latitude, 80\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl30a80.pdf}}
+  \subfigure[30th Latitude, 85\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl30a85.pdf}}
+  \subfigure[30th Latitude, 90\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl30a90.pdf}}
+  \subfigure[25th Latitude, 80\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl25a80.pdf}}
+  \subfigure[25th Latitude, 85\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl25a85.pdf}}
+  \subfigure[25th Latitude, 90\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl25a90.pdf}}
  \end{subfigmatrix}
  \caption{\textbf{Matrix of contour plots of battery specific energy and solar cell efficiency vs wing span for solar-electric powered aircraft where the wing span is minimized. Each point on the graph corresponds to a unique design. Values of constants other than solar cell efficiency and battery specific energy are given throughout the text.  The infeasible region and contour shapes would change for different assumed constant values.}}
  \label{f:solarcontours}
@@ -1619,8 +1621,8 @@ The redesigned airfoil was named \emph{JH01}. We would like to thank Mark Drela 
 
 \begin{figure}[H]
  \begin{subfigmatrix}{2}% number of columns
-     \subfigure[$C_L=0.0$\label{f:cpmin}]{\includegraphics{cpmin.pdf}}
-     \subfigure[$C_L=1.35$\label{f:cpmax}]{\includegraphics{cpmax.pdf}}
+     \subfigure[$C_L=0.0$\label{f:cpmin}]{\includegraphics[width=0.35\textwidth,natwidth=612,natheight=792,angle=-90]{cpmin.pdf}}
+     \subfigure[$C_L=1.35$\label{f:cpmax}]{\includegraphics[width=0.35\textwidth,natwidth=612,natheight=792,angle=-90]{cpmax.pdf}}
  \end{subfigmatrix}
  \caption{\textbf{Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number, $Re=3e5$.}}
  \label{f:jhcps}
