@@ -7,24 +7,28 @@ from solar import Mission
 import matplotlib.pyplot as plt
 import numpy as np
 from plotting import windalt_plot, labelLines
+from gpkit.tools.autosweep import sweep_1d
 
-LATITUDE = True
+LATITUDE = False
 WIND = False
-CON = False
+CON = True
 COMP = False
 SENS = False
 
 """ contour """
 
 if CON:
+    N = 30 
     plt.rcParams.update({'font.size':19})
-    etasolar = np.linspace(0.15, 0.5, 10)
-    hbatts = np.linspace(250, 400, 10)
-    x = np.array([etasolar]*10)
-    y = np.array([hbatts]*10).T
-    z = np.zeros([10, 10])
+    etasolar = np.linspace(0.15, 0.5, N)
+    hbatts = np.linspace(250, 400, N)
+    x = np.array([etasolar]*N)
+    y = np.array([hbatts]*N).T
+    z = np.zeros([N, N])
     for av in [80, 85, 90]:
+    # for av in [80]:
         for l in [25, 30, 35]:
+        # for l in [25]:
             fig, ax = plt.subplots()
             M = Mission(latitude=l)
             M.substitutions.update({"W_{pay}": 10})
@@ -32,30 +36,54 @@ if CON:
                 M.substitutions.update({vk: 0.75})
             for vk in M.varkeys["p_{wind}"]:
                 M.substitutions.update({vk: av/100.0})
-            M.cost = M["b_Mission, Aircraft, Wing"]
+            h = []
             for i, etas in enumerate(etasolar):
+                M.cost = M["b_Mission, Aircraft, Wing"]
                 M.substitutions.update({"\\eta_Mission, Aircraft, SolarCells": etas})
-                for j, hbs in enumerate(hbatts):
-                    M.substitutions.update({"h_{batt}": hbs})
-                    try:
-                        sol = M.solve("mosek")
-                        z[i, j] = sol("b_Mission, Aircraft, Wing").magnitude
-                        print sol("b_Mission, Aircraft, Wing").magnitude
-                        print sol("h_{batt}")
-                        print "Pass: Latitude = %d, Percentile Winds = %d" % (l, av)
-                    except RuntimeWarning:
-                        z[i, j] = np.nan
-                        print "Fail: Latitude = %d, Percentile Winds = %d" % (l, av)
-            print z
-            levels = np.array(range(30, 2000, 10)+ [2300])
-            if av == 90:
-                v = np.array(range(30, 700, 10)+ [2300])
-            else:
-                v = np.array(range(30, 400, 10)+ [2300])
-            a = ax.contour(x, y, z, levels, colors="k")
-            ax.clabel(a, v, inline=1, fmt="%d [ft]")
+                runagain = True
+                for j in range(N):
+                    if runagain:
+                        M.substitutions.update({"h_{batt}": hbatts[N-j-1]})
+                        try:
+                            sol = M.solve("mosek")
+                            z[i, N-j-1] = sol("b_Mission, Aircraft, Wing").magnitude
+                        except RuntimeWarning:
+                            z[i, N-j-1] = np.nan
+                            runagain = False
+                    else:
+                        z[i, N-j-1] = np.nan
+
+            # parato fontier
+            del M.substitutions["h_{batt}"]
+            M.cost = M["h_{batt}"]
+            lower = etasolar[0]
+            upper = etasolar[-1]
+            xmin_ = np.linspace(lower, upper, 100)
+            tol = 0.01
+            notpassing = True
+            while notpassing:
+                try:
+                    bst = sweep_1d(M, tol, M["\\eta_Mission, Aircraft, SolarCells"], [lower, upper], solver="mosek")
+                    notpassing = False
+                except RuntimeWarning:
+                    notpassing = True
+                    upper -= 0.05
+                    xmin_ = np.linspace(lower, upper, 100)
+                    h.append(sol("h_{batt}").magnitude)
+
+            levels = np.array(range(30, 75, 5))
+            v = np.array(range(30, 75, 10))
+            cols = tuple(["k", "0.5"]*5 + ["k"])
+            ls = tuple(["solid", "dashed"]*5 + ["solid"])
+            a = ax.contour(x, y, z.T, levels, colors=cols, linestyles=ls)
+            ax.clabel(a, v, inline=1, fmt="%d [ft]", fontsize=19)
             ax.set_xlabel("Solar Cell Efficiency")
             ax.set_ylabel("Battery Energy Density [Whr/kg]")
+            ax.fill_between(xmin_, 0, bst["cost"].__call__(xmin_), edgecolor="r", lw=2, hatch="/", 
+                            facecolor="None")
+            ax.text(0.17, 260, "Infeasible", fontsize=19)
+            ax.set_xlim([etasolar[0], etasolar[-1]])
+            ax.set_ylim([hbatts[0], hbatts[-1]])
             fig.savefig("../../gassolarpaper/bcontourl%da%d.pdf" % (l, av), 
                         bbox_inches="tight")
 

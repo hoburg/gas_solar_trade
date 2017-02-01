@@ -18,11 +18,6 @@ Zuckerberg, M., \enquote{The technology behind Aquila,}
 Hatfield, Daniel;~Bale, P. P. D. N. J. B. N. B.~P., \enquote{The VA001
   aircraft,} http://www.vanillaaircraft.com/VA001.html, 2016.
 
-\bibitem{zephyr}
-\enquote{Zephyr: Focus of an aircraft. Endurance of a Satellite,}
-  https://airbusdefenceandspace.com/wp-content/uploads/2016/12/1014\_16\_zephyr\_datasheet\_e\_horizontal\_a4\_lores-for-distribution.pdf,
-  2016.
-
 \bibitem{gp}
 S.~Boyd, Kim~S., V. L. H.~A., \enquote{A Tutorial on Geometric Programming,}
   {\em Optimization and Engineering\/}, Vol.~8, No.~1, 2007, pp.~67--127.
@@ -69,6 +64,10 @@ McMordie, R.~K., {\em Solar Energy Fundamentals\/}, The Fairmont Printing
 \bibitem{br2}
 Lutze, F.~H., \enquote{AOE 3104 Vehicle Performance,}
   http://www.dept.aoe.vt.edu/~lutze/AOE3104/range\\\&endurance.pdf.
+
+\bibitem{xfoil}
+Drela, M., {\em XFOIL: An Analysis and Design System for Low Reynolds Number
+  Airfoils\/}, Springer Berlin Heidelberg, Berlin, Heidelberg, 1989, pp. 1--12.
 
 \bibitem{bending}
 Drela, M., \enquote{Wing Bending Calculations,}
@@ -125,8 +124,10 @@ A.~Noth, R.~Siegwart, W.~E., \enquote{Design of Solar Powered Airplanes for
   Continuous Flight,} Tech. Rep. 1.1, Swiss Federal Institute of Technology
   Zurich, dec 2007.
 
-\bibitem{lithiumion}
-Dueber, R., \enquote{Silver-Zinc Battery Tech Outshines Li-Ion on Safety
-  Front,} {\em The Journal of Military Electronics and Computing\/}, 2008.
+\bibitem{lithiumsul}
+Kopera, J., \enquote{Sion Power’s Lithium-Sulfur Batteries Power High
+  Altitude Pseudo-Satellite Flight,}
+  http://www.sionpower.com/pdf/articles/Sion\_Power\_Zephyr\_Flight\_Press\_Release\_2014.pdf,
+  sep 2014.
 
 \end{thebibliography}

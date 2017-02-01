@@ -65,13 +65,11 @@ if __name__ == "__main__":
     ax.set_ylabel("Available Solar Power [W/m$^2$]")
     ax.set_xlim([-12, 12])
     ax.text(-1.2, 400, "$(E/S)_{\mathrm{sun}}$", fontsize=15)
-    ax.text(-10, 30, "$E_{\mathrm{batt}}/S_{\mathrm{solar}}$", fontsize=15)
-    ax.text(7, 30, "$E_{\mathrm{batt}}/S_{\mathrm{solar}}$", fontsize=15)
     ax.text(-1.2, 30, "$(E/S)_{\mathrm{day}}$", fontsize=15)
-    ax.annotate("$(E/S)_C$", xy=(-4.9, 70), xytext=(-9, 220),
+    ax.annotate("$(E/S)_{\mathrm{twilight}}$", xy=(-4.9, 70), xytext=(-10.1, 220),
                 arrowprops=dict(facecolor='black', shrink=0.05, width=1.5,
                                 headwidth=10, frac=0.1))
-    ax.annotate("", xy=(5.5, 70), xytext=(-6.8, 205),
+    ax.annotate("", xy=(5.5, 70), xytext=(-6.7, 205),
                 arrowprops=dict(facecolor='black', shrink=0.05, width=1.5,
                                 headwidth=10, frac=0.025))
     ax.grid()
@@ -106,7 +104,7 @@ if __name__ == "__main__":
         ax1.plot(P[1:-15], 2*C[:-14], "o", c=col, markerfacecolor="none")
         ax1.plot(P[1:-15], np.exp(yfit), c=col, label="%dth Latitude" % l)
         ax1.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
-        ax1.set_ylabel("Extra Required Battery Energy $(E/S)_C}$ [Whr/m$^2$]")
+        ax1.set_ylabel("Extra Required Battery Energy $(E/S)_{\mathrm{twilight}}}$ [Whr/m$^2$]")
         ax1.grid()
         params.append(cn[0].right.c)
         params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])

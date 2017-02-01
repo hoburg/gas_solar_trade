@@ -13,12 +13,12 @@ class FlightState(Model):
     percent: percentile wind speeds [%]
     day: day of the year [Jan 1st = 1]
     """
-    def setup(self, latitude=45, percent=90, altitude=15000, day=355):
+    def setup(self, Vwind, latitude=45, percent=90, altitude=15000, day=355):
 
-        wind = get_windspeed(latitude, percent, altitude, day)
+        # wind = get_windspeed(latitude, percent, altitude, day)
         density, vis = get_airvars(altitude)
 
-        Vwind = Variable("V_{wind}", wind, "m/s", "wind velocity")
+        # Vwind = Variable("V_{wind}", wind, "m/s", "wind velocity")
         mfac = Variable("m_{fac}", 1.0, "-", "wind speed margin factor")
         V = Variable("V", "m/s", "true airspeed")
         rho = Variable("\\rho", density, "kg/m**3", "air density")

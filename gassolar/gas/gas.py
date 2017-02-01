@@ -29,6 +29,7 @@ class Aircraft(Model):
         Wpay = Variable("W_{pay}", 10, "lbf", "payload weight")
         Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight")
         Wwing = Variable("W_{wing}", "lbf", "wing weight for loading")
+        etaprop = Variable("\\eta_{prop}", 0.75, "-", "propulsive efficiency")
 
         self.empennage.substitutions["V_h"] = 0.55
         self.empennage.substitutions["V_v"] = 0.04

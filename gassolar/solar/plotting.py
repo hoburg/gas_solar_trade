@@ -31,7 +31,7 @@ def windalt_plot(latitude, sol1, sol2):
         vsol = max([sol(sv).to("knots").magnitude for sv in sol("V")])
         ax.plot(altsol/1000, vsol, "o", markersize=10)
     ax.set_xlabel("Altitude [kft]")
-    ax.set_ylabel("Wind Speed [knots]")
+    ax.set_ylabel("90th Percentile Wind Speed [knots]")
     ax.grid()
     ax.set_ylim([0, 200])
     return fig, ax
@@ -113,7 +113,7 @@ def labelLine(line,x,label=None,align=True,**kwargs):
 
     ax.text(x,y,label,rotation=trans_angle,**kwargs)
 
-def labelLines(lines,align=True,xvals=None,**kwargs):
+def labelLines(lines,align=True,xvals=None,zorder=[],**kwargs):
 
     ax = lines[0].get_axes()
     labLines = []
@@ -130,5 +130,5 @@ def labelLines(lines,align=True,xvals=None,**kwargs):
         xmin,xmax = ax.get_xlim()
         xvals = np.linspace(xmin,xmax,len(labLines)+2)[1:-1]
 
-    for line,x,label in zip(labLines,xvals,labels):
-        labelLine(line,x,label,align,**kwargs)
+    for line,x,label,zo in zip(labLines,xvals,labels, zorder):
+        labelLine(line,x,label,align,zorder=zo,**kwargs)
