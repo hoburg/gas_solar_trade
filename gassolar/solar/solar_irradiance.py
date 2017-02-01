@@ -101,8 +101,8 @@ if __name__ == "__main__":
         cn, rm = fit(x, y, 1, "MA")
         print "RMS error: %.4f" % rm
         yfit = cn.evaluate(x)
-        ax1.plot(P[1:-15], 2*C[:-14], "o", c=col, markerfacecolor="none")
-        ax1.plot(P[1:-15], np.exp(yfit), c=col, label="%dth Latitude" % l)
+        ax1.plot(P[1:-15], 2*C[:-14], "o", c=col, markerfacecolor="none", mew=1.5)
+        ax1.plot(P[1:-15], np.exp(yfit), c=col, label="%dth Latitude" % l, lw=2)
         ax1.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
         ax1.set_ylabel("Extra Required Battery Energy $(E/S)_{\mathrm{twilight}}}$ [Whr/m$^2$]")
         ax1.grid()
@@ -114,8 +114,8 @@ if __name__ == "__main__":
         cn, rm = fit(x, y, 1, "MA")
         print "RMS error: %.4f" % rm
         yfit = cn.evaluate(x)
-        ax2.plot(P[1:-15], 2*B[:-14], "o", c=col, markerfacecolor="none")
-        ax2.plot(P[1:-15], np.exp(yfit), c=col, label="%dth Latitude" % l)
+        ax2.plot(P[1:-15], 2*B[:-14], "o", c=col, markerfacecolor="none", mew=1.5)
+        ax2.plot(P[1:-15], np.exp(yfit), c=col, label="%dth Latitude" % l, lw=2)
         ax2.grid()
         ax2.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]")
         ax2.set_ylabel("Daytime Energry for Solar Cells $(E/S)_{\mathrm{day}}$ [Whr/m$^2$]")

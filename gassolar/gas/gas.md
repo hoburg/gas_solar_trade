@@ -10,12 +10,12 @@ from gpkit.tools.autosweep import sweep_1d
 import numpy as np
 plt.rcParams.update({'font.size':19})
 
-END = False 
+END = True
 LAT = False
 DRAG = False
 BSFC = False
 LD = False
-SENS = True
+SENS = False
 
 """ MTOW vs Endurance """
 
@@ -25,34 +25,41 @@ if END:
     # M.cost = M["b_Mission, Aircraft, Wing"]
     M.cost = M["MTOW"]
     fig, ax = plt.subplots()
-    lower = 1
-    upper = 12 
-    xmin_ = np.linspace(lower, upper, 100)
+    x = np.linspace(1, 12, 500)
     tol = 0.05
+    ws = []
+    xs = []
     for p in [85, 90, 95]:
-        notpassing = True
-        while notpassing:
-            wind = get_windspeed(38, p, 15000, 355)
-            cwind = get_windspeed(38, p, np.linspace(0, 15000, 11)[1:], 355)
-            for vk in M.varkeys["V_{wind}"]:
-                if "Climb" in vk.models:
-                    M.substitutions.update({vk: cwind[vk.idx[0]]})
-                else:
-                    M.substitutions.update({vk: wind})
-            try:
-                bst = sweep_1d(M, tol, M["t_Mission, Loiter"], [lower, upper], solver="mosek")
-                notpassing = False
-            except RuntimeWarning:
-                notpassing = True
-                upper -= 0.1
-                xmin_ = np.linspace(lower, upper, 100)
-    
-        ax.plot(xmin_, bst["cost"].__call__(xmin_), lw=2)
+        wind = get_windspeed(38, p, 15000, 355)
+        cwind = get_windspeed(38, p, np.linspace(0, 15000, 11)[1:], 355)
+        for vk in M.varkeys["V_{wind}"]:
+            if "Climb" in vk.models:
+                M.substitutions.update({vk: cwind[vk.idx[0]]})
+            else:
+                M.substitutions.update({vk: wind})
+        
+        M.substitutions.update({"MTOW": 1000})
+        M.cost = 1/M["t_Mission, Loiter"]
+        sol = M.solve("mosek")
+        upper = sol("t_Mission, Loiter").magnitude
+        xmin_ = x[x < upper + 0.03]
+        xs.append(xmin_)
+
+        del M.substitutions["MTOW"]
+        M.cost = M["MTOW"]
+        bst = sweep_1d(M, tol, M["t_Mission, Loiter"], [1, xmin_[-1]], 
+                       solver="mosek")
+        ws.append(bst["cost"].__call__(xmin_))
+        del M.substitutions["t_Mission, Loiter"]
+
+    ax.fill_between(xs[0], ws[0], np.append(ws[2], [1000]*(len(xs[0])-len(xs[2]))), facecolor="b", edgecolor="None", alpha=0.3)
+    ax.plot(xs[0], ws[0], "b")
+    ax.plot(xs[1], ws[1], "b", lw=2)
+    ax.plot(xs[2], ws[2], "b")
     ax.grid()
     ax.set_ylim([0, 1000])
     ax.set_xlabel("Endurance [days]")
     ax.set_ylabel("Max Take Off Weight [lbf]")
-    ax.legend(["%d Percentile Winds" % a for a in [85, 90, 95]], loc=2, fontsize=15)
     fig.savefig("../../gassolarpaper/mtowvsendurance.pdf", bbox_inches="tight")
 
 """ latitutde mtow """

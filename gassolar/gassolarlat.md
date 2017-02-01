@@ -15,6 +15,7 @@ Mg.substitutions.update({"t_Mission, Loiter": 7})
 Mg.cost = Mg["MTOW"]
 psolar = []
 pgas = []
+faillat = []
 for a in [80, 90, 95]:
     wg = []
     ws = []
@@ -31,7 +32,8 @@ for a in [80, 90, 95]:
                 ws.append(sol("W_{total}").magnitude)
             except RuntimeWarning:
                 ws.append(np.nan)
-                runagain = False
+                faillat.append(l)
+                runagains = False
         else:
             ws.append(np.nan)
         
@@ -75,6 +77,6 @@ ax.set_ylabel("Max Take Off Weight [lbf]")
 labels = ["$\\pm$" + item.get_text() for item in ax.get_xticklabels()]
 labels = ["$\\pm$%d" % l for l in np.linspace(20, 40, len(labels))]
 ax.set_xticklabels(labels)
-ax.legend(["Gas Powered (7-day endurance)", "Solar-electric Powered"], fontsize=15, loc=2)
+ax.legend(["Solar-electric Powered", "Gas Powered (7-day endurance)"], fontsize=15, loc=2)
 fig.savefig("../gassolarpaper/mtowvslat.pdf", bbox_inches="tight")
 ```

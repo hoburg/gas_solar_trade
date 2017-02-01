@@ -71,6 +71,8 @@
  \usepackage{indentfirst}
  \usepackage[labelfont=bf]{caption}
  \usepackage{multirow}
+ \usepackage{setspace}
+ \doublespacing
 
  \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 
@@ -100,7 +102,7 @@
 \maketitle
 
 \begin{abstract}
-    Recently, several companies have invested in developing aircraft that can provide long-endurance (days to weeks) persistent aerial coverage. 
+    Fueled by telecommunication needs and opportunities, there has been a recent push to develop aircraft that can provide long-endurance (days to weeks) persistent aerial coverage.
     These aircraft present a complicated systems engineering problem because of the multifaceted interaction of various requirements, such as endurance, wind speeds, operational capability and coverage footprint.
     In this paper, a comparison of solar-electric and gas powered, long-endurance aircraft is accomplished.
     Geometric programming, a form of convex optimization, can reliably solve problems with thousands of variables in seconds and is used as an optimization tool to evaluate the design trade offs between architectures and requirements.
@@ -141,9 +143,9 @@ $e$ \> Oswald efficiency factor \\
 $E$ \> Young's Modulus [Pa] \\
 $E_{\text{batt}}$ \> energy stored in battery [J] \\
 $E_{\text{sun}}$ \> total solar energy available [Whr] \\
-$(E/S)_{\text{twilight}}$ \> low irradiance solar energy per unit area [Whr/m$^2$] \\
-$(E/S)_{\text{day}}$ \> daily operational solar energy per unit area [Whr/m$^2$] \\
-$(E/S)_{\text{sun}}$ \> available solar energy per unit area [Whr/m$^2$] \\
+$(E/S)_{\text{twilight}}$ \> twilight solar energy [Whr/m$^2$] \\
+$(E/S)_{\text{day}}$ \> daily required solar energy [Whr/m$^2$] \\
+$(E/S)_{\text{sun}}$ \> available solar energy [Whr/m$^2$] \\
 $f_{\text{solar}}$ \> planform area fraction covered in solar cells \\
 $f_{\text{structural}}$ \> fractional structural weight\\
 $g$ \> gravitational constant [m/s$^2$] \\
@@ -176,8 +178,7 @@ $p_{\text{wind}}$ \> percentile wind speed \\
 $P_{0}$ \> magnitude of available solar power [W/m$^2$] \\
 $P_{\text{avionics}}$ \> avionics power [hp] \\
 $P_{\text{oper}}$ \> aircraft operating power [hp] \\
-$(P/S)_{\text{min}}$ \> minium operational solar power \\
-\>per unit area [Whr/m$^2$] \\
+$(P/S)_{\text{min}}$ \> minium operational solar power [Whr/m$^2$] \\
 $P_{\text{shaft}}$ \> engine/motor shaft power [hp] \\
 $P_{\text{sun}}$ \> useable solar power per unit area [W/m$^2$] \\
 $P_{\text{sun surface}}$ \> power emitted at the sun's surface [W/m$^2$] \\
@@ -332,7 +333,7 @@ Because the endurance requirement for solar-electric powered aircraft is set by 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{windvsmonth.pdf}
-    \caption{\textbf{Variation of wind speed by month at 45 degrees latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Lower, upper and middle lines represent 85th, 95th, and 90th percentile winds respectively.}}
+    \caption{\textbf{Variation of wind speed by month at 45 degrees latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Lower, middle and upper lines represent 85th, 90th and 95th percentile winds respectively.}}
 	\label{f:windvsmonth}
 	\end{center}
 \end{figure}
@@ -347,7 +348,7 @@ Solar-electric powered aircraft tend to fly around 60,000 ft to meet payload req
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{altvswind.pdf}
-    \caption{\textbf{Variation of wind speed with altitude at latitudes of 30, 35, and 45 degrees.  Left, right and middle lines represent 85th, 95th, and 90th percentile winds respectively. Wind data includes winds during December for the years 2005-2015.}}
+    \caption{\textbf{Variation of wind speed with altitude at latitudes of 30, 35, and 45 degrees.  Left, middle and right lines represent 85th, 90th and 95th percentile winds respectively. Wind data includes winds during December for the years 2005-2015.}}
 	\label{f:altvswind}
 	\end{center}
 \end{figure}
@@ -389,7 +390,7 @@ Figure~\ref{f:latvswind} shows how the wind speed varies with latitude in the No
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{latvswind.pdf}
-    \caption{\textbf{Variation of wind speed with latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Left bound, right bound and middle lines represent 85th, 95th, and 90th percentile winds respectively. Wind data includes winds during December for the years 2005-2015.}}
+    \caption{\textbf{Variation of wind speed with latitude at altitudes of 15,000 ft, 50,000 ft and 60,000 ft.  Left, middle and right lines represent 85th, 90th and 95th percentile winds respectively. Wind data includes winds during December for the years 2005-2015.}}
 	\label{f:latvswind}
 	\end{center}
 \end{figure}
@@ -995,7 +996,7 @@ This approximation is graphically shown in Figure~\ref{f:arctanfit} for the expe
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{arctanfit.pdf}
-    \caption{\textbf{Comparison of monomial approximation to Equation~\ref{e:gustalpha}, $V/V_{\text{gust}} \in [0,0.7]$. (Log space RMS error = 0.0246)}}
+    \caption{\textbf{Comparison of monomial approximation to Equation~\ref{e:gustalpha} for $V/V_{\text{gust}} \in [0,0.7]$. (Log space RMS error = 0.0246)}}
 	\label{f:arctanfit}
 	\end{center}
 \end{figure}
@@ -1252,7 +1253,7 @@ The driving constraint for the size of the fuselage is to ensure that all of the
     \mathcal{V}_{\text{fuse}} \geq \frac{W_\text{fuel}}{\rho_\text{fuel}}
 \end{equation}
 
-where the fuel is assumed to have a density $\rho_\text{fuel} = 6.01$ [lbf/gallon].  The dimensions of the fuselage is constrained by
+where the fuel is assumed to have a density $\rho_\text{fuel} = 6.01$ [lbf/gallon].  The dimensions of the fuselage are constrained by
 
 \begin{equation}
     \label{e:fusevol2}
@@ -1338,7 +1339,7 @@ To capture throttling effects as aircraft weight decreases, a GP-compatible curv
 
 where $\text{BSFC}_{100\%} = 0.3162$ [kg/kW/hr].\cite{rcvengines}
 Using this approximation the required shaft power determines the $\text{BSFC}$.
-A comparison of the GP-compatible approximation to the manufacturing data from RCV engines is presented in Figure~\ref{f:powervsweightfit}. A comparison of the DF70 data provided by RCV Engine Ltd in Figure~\ref{f:powervsweightfit} to the $\text{BSFC}$ to power curves in Goering\cite{bsfcperf} verify that this performance curve is representative of engines of a similar class. 
+A comparison of the GP-compatible approximation to the manufacturing data from RCV engines is presented in Figure~\ref{f:powervsweightfit}. A comparison of the DF70 data provided by RCV Engine Ltd in Figure~\ref{f:powervsweightfit} to the $\text{BSFC}$ to power curves in Goering\cite{bsfcperf} verify that this performance curve is representative of engines of similar sizes. 
 
 \begin{figure}[H]
 	\begin{center}
@@ -1411,21 +1412,21 @@ The payload weight is assumed to be $W_{\text{payload}} = 10$ [lbs].
 
 \section{Results}
 
-To achieve sizing results for the solar-electric and gas powered long-endurance aircraft the optimization models were solve by minimizing the wing span across different bands of latitudes, shown in Figure~\ref{f:latvsmtowtrade}.
+To compare the gas-powered and solar-electric architectures the optimization models were solved by minimizing the max take off weight across different bands of latitudes, shown in Figure~\ref{f:latvsmtowtrade}. The gas powered optimization model contains 606 free variables and the solar-electric powered optmization model contains between 165 and 585 free variables depending on latitude band requirement. 
 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{mtowvslat.pdf}
-    \caption{\textbf{Trade study of max take off weight and operational latitude bands. Lower, upper and middle curves were evaluated at the 80th, 95th, and 90th percentile winds respectively.  The endurance requirement for the gas powered aircraft in this trade study is 7 days. The next integer latitude value for the solar-electric curves is infeasible.}}
+    \caption{\textbf{Trade study comparing the lowest possible max take off weight across a range of possible latitude band requirements. Each point is a unique solution from the optimization. Lower, middle and upper curves were evaluated at the 80th, 90th and 95th percentile winds respectively.  The endurance requirement for the gas powered aircraft in this trade study is 7 days. The next integer latitude value for each of the solar-electric curves is infeasible for the given assumptions.}}
     \label{f:latvsmtowtrade}
 	\end{center}
 \end{figure}
 
 One way to interpret Figure~\ref{f:latvsmtowtrade} is that a solar-powered aircraft weighing 190 lbs is able to operate between $\pm$30 degrees North latitude in 90th percentile wind speeds.  
 This analysis shows that gas powered architectures are able to operate in more locations than solar-electric powered aircraft.  
-Figure~\ref{f:mtowvslatgas} levels off around 38 degrees latitude because wind speeds are highest at that latitude at 15,000 ft. 
+The gas powered aircraft curves level off around 38 degrees latitude because wind speeds are highest at that latitude at 15,000 ft. 
 Thus, if the gas powered aircraft can fly at 38 degrees latitude it can fly in any band of latitudes.  
-On the other hand, solar-electric powered aircraft design becomes less feasible at higher latitudes because even though wind speeds peak around 42 degrees latitude at 60,000 ft, the combination of lower solar flux and higher wind speeds makes it difficult to reach latitude bands greater than $\pm$30 degrees. 
+On the other hand, solar-electric powered aircraft design becomes infeasible at higher latitudes because even though wind speeds peak around 42 degrees latitude at 60,000 ft, the combination of lower solar flux and higher wind speeds makes it difficult to reach latitude bands greater than $\pm$30 degrees. 
 
 Because gas-powered aircraft are endurance limited by the amount of fuel that they can carry, a trade study was done for the gas powered aircraft to determine how weight increases for longer endurance.
 Figure~\ref{f:spanvsendurance} shows the endurance versus size analysis for a gas powered aircraft by minimizing max take off weight for an aircraft capable of flying at any latitude. 
@@ -1433,7 +1434,7 @@ Figure~\ref{f:spanvsendurance} shows the endurance versus size analysis for a ga
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth]{mtowvsendurance.pdf}
-    \caption{\textbf{Trade study of endurance and size for gas powered architecture.}}
+    \caption{\textbf{Trade study of endurance and size for gas powered architecture., Lower, middle and upper curves were evaluated at the 80th, 90th and 95th percentile winds respectively. Max take off weight was minimized for this analysis.}}
 	\label{f:spanvsendurance}
 	\end{center}
 \end{figure}
@@ -1447,7 +1448,7 @@ By altering the objective function to solar cell area it is observed that when t
      \subfigure[Wingspan\label{f:span}]{\includegraphics{solarobjcomp.pdf}}
      \subfigure[Solar Cell Area\label{f:solarcell}]{\includegraphics{solarobjcomp2.pdf}}
  \end{subfigmatrix}
-    \caption{\textbf{Solar aircraft sizing study for two different objective functions: wing span $b$, and solar cell area $S_{\text{solar}}$.}}
+    \caption{\textbf{Solar aircraft sizing study for two different objective functions: wing span $b$, and solar cell area $S_{\text{solar}}$. Lower, middle and upper curves were evaluated at the 80th, 90th and 95th percentile winds respectively.}}
     \label{f:solarobjcomp}
 \end{figure}
 
@@ -1501,9 +1502,9 @@ Figure~\ref{f:solarcontours} shows a matrix contour map of the solar-electric po
   \subfigure[30th Latitude, 90\% Wind Speed]{\includegraphics{bcontourl30a90.pdf}}
   \subfigure[25th Latitude, 80\% Wind Speed]{\includegraphics{bcontourl25a80.pdf}}
   \subfigure[25th Latitude, 85\% Wind Speed]{\includegraphics{bcontourl25a85.pdf}}
-  \subfigure[25h Latitude, 90\% Wind Speed]{\includegraphics{bcontourl25a90.pdf}}
+  \subfigure[25th Latitude, 90\% Wind Speed]{\includegraphics{bcontourl25a90.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Matrix of contour plots of battery specific energy and solar cell efficiency vs wing span for solar-electric powered aircraft where the wing span is minimized. Each point on the graph corresponds to a unique design. Values of constants other than solar cell efficiency and battery specific energy are given throughout the text.  The infeasible region and contour shapes would change for different assumed contant values.}}
+ \caption{\textbf{Matrix of contour plots of battery specific energy and solar cell efficiency vs wing span for solar-electric powered aircraft where the wing span is minimized. Each point on the graph corresponds to a unique design. Values of constants other than solar cell efficiency and battery specific energy are given throughout the text.  The infeasible region and contour shapes would change for different assumed constant values.}}
  \label{f:solarcontours}
 \end{figure}
 
@@ -1530,7 +1531,7 @@ Therefore, the break-even point for investing in these technologies occurs when 
 
 \section{Conclusion}
 
-Using geometric programming as a form of evaluation of the design space, high level intuition and understanding about design trade studies for long-endurance aircraft and their driving requirements is achieved.  
+Using geometric programming as a means of evaluation of the design space, high level intuition and understanding about design trade studies for long-endurance aircraft and their driving requirements is achieved.  
 One high level discovery is the importance of wind speed.  
 If station keeping during any season or latitude is critical to the mission of a proposed aircraft, then that requirement is more likely to be met by a gas-powered architecture.
 However, if that constraint can be relaxed such that the aircraft only needs to station keep for 80\% of the time, then for certain latitudes, a solar powered aircraft could achieve greater endurance.
