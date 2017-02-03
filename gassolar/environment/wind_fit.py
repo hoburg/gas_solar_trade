@@ -7,6 +7,7 @@ from gpfit.fit import fit
 plt.rc("text", usetex=True)
 plt.rcParams.update({'font.size':15})
 
+GENERATE = False
 PERCT_NORM = 100.0
 WIND_NORM = 100.0
 RHO_NORM = 1.0
@@ -56,7 +57,7 @@ def fit_setup(altitude=(40000, 80000), latitude=45):
 
     return x, y
 
-def plot_fits(xdata, ydata, yfit, latitude, rm=None):
+def plot_fits(xdata, ydata, yfit, latitude):
 
     x1 = np.flipud(np.unique(xdata[0]))
     x2 = np.unique(xdata[1])
@@ -75,19 +76,19 @@ def plot_fits(xdata, ydata, yfit, latitude, rm=None):
     ax.set_xlabel("Air Density [kg/m$^3$]")
     ax.set_ylabel("Wind Speed [m/s]")
     ax.grid()
-    # if rm:
-    #     ax.set_title("Latitude %d, RMS Error = %.3f" % (l, rm))
-    # else:
-    #     ax.set_title("Latitude %d" % l)
     return fig, ax
 
 if __name__ == "__main__":
 
+    if GENERATE:
+        latitude = range(20, 61, 1)
+    else:
+        latitude = [35]
+
     constraintlist = []
     data = {}
 
-    # for l in range(20, 61, 1):
-    for l in [35]:
+    for l in latitude:
         print "Fitting for %d latitude" % l
         altitudestart = range(40000, 50500, 500)
         for j, a in enumerate(altitudestart):
@@ -137,14 +138,17 @@ if __name__ == "__main__":
                 break
             else:
                 print "RMS Error: %.3f, Alt iter=%d" % (rm, j)
-        fig, ax = plot_fits(X, Y, yfit, l, rm=rm)
-        fig.savefig("windfitl%d.pdf" % l, bbox_inches="tight")
+        fig, ax = plot_fits(X, Y, yfit, l)
+        if not GENERATE:
+            fig.savefig("../../gassolarpaper/windfitl%d.pdf" % l,
+                        bbox_inches="tight")
         plt.close()
 
-    df = pd.DataFrame(data).transpose()
-    colnames = np.hstack([["c%d" % d, "e%d1" % d, "e%d2" % d] for d in
-                          range(1, 5, 1)])
-    colnames = np.append(colnames, "alpha")
-    colnames = np.insert(colnames, 0, "latitude")
-    df.columns = colnames
-    # df.to_csv("windaltfitdata.csv")
+    if GENERATE:
+        df = pd.DataFrame(data).transpose()
+        colnames = np.hstack([["c%d" % d, "e%d1" % d, "e%d2" % d] for d in
+                              range(1, 5, 1)])
+        colnames = np.append(colnames, "alpha")
+        colnames = np.insert(colnames, 0, "latitude")
+        df.columns = colnames
+        df.to_csv("windaltfitdata.csv")

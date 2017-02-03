@@ -1,7 +1,9 @@
 "print sensitivities"
+from gassolar.solar.solar import Mission
 
-def sens_table(sols, varnames):
-    with open("../../gassolarpaper/sens.generated.tex", "w") as f:
+def sens_table(sols, varnames,
+               filename="../../gassolarpaper/solarsens.generated.tex"):
+    with open(filename, "w") as f:
         f.write("\\begin{longtable}{lccccccccccccc}\n")
         f.write("\\caption{Sensitivities}\\\\\n")
         f.write("\\toprule\n")
@@ -21,3 +23,16 @@ def sens_table(sols, varnames):
             f.write(vals + "\\\\\n")
         f.write("\\bottomrule\n")
         f.write("\\end{longtable}")
+
+if __name__ == "__main__":
+    sols = []
+    for l in [25, 30]:
+        for p in [85, 90]:
+            M = Mission(latitude=l)
+            M.cost = M["W_{total}"]
+            for vk in M.varkeys["p_{wind}"]:
+                M.substitutions.update({vk: p/100.0})
+            sol = M.solve("mosek")
+            sols.append(sol)
+
+    sens_table(sols, ["p_{wind}", "\\eta_Mission, Aircraft, SolarCells", "\\eta_{charge}", "\\eta_{discharge}", "\\rho_{solar}", "t_{night}", "(E/S)_{irr}", "m_{fac}_Mission, Aircraft, Wing", "h_{batt}", "W_{pay}", "\\eta_{prop}"], filename="test.tex")

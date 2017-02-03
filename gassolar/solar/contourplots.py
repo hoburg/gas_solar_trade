@@ -1,16 +1,9 @@
-from solar import Mission
+" contour plots "
 import matplotlib.pyplot as plt
 import numpy as np
+from solar import Mission
 from plotting import windalt_plot, labelLines
 from gpkit.tools.autosweep import sweep_1d
-
-LATITUDE = False
-WIND = False
-CON = True
-COMP = False
-SENS = False
-
-""" contour """
 
 N = 100
 plt.rcParams.update({'font.size':19})
@@ -45,7 +38,8 @@ for av in [80, 85, 90]:
         midx = []
         for b in bs:
             M.substitutions.update({"b_Mission, Aircraft, Wing": b})
-            M.substitutions.update({"\\eta_Mission, Aircraft, SolarCells": etamax})
+            M.substitutions.update({"\\eta_Mission, Aircraft, SolarCells":
+                                    etamax})
             sol = M.solve("mosek")
             if sol("h_{batt}").magnitude < hmin:
                 M.substitutions.update({"h_{batt}": hmin})
@@ -88,7 +82,8 @@ for av in [80, 85, 90]:
         notpassing = True
         while notpassing:
             try:
-                bst = sweep_1d(M, tol, M["\\eta_Mission, Aircraft, SolarCells"], [lower, upper], solver="mosek")
+                bst = sweep_1d(M, tol, M["\\eta_Mission, Aircraft, SolarCells"],
+                               [lower, upper], solver="mosek")
                 notpassing = False
             except RuntimeWarning:
                 notpassing = True

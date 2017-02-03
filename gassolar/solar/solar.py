@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import os
-from solar_irradiance import get_Eirr
+from gassolar.environment.solar_irradiance import get_Eirr
 from gpkit import Model, Variable, SignomialsEnabled
 from gpkitmodels.aircraft.GP_submodels.wing import WingAero, Wing
 from gpkitmodels.aircraft.GP_submodels.empennage import Empennage
@@ -11,9 +11,9 @@ from gpkitmodels.aircraft.GP_submodels.tail_boom_flex import TailBoomFlexibility
 from gpkitmodels.helpers import summing_vars
 
 basepath = os.path.abspath(__file__).replace(os.path.basename(__file__), "")
-windpath = basepath.replace(os.sep+"solar"+os.sep, os.sep+"environment"+os.sep)
-DF = pd.read_csv(windpath + "windaltfitdata.csv")
-DF2 = pd.read_csv(basepath + "solarirrdata.csv")
+path = basepath.replace(os.sep+"solar"+os.sep, os.sep+"environment"+os.sep)
+DF = pd.read_csv(path + "windaltfitdata.csv")
+DF2 = pd.read_csv(path + "solarirrdata.csv")
 
 class Aircraft(Model):
     "vehicle"

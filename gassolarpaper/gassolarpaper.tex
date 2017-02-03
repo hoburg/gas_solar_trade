@@ -72,9 +72,8 @@
  \usepackage[labelfont=bf]{caption}
  \usepackage{multirow}
  \usepackage{setspace}
- % \usepackage[dvipdfmx]{graphicx} 
- % \usepackage{bmpsize}
- % \doublespacing
+ \usepackage[sort, numbers]{natbib}
+ \doublespacing
 
  \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 
@@ -335,7 +334,7 @@ Because the endurance requirement for solar-electric powered aircraft is set by 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=501,natheight=385]{windvsmonth.pdf}
-    \caption{\textbf{Wind speeds by month at 30 degrees latitude.  Bands represent 80th, 90th and 95th percentile winds.}}
+    \caption{\textbf{Winds at 30$^{\circ}$ latitude.  Bands represent 80th, 90th and 95th percentiles. Winds peak in winter.}}
 	\label{f:windvsmonth}
 	\end{center}
 \end{figure}
@@ -350,7 +349,7 @@ Solar-electric powered aircraft tend to fly around 60,000 ft to meet payload req
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=538,natheight=405]{altvswind.pdf}
-    \caption{\textbf{Wind speeds by altitude. Bands represent 80th, 90th and 95th percentile winds.}}
+    \caption{\textbf{Winds tend to increase up to 35$^{\circ}$ latitude. Bands represent 80th, 90th and 95th percentiles.}}
 	\label{f:altvswind}
 	\end{center}
 \end{figure}
@@ -430,10 +429,10 @@ This analysis shows high wind speeds can last for days at a time.
 An aircraft designed for 90th percentile winds will likely be able to remain on station for 90\% of the time.  
 However, during times that wind speeds exceed the 90th percentile they could last for days at a time, possibly requiring the aircraft to drift off station, relocate or land. 
 
-\section{Geometric Programming\cite{gp}}
+\section{Geometric Programming}
 
 Sizing long-edurance aircraft for the stated requirements was accomplished using geometric programming. 
-Geometric programs (GPs) are a mathematical optimization problem characterized by the convexity of the objective and constraint functions. GPs have the form
+Geometric programs (GPs) are a mathematical optimization problem characterized by the convexity of the objective and constraint functions.\cite{gp} GPs have the form
 
 \begin{align} 
 \label{e:gpform}
@@ -494,7 +493,7 @@ where $V_{\text{ref}} = 100$ [m/s] and $p_{\text{wind}}$ is the percentile wind 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=511,natheight=405]{windfitl35.pdf}
-    \caption{\textbf{Posynomial approximation to wind speed data comparison at 35$^{\circ}$ latitude. (Log space RMS error = 0.043.)}}
+    \caption{\textbf{Posynomial approximation to wind speed data at 35$^{\circ}$ latitude. (Log-space RMS error = 0.043.)}}
 	\label{f:windfitl35}
 	\end{center}
 \end{figure}
@@ -530,7 +529,7 @@ Equations~\eqref{e:solarreq} and~\eqref{e:solarbatt} are graphically represented
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.7\textwidth,natwidth=572,natheight=405]{lat30.pdf}
-    \caption{\textbf{Solar power on Dec 21st at $30^{\circ}$ North. 24-hour operationality achieved when red area exceeds blue, magenta and green areas. }}
+    \caption{\textbf{Solar power on Dec 21st at 30$^{\circ}$ North. 24-hour operationality achieved when red area exceeds blue, magenta and green areas. }}
 	\label{f:lat30}
 	\end{center}
 \end{figure}
@@ -753,7 +752,7 @@ The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from th
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=536,natheight=405]{JH01polar.pdf}
-    \caption{\textbf{Posynomial fit (solid lines) to XFOIL data (circles) comparison.  (Log-space RMS error~=~0.00489.)}}
+    \caption{\textbf{Posynomial fit (solid lines) to XFOIL data (circles).  (Log-space RMS error~=~0.00489.)}}
 	\label{f:JH01polar}
 	\end{center}
 \end{figure}
@@ -992,13 +991,13 @@ Because the gust velocity is assumed to be vertical to the flight path, the loca
     \alpha_{\text{gust}}(y)  = \tan^{-1}\left(\frac{V_{\text{gust}}(y)}{V} \right).
 \end{equation}
 
-Because the $\arctan$ function is not GP compatible, a monomial approximation was calculated using techniques described by Hoburg et. al\cite{fitting}.
+Because the $\arctan$ function is not GP compatible, a monomial approximation was calculated using techniques described by Hoburg et.~al\cite{fitting}.
 This approximation is graphically shown in Figure~\ref{f:arctanfit} for the expected range of $V_{\text{gust}}/V \in [0, 0.7]$.  
 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=517,natheight=408]{arctanfit.pdf}
-    \caption{\textbf{Monomial approximation to Equation~\ref{e:gustalpha} comparison for $V/V_{\text{gust}} \in [0,0.7]$. (Log-space RMS error = 0.0246)}}
+    \caption{\textbf{Monomial approximation to Equation~\ref{e:gustalpha}. (Log-space RMS error = 0.0246)}}
 	\label{f:arctanfit}
 	\end{center}
 \end{figure}
@@ -1239,7 +1238,7 @@ A comparison of the XFOIL data and Equation~\eqref{e:taildrag} is shown in Figur
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=538,natheight=405]{taildragpolar.pdf}
-    \caption{\textbf{Posynomial equation (solid lines) to XFOIL data (circles) comparison. (Log space RMS error = 0.0173)}}
+    \caption{\textbf{Posynomial fit (solid lines) to XFOIL data (circles). (Log-space RMS error = 0.0173)}}
 	\label{f:taildragpolar}
 	\end{center}
 \end{figure}
@@ -1314,7 +1313,7 @@ where $W_{\text{engine-ref}} = 10$ [lbs] and $P_{\text{ref}} = 10$ [hp].  Equati
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=524,natheight=405]{powervsweightfit.pdf}
-    \caption{\textbf{Power law fit to University of North Dakota data\cite{gasengine} comparison. (Log space RMS error = 0.34)}}
+    \caption{\textbf{Power law fit to University of North Dakota engine weight data\cite{gasengine}. (Log-space RMS error = 0.34)}}
 	\label{f:powervsweightfit}
 	\end{center}
 \end{figure}
@@ -1346,7 +1345,7 @@ A comparison of the GP-compatible approximation to the manufacturing data from R
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=530,natheight=414]{powertobsfcfit.pdf}
-    \caption{\textbf{Representative engine performance function based on RCV Engine Ltd data.  (Log-space RMS error = 0.007) }}
+    \caption{\textbf{Representative engine performance fit based on RCV Engine Ltd data.  (Log-space RMS error = 0.007) }}
 	\label{f:powervsweightfit}
 	\end{center}
 \end{figure}
@@ -1414,14 +1413,14 @@ The payload weight is assumed to be $W_{\text{payload}} = 10$ [lbs].
 
 \section{Results}
 
-To compare the gas-powered and solar-electric architectures the optimization models were solved by minimizing the max take off weight across different bands of latitudes. Figure~\ref{latvsmtowtrade} shows this trade study evaluated at the 80th, 90th and 95th percentile wind speeds.  
-Each point on the graph is a unique solution to the optimization model for the stated assumptions and contants.
+To compare the gas-powered and solar-electric architectures the optimization models were solved by minimizing the max take off weight across different bands of latitudes. Figure~\ref{f:latvsmtowtrade} shows this trade study evaluated at the 80th, 90th and 95th percentile wind speeds.  
+Each point on the graph is a unique solution to the optimization model for the stated assumptions and constants.
 The gas powered optimization model contains 606 free variables and the solar-electric powered optmization model contains between 165 and 585 free variables depending on latitude band requirement. 
 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=528,natheight=405]{mtowvslat.pdf}
-    \caption{\textbf{Gas optimization model feasible for all latitudes. Next integer latitude value for each solar-electric curve is infeasible.}}
+    \caption{\textbf{Gas archicture feasible for all latitudes. Next integer latitude for each solar-electric curve is infeasible.}}
     \label{f:latvsmtowtrade}
 	\end{center}
 \end{figure}
@@ -1473,7 +1472,7 @@ Therefore, by adding a structural model the optimization seeks a smaller wing to
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=519,natheight=405]{windaltoper.pdf}
- \caption{\textbf{Comparison of structural fraction and detailed structural models highlights trade between wing weight and air density.}}
+ \caption{\textbf{Comparison of simplified and detailed structural models highlights trade between wing weight and air density.}}
  \label{f:altoper}
 	\end{center}
 \end{figure}
@@ -1487,7 +1486,7 @@ If it is assumed that wind speeds are negligible or that station-keeping is not 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=555,natheight=415]{polarmission.pdf}
-    \caption{\textbf{Wind speed constraint moves lift to drag ratio from optimum endurance ratio $\text{max}(C_L^{1.5}/C_D)$ (plus sign). Solid lines are drag polars.}}
+    \caption{\textbf{Wind speed constraint moves lift to drag ratio off maximum $(C_L^{1.5}/C_D)$ point (plus signs). Solid lines are drag polars.}}
  \label{f:polarmission}
 	\end{center}
 \end{figure}
@@ -1495,9 +1494,8 @@ If it is assumed that wind speeds are negligible or that station-keeping is not 
 The solar aircraft size and design depends on the assumed solar cell efficiency and battery specific energy. 
 By solving the model for different assumed solar cell efficiency and battery specific energy values a broader picture of the design space is achieved.   
 Figure~\ref{f:solarcontours} shows a matrix contour map of the solar-electric powered aircraft for multiple solar cell efficiencies, battery energy densities, latitudes, and percentile wind speeds.
-Each point in Figure~\ref{f:solarcontours} is a unique design and was solved by minizing wing span. 
-Values of constants other than solar cell efficiency are given throughout the text.
-The infeasible regions and contour shapes would charge for different assumed constant values. 
+Each point in Figure~\ref{f:solarcontours} is a unique design for minimum wing span. 
+The infeasible regions and contour shapes would change for different assumed constant values. 
 
  \begin{figure}[H]
  \begin{subfigmatrix}{3}% number of columns
@@ -1511,7 +1509,7 @@ The infeasible regions and contour shapes would charge for different assumed con
   \subfigure[25th Latitude, 85\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl25a85.pdf}}
   \subfigure[25th Latitude, 90\% Wind Speed]{\includegraphics[natwidth=542,natheight=414]{bcontourl25a90.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Operating at higher latitudes requires both high performing batteries and solar cells.}}
+ \caption{\textbf{Maxtrix of minimum wing span solar-electric aircraft designs. Values of assumed constants are given throughout the text.}}
  \label{f:solarcontours}
 \end{figure}
 
@@ -1629,7 +1627,7 @@ The redesigned airfoil was named \emph{JH01}. We would like to thank Mark Drela 
      \subfigure[$C_L=0.0$\label{f:cpmin}]{\includegraphics[width=0.35\textwidth,natwidth=612,natheight=792,angle=-90]{cpmin.pdf}}
      \subfigure[$C_L=1.35$\label{f:cpmax}]{\includegraphics[width=0.35\textwidth,natwidth=612,natheight=792,angle=-90]{cpmax.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number, $Re=\num{3d5}$.}}
+ \caption{\textbf{Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number $Re=\num{3d5}$.}}
  \label{f:jhcps}
 \end{figure}
 

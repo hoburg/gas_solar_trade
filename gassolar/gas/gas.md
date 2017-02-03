@@ -56,6 +56,13 @@ if END:
     ax.plot(xs[0], ws[0], "b")
     ax.plot(xs[1], ws[1], "b", lw=2)
     ax.plot(xs[2], ws[2], "b")
+    for i, p in enumerate(["80%", "90%", "95%"]):
+        weight = ws[i].magnitude
+        we = 500 + min(abs(weight-500))
+        if we not in weight:
+            we = 500 - min(abs(weight-500))
+        end = xs[i][weight==we][0]
+        ax.annotate(p, xy=(end,we), xytext=(end+0.3,we+0.01), arrowprops=dict(arrowstyle="-"), fontsize=12)
     ax.grid()
     ax.set_ylim([0, 1000])
     ax.set_xlabel("Endurance [days]")

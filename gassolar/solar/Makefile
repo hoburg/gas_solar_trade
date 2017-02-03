@@ -1,3 +1,7 @@
 all:
-	python -c 'import gpkit.tools; exec gpkit.tools.mdmake("solar.md")'
-	pandoc --template ../default.latex solar.md.tex.md -o "solar.pdf"
+	ipython contourplots.py
+	ipython objectivecomp.py
+	ipython print_sens.py
+	ipython solarlat.py
+	ipython arctan_fit.py
+	ipython wind_struct.py
