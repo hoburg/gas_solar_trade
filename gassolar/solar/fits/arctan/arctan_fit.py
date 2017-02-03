@@ -23,4 +23,4 @@ ax.set_xlabel("$V_{\\mathrm{gust}}/V$")
 ax.set_ylabel("$\\alpha_{\\mathrm{gust}}$")
 ax.legend(["$\\arctan{(V_{\\mathrm{gust}}/V)}$",
            "$0.905 (V_{\\mathrm{gust}}/V)^{0.961}$"], loc=2, fontsize=15)
-fig.savefig("../../gassolarpaper/arctanfit.pdf", bbox_inches="tight")
+fig.savefig("../../../../gassolarpaper/arctanfit.pdf", bbox_inches="tight")
