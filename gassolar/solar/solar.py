@@ -284,7 +284,6 @@ class Mission(Model):
         for l in range(20, latitude+1, 1):
             mission.append(FlightSegment(self.solar, latitude=l, day=day))
         loading = self.solar.loading(self.solar["W_{cent}"], self.solar["W_{wing}"], mission[-1]["V"], mission[-1]["C_L"])
-        # loading = self.solar.loading(self.solar["W_{cent}"], mission[-1]["\\rho"], mission[-1]["V"], self.solar.wing["S"])
         for vk in loading.varkeys["N_{max}"]:
             if "ChordSparL" in vk.descr["models"]:
                 loading.substitutions.update({vk: 5})
