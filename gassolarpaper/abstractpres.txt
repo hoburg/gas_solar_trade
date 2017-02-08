@@ -1,0 +1,8 @@
+Presentation Abstract (less formal)
+
+    Because of advancements in telecommunication, there has been a recent push to develop aircraft that can provide long-endurance (days to weeks) persistent aerial coverage.
+    These aircraft present a complicated systems engineering problem because of the multifaceted interaction of various requirements, such as endurance, wind speeds, operational capability and coverage footprint.
+    A rapid form of convex optimization, geometric programming, can rapidly compare trade-offs between solar-electric and gas powered long-endurance aircraft. 
+    Gas powered aircraft are obviously limited in their endurance by the amount of fuel that they can carry, but are shown to have greater operational capability. 
+    While solar-electric powered aircraft can theoretically fly for months, they are operationally limited by reduced solar flux during the winter and wind speeds at higher latitudes.
+    A detailed trade study between gas-powered and solar-powered aircraft is presented to determine which architecture is best suited to meet a given set of requirements, and what is the optimum size and endurance of that platform.
