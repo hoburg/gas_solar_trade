@@ -13,7 +13,7 @@ etamax = []
 lines = []
 midx = []
 passing = True
-for lat in range(20, 35, 1):
+for lat in range(20, 44, 1):
     if passing:
         hmax = 500
         M = Mission(latitude=lat)
@@ -23,16 +23,16 @@ for lat in range(20, 35, 1):
         for vk in M.varkeys["p_{wind}"]:
             M.substitutions.update({vk: 90/100.0})
         del M.substitutions["h_{batt}"]
-        notpassing = True
         M.substitutions.update({"\\eta_Mission, Aircraft, SolarCells": 0.4})
         M.cost = M["h_{batt}"]
+        sol = M.solve("mosek")
+        hmin = sol["cost"].magnitude + 1e-3
+        del M.substitutions["\\eta_Mission, Aircraft, SolarCells"]
+        M.cost = M["\\eta_Mission, Aircraft, SolarCells"]
+        xmin_ = np.linspace(hmin, hmax, 100)
+        tol = 0.01
+        notpassing = True
         try:
-            sol = M.solve("mosek")
-            hmin = sol["cost"].magnitude + 1e-3
-            del M.substitutions["\\eta_Mission, Aircraft, SolarCells"]
-            M.cost = M["\\eta_Mission, Aircraft, SolarCells"]
-            xmin_ = np.linspace(hmin, hmax, 100)
-            tol = 0.01
             bst = autosweep_1d(M, tol, M["h_{batt}"], [hmin, hmax],
                                solver="mosek")
             if lat % 4 == 0:
@@ -47,10 +47,10 @@ for lat in range(20, 35, 1):
         except RuntimeWarning:
             passing = False
 
-ax.fill_between(xmin_, bst.sample_at(xmin_)["cost"], max(etamax),
-                edgecolor="r", lw=2, hatch="/", facecolor="None", zorder=100)
+# ax.fill_between(xmin_, bst.sample_at(xmin_)["cost"], max(etamax),
+#                 edgecolor="r", lw=2, hatch="/", facecolor="None", zorder=100)
 labelLines(lines, align=False, xvals=midx, zorder=[10]*len(lines))
-ax.text(425, 0.36, "Infeasible")
+# ax.text(425, 0.36, "Infeasible")
 ax.set_ylabel("Solar Cell Efficiency")
 ax.set_xlabel("Battery Specific Energy [Whr/kg]")
 ax.set_xlim([250, 500])
