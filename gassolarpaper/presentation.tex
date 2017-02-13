@@ -22,15 +22,15 @@
 \frametitle{Long-endurance UAV Applications}
 \includegraphics[height=4cm]{aquila.jpg}
     \pause
-\Put(-130,90){\includegraphics[height=4cm]{titan.jpg}}
+\Put(-150,90){\includegraphics[height=4cm]{titan.jpg}}
     \pause
-\Put(-110,80){\includegraphics[height=4cm]{orion.jpg}}
+\Put(-130,80){\includegraphics[height=4cm]{orion.jpg}}
     \pause
-\Put(-90,70){\includegraphics[height=4cm]{globalhawk.jpg}}
+\Put(-100,70){\includegraphics[height=4cm]{globalhawk.jpg}}
     \pause
-\Put(-70,60){\includegraphics[height=4cm]{vanilla.jpg}}
+\Put(-80,60){\includegraphics[height=4cm]{vanilla.jpg}}
     \pause
-\Put(-70,60){\includegraphics[height=3cm]{jho.jpeg}}
+\Put(-60,60){\includegraphics[height=3cm]{jho.jpeg}}
 
 \end{frame}
  
@@ -58,8 +58,10 @@
     \frametitle{Latitude Requirement}
 
     \begin{center}
+        (Example: operate between $\pm30^{\circ}$ latitude)
         \includegraphics[width=0.8\textwidth]{worldwinds.jpg} \\
-        95th Percentile Winds in 2015
+        \scriptsize
+        95th Percentile Winds in 2015 at 15,000 ft
     \end{center}
 
 \end{frame}
@@ -69,6 +71,7 @@
 
     \begin{center}
     \includegraphics[width=0.7\textwidth]{latvswind.pdf} \\
+    \scriptsize
     80th, 90th, 95th Percentile Winds
     \end{center}
 
@@ -80,7 +83,7 @@
     \begin{columns}
         \column{0.45\textwidth}
         \begin{itemize}
-            \item Gas: determine by payload
+            \item Gas: determined by payload
                 \begin{itemize}
                     \item (5,000 - 25,000 ft)
                     \end{itemize}
@@ -221,7 +224,9 @@
     \[ C_D \geq C_{d_0} + c_{d_p} + \frac{C_L^2}{\pi e A} \]
 
     \begin{center}
+    aircraft drag $\geq$ non-wing drag + wing profile drag + induced drag
     \includegraphics[width=0.7\textwidth]{JH01polar.pdf} \\
+    \scriptsize
     JHO airfoil profile drag
     \end{center}
     
@@ -306,6 +311,43 @@
     \begin{center}
     \includegraphics[width=1.0\textwidth]{simpleaircraft.pdf}
     \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Configuration}
+    
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{center}
+        Component Weight
+        \end{center}
+        \column{0.5\textwidth}
+        \begin{center}
+        Component Drag
+        \end{center}
+    \end{columns}
+
+    \begin{columns}
+        \column{0.5\textwidth}
+        \scriptsize
+        \begin{align*}
+        W_{\text{skin}} &\geq 2 \rho_{A_{\text{cfrp}}} S g \\
+        W_{\text{boom}} &\geq \pi \rho_{\text{cfrp}} t_0 d l_{\text{h}}g \left( 1 - \frac{1}{2} k\right) \\
+        W_{\text{h}}/m_{\text{fac}} &\geq \rho_{\text{foam}} \frac{S_{\text{h}}^2}{b_{\text{h}}} \bar{A} + g\rho_{A_{\text{cfrp}}} S_{\text{h}} \\
+        W_{\text{v}}/m_{\text{fac}} &\geq \rho_{\text{foam}} \frac{S_{\text{v}}^2}{b_{\text{v}}} \bar{A} + g\rho_{A_{\text{cfrp}}} S_{\text{v}} \\
+            W_{\text{fuse}} &\geq S_{\text{fuse}} \rho_{A_{\text{cfrp}}} g
+        \end{align*}
+        \column{0.5\textwidth}
+        \scriptsize
+        \begin{align*}
+        D_{\text{boom}} &\geq \frac{1}{2} C_f \rho V^2 l_{\text{h}}\pi d \\
+        D_{\text{fuse}} &\geq C_f k_{\text{fuse}} \frac{1}{2} \rho V^2 S_{\text{fuse}} \\
+        C_f &\geq \frac{0.455}{Re^{0.3}} \\
+        D_{\text{h}} &\geq \frac{1}{2} c_{d_{\text{h}}} \rho V^2 S_{\text{h}} \\
+        D_{\text{v}} &\geq \frac{1}{2} c_{d_{\text{v}}} \rho V^2 S_{\text{v}} 
+        \end{align*}
+    \end{columns}
 
 \end{frame}
 
