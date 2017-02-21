@@ -5,7 +5,10 @@
 \usepackage[utf8]{inputenc}
 \def\Put(#1,#2)#3{\leavevmode\makebox(0,0){\put(#1,#2){#3}}}
 \usepackage{tikz}
-  
+\usetikzlibrary{arrows,shapes}
+ \usepackage[sort, numbers]{natbib}
+ \usepackage{siunitx}
+\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
    
 %Information to be included in the title page:
 \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
@@ -33,36 +36,56 @@
 \Put(-60,60){\includegraphics[height=3cm]{jho.jpeg}}
 
 \end{frame}
+
+\begin{frame}
+    \frametitle{Problem}
+
+    How do you hold a 10 lb payload in the air for a long time? \\~\\
+    \pause
+    Requirements:
+    \begin{itemize}
+        \pause
+        \item Latitude
+        \pause
+        \item Altitude 
+        \pause
+        \item Wind speed ($V \geq V_{\text{wind}}(\text{Lat, Alt, Percentile, Day})$)
+    \end{itemize}
+
+\end{frame}
  
 \begin{frame}
-    \frametitle{Limitations on Endurance}
+    \frametitle{Energy Limitations on Endurance}
 
+    \pause
     \begin{itemize}
         \item Gas: fuel 
+            \pause
         \item Solar-electric: winter solstice \\~\\
     \end{itemize}
 
-    
+    \pause
     At 30$^{\circ}$ latitude:
     \begin{columns}
         \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{windvsmonth.pdf}
-        
-        \column{0.5\textwidth}
         \includegraphics[width=1.0\textwidth]{eirrvsmonth.pdf}
+        
+        \pause
+        \column{0.5\textwidth}
+        \includegraphics[width=1.0\textwidth]{windvsmonth.pdf}
     \end{columns}
 
 \end{frame}
 
 \begin{frame}
     \frametitle{Latitude Requirement}
-
+    
     \begin{center}
-        (Example: operate between $\pm30^{\circ}$ latitude)
         \includegraphics[width=0.8\textwidth]{worldwinds.jpg} \\
         \scriptsize
-        95th Percentile Winds in 2015 at 15,000 ft
+        95th Percentile Winds in 2015 at 15,000 ft 
     \end{center}
+    
 
 \end{frame}
 
@@ -81,20 +104,24 @@
     \frametitle{Operating Altitude}
     
     \begin{columns}
+        \column{0.55\textwidth}
+        \includegraphics[width=1.0\textwidth]{altvswind.pdf}
+
+        \pause
+        
         \column{0.45\textwidth}
         \begin{itemize}
             \item Gas: determined by payload
                 \begin{itemize}
                     \item (5,000 - 25,000 ft)
                     \end{itemize}
+                    \pause
             \item Solar-electric: optimized 
                 \begin{itemize}
                     \item (55,000 - 70,000 ft)
                     \end{itemize}
                 \end{itemize}
         
-        \column{0.55\textwidth}
-        \includegraphics[width=1.0\textwidth]{altvswind.pdf}
     \end{columns}
 
 \end{frame}
@@ -117,28 +144,78 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{How to set up the problem?}
+
+    \pause 
+    \begin{columns}
+        \column{0.6\textwidth}
+        \includegraphics[width=1.0\textwidth]{simpleaircraft2.pdf}
+        
+        \column{0.4\textwidth}
+        \begin{itemize}
+            \pause
+            \item Wind speeds
+            \pause
+            \item Solar energy
+            \pause
+            \item Endurance
+            \pause
+            \item Structural loads
+            \pause
+            \item Control authority
+            \pause
+            \item Aerodynamics
+            \pause
+            \item Powerplant
+            \pause
+            \item Weights
+            \pause
+            \item Materials \\~\\
+            \end{itemize}
+    \end{columns}
+    
+    \pause
+    \begin{columns}
+        \column{0.6\textwidth}
+    \begin{center}
+       number of independent variables
+    \end{center}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{center}
+        Gas: 607 
+        \end{center}
+        
+        \column{0.5\textwidth}
+        \begin{center}
+        Solar: 375
+        \end{center}
+        
+    \end{columns}
+        \column{0.4\textwidth}
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}
     \frametitle{Geometric Programming}
     \begin{itemize}
+        \pause
         \item Non-linear optimization \\~\\
-        \item Can be solved extremely quickly \\~\\
+        \pause
+        \item Can be solved extremely quickly ($\sim 0.1$ sec)\\~\\
+        \pause
+        \item Numerically stable \\~\\
+        \pause
         \item Guaranteed global optimum \\~\\
+        \pause
         \item No initial guess
         \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Example GP}
+    \frametitle{GP Form}
 
-    \begin{columns}
-        \column{0.5\textwidth}
-        Form:
-        \column{0.5\textwidth}
-        Example:
-    \end{columns}
-    
-    \begin{columns}
-        \column{0.5\textwidth}
-        \scriptsize
         \begin{align*}
             \text{minimize } &g_0(x) \\
             \text{subject to } &f_i(x) = 1, &i &= 1,\dots,m\\
@@ -150,23 +227,145 @@
             g(\bold{x}) &= \displaystyle\sum_{k=1}^K c_k x_1^{a_{1_k}} x_2^{a_{2_k}} \dotsm x_n^{a_{n_k}}.
         \end{align*}
 
-        \column{0.5\textwidth}
-        \scriptsize
-        \begin{align*}
-            \text{minimize } & x^{-1}y^{-1/2}z^{-1} + 2.3xz + 4xyz\\
-            \text{subject to } &\frac{1}{3}x^{-2}y^{-2} + \frac{4}{3}y^{1/2}z^{-1} \leq 1\\
-                              &x + 2y + 3z \leq 1
-        \normalsize
-        \end{align*}
-
-    \end{columns}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Optimizing Wind Speed}
+    \frametitle{Bag of Constraints}
+    \begin{columns}
+        \column{0.5\textwidth}
+    \begin{itemize}
+        \scalebox{0.25}{\parbox{1.0\linewidth}{%
+        \item Wind speed
+        \begin{align*}
+        V \geq V_{\text{wind}} \\
+        \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{7.213} &\geq 2918\rho^{7.587}p_{\text{wind}}^{9.37} + \num{1.58d-10}\rho^{-6.074}p_{\text{wind}}^{60.421} \\
+                                                                    &+ \num{4.05d-16}\rho^{-9.879}p_{\text{wind}}^{13.204} + 1048\rho^{6.33}p_{\text{wind}}^{46.232} 
+\end{align*}
+    
+        \item Solar energy
+        \begin{align*}
+        (E/S)_{\text{sun}}  &\geq (E/S)_{\text{day}} + \frac{E_{\text{batt}}}{\eta_{\text{charge}}\eta_{\text{solar}} S_{\text{solar}}} \\
+    E_{\text{batt}} &\geq \frac{P_{\text{oper}}t_{\text{night}}}{\eta_{\text{discharge}}} + (E/S)_{\text{twilight}} \eta_{\text{solar}} S_{\text{solar}} \\
+    (P/S)_{\text{min}} &= \frac{P_{\text{oper}}}{\eta_{\text{solar}} S_{\text{solar}}} \\
+    \eta_{\text{motor}} P_{\text{oper}} &\geq P_{\text{shaft}} + P_{\text{avionics}}\\
+            (E/S)_{\text{twilight}}) &= 0.00315661 ((P/S)_{\text{min}})^{2.02484} \\
+            (E/S)_{\text{day}} &= 14.1013((P/S)_{\text{min}})^{0.918619} \\
+            S_{\text{solar}} & \leq f_{\text{solar}}S
+        \end{align*}
+        
+    \item Breguet Endurance
+        \begin{align*}
+        \sqrt{W_i W_{i+1}} &= \frac{1}{2} \rho_i V_i^2 C_{L_i} S \\
+        z_{bre_i} &\geq \frac{P_{\text{shaft}_i}t_i \text{BSFC} g}{\sqrt{W_i W_{i+1}}}\\
+        \frac{W_{\text{fuel}_i}}{W_{i+1}} &\geq z_{bre_i} + \frac{z_{bre_i}^2}{2} + \frac{z_{bre_i}^3}{6} + \frac{z_{bre_i}^3}{24} 
+        \end{align*} 
+    \item Steady Level Flight
+        \begin{align*}
+            T &\geq \frac{1}{2} \rho V^2 C_D S\\
+            W &= \frac{1}{2} \rho V^2 C_L S \\
+            P_{\text{shaft}} &= \frac{TV}{\eta_{\text{prop}}}
+        \end{align*}
+        
+    \item Aerodynamics
+        \begin{align*}
+        C_D \geq C_{d_0} + c_{d_p} + \frac{C_L^2}{\pi e A} \\
+        c_{d_p}^{3.72} &\geq 0.0247C_L^{2.49}Re^{-1.11} + 2.03e^{-7}C_L^{12.7}Re^{-0.338} + 6.35e^{10}C_L^{-0.243}Re^{-3.43} \nonumber \\
+                       &+ 6.49e^{-6}C_L^{-1.9}Re^{-0.681} \\
+        Re &= \frac{\rho V S/b}{\mu}
+        \end{align*}
+
+    \item Fuselage
+        \begin{align*}
+            \mathcal{V}_{\text{fuse}} &\geq \frac{W_{\text{fuel}}}{\rho_{\text{fuel}}} \\
+            \mathcal{V}_{\text{fuse}} & \leq \frac{4}{3}\pi \frac{l_{\text{fuse}}}{2}R_{\text{fuse}}^2 \\
+            3 \left( \frac{S_{\text{fuse}}}{\pi} \right)^{1.6075} &\geq 2(2l_{\text{fuse}}R_{\text{fuse}})^{1.6075} + (4R_{\text{fuse}}^2)^{1.6075} \\
+            W_{\text{fuse}} &\geq S_{\text{fuse}} \rho_{A_{\text{cfrp}}} g \\
+        D_{\text{fuse}} &\geq C_f k_{\text{fuse}} \frac{1}{2} \rho V^2 S_{\text{fuse}} \\
+        C_f &\geq \frac{0.455}{Re^{0.3}}\\
+            k_{\text{fuse}} &\geq 1 + \frac{60}{(l_{\text{fuse}}/2R_{\text{fuse}})^3} + \frac{(l_{\text{fuse}}/2R_{\text{fuse}})}{400}
+        \end{align*}
+
+
+}}
+    \end{itemize}
+    
+    \column{0.5\textwidth}
+    \begin{itemize}
+        \scalebox{0.25}{\parbox{1.0\linewidth}{%
+        \item Bending Model
+        \begin{align*}
+            \bar{q}(y) \equiv \frac{q(y)b}{N_{\text{max}}W_{\text{cent}}} &= \frac{2}{1+\lambda} \left( 1 + (\lambda - 1) \frac{2y}{b} \right) \\
+            W_{\text{cent}} &\geq W_{\text{fuel}} + W_{\text{fuselage}} + W_{\text{engine}} + W_{\text{payload}} + W_{\text{empennage}} \\
+            W_{\text{cent}} &\geq W_{\text{payload}} + W_{\text{motor}} + W_{\text{empennage}} \\
+    \bar{q}(y) = \frac{q(y)b}{W_{\text{cent}}N_{\text{max}}} &\geq \bar{c}(y) \left[1 + \frac{c_{l_{\alpha}}}{C_L} \alpha_{\text{gust}} (y) \left(1 + \frac{W_{\text{wing}}}{W_{\text{cent}}} \right) \right] \\
+            W_{\text{wing}} &\geq W_{\text{spar}} + W_{\text{skin}} \\
+            W_{\text{wing}} &\geq W_{\text{spar}} + W_{\text{skin}} + W_{\text{batt}} + W_{\text{solar}} \\
+            \alpha_{\text{gust}}(y) &= \tan^{-1}\left(\frac{V_{\text{gust}}(y)}{V} \right) \\
+        \mathcal{S}_{i+1} &\geq \mathcal{S}_i + \frac{q_{i+1} + q_i}{2} \Delta y \\
+        \mathcal{M}_{i+1} &\geq \mathcal{M}_i + \frac{\mathcal{S}_{i+1} + \mathcal{S}_i}{2} \Delta y \\
+        \Theta_{i} &\geq \Theta_{i+1} + \frac{1}{2} \left(\frac{\mathcal{M}_i}{EI_i} + \frac{\mathcal{M}_{i-1}}{EI_{i-1}} \right) \Delta y \\
+        w_{i} &\geq w_{i+1} + \frac{1}{2} (\Theta_i + \Theta_{i-1}) \Delta y \\
+        I_i &\leq 2w_{\text{cap}_i}t_{\text{cap}_i}\left(\frac{h_{\text{cap}_i}}{2}\right)^2 \\
+        c(y)\tau_t &\geq h_{\text{cap}_i} + 2t_{\text{cap}_i} \\
+        c(y)\tau_w &\geq w_{\text{cap}_i} \\
+        \Delta W_i &\geq \rho_{\text{cfrp}} w_{\text{cap}_i}t_{\text{cap}_i} \frac{b/2}{n-1}g \\
+        W_{\text{spar}} &\geq 2 \sum\limits_{1}^{n-1} \Delta W_i 
+        \end{align*}
+
+    \item Empennage
+        \begin{align*}
+            W_{\text{skin}} & \geq 2 \rho_{A_{\text{cfrp}}} S g \\
+            m &\geq \pi \rho_{\text{cfrp}} t_0 d l_{\text{h}} \left( 1 - \frac{1}{2} k\right) \\
+            I_0 &\leq \pi t_0 d^3/8 \\
+            \theta &\geq \frac{L_{\text{h}} l_{\text{h}}^2}{EI_0} \frac{1+k}{2} \\
+            L_{\text{h}} &= \frac{1}{2} C_{L_{\text{h}}} \rho V^2 S_{\text{h}} \\
+            V_{\text{h}} &= \frac{S_{\text{h}}l_{\text{h}}}{Sc} \\
+            V_{\text{v}} &= \frac{S_{\text{v}}}{S} \frac{l_{\text{v}}}{b} \\
+            W_{\text{h}}/m_{\text{fac}} &= \rho_{\text{foam}} \frac{S_{\text{h}}^2}{b_{\text{h}}} \bar{A} + g\rho_{A_{\text{cfrp}}} S_{\text{h}} \\
+            W_{\text{v}}/m_{\text{fac}} &= \rho_{\text{foam}} \frac{S_{\text{v}}^2}{b_{\text{v}}} \bar{A} + g\rho_{A_{\text{cfrp}}} S_{\text{v}} \\
+            D_{\text{h}} &\geq \frac{1}{2} c_{d_{\text{h}}} \rho V^2 S_{\text{h}} \\
+            D_{\text{v}} &\geq \frac{1}{2} c_{d_{\text{v}}} \rho V^2 S_{\text{v}} \\
+            c_{d_{\text{(v,h)}}}^{70.5599} &\geq \num{7.42688d-90} \left( \frac{Re_{\text{(v,h)}}}{\num{1d3}} \right)^{-33.0637}(100 \tau_{\text{(v,h)}})^{18.0419}  \nonumber \\
+                         & + \num{5.02826d-163}\left(\frac{Re_{\text{(v,h)}}}{\num{1d3}}\right)^{-18.7959} (100\tau_{\text{(v,h)}})^{53.1879} \\
+                         &+ \num{4.22901d-77}\left(\frac{Re_{\text{(v,h)}}}{\num{1d3}}\right)^{-41.1704} (100\tau_{\text{(v,h)}})^{28.4609} \nonumber \\
+            Re_{\text{v}} &= \frac{V\rho S_{\text{v}}/b_{\text{v}}}{\mu} \\
+            Re_{\text{h}} &= \frac{V\rho S_{\text{h}}/b_{\text{h}}}{\mu} 
+        \end{align*}
+
+}}
+        \end{itemize}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Weight Breakdown}
+
+    \pause
+    Gas Aircraft
+    \begin{align*}
+        \text{MTOW} &\geq W_{\text{structural}}  + W_{\text{payload}} + W_{\text{fuel}} + W_{\text{engine}} \\
+        W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} + W_{\text{fuse}}
+    \end{align*}
+
+    \pause
+    Solar-electric Aircraft
+    \begin{align*}
+        \text{MTOW} &\geq W_{\text{structural}} + W_{\text{payload}} + W_{\text{solar}} + W_{\text{batt}} + W_{\text{motor}} \\
+        W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} \\
+        W_{\text{solar}} &\geq \rho_{\text{solar}} S_{\text{solar}} g \\
+        W_{\text{batt}} &\geq \frac{E_{\text{batt}}}{h_{\text{batt}}} g \\
+        E_{\text{batt}} &= 350 \text{ [Whr/kg]}
+    \end{align*}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Wind Speed and Density Constraint}
 
     \begin{align*}
-        V &\geq V_{\text{wind}_i}, i = 20,\dots,\text{Lat. Req.} \\
+        V &\geq V_{\text{wind}_i} \\
         V_{\text{wind}} &= f(\rho, p_{\text{wind}})
     \end{align*}
 
@@ -189,6 +388,32 @@
     \begin{center}
     \includegraphics[width=0.7\textwidth]{lat30.pdf}
     \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Constraint Set per Integer Latitude}
+    
+    \scriptsize
+    \begin{itemize}
+        \item Wind speed
+        \begin{align*}
+        V \geq V_{\text{wind}} \\
+        \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{7.213} &\geq 2918\rho^{7.587}p_{\text{wind}}^{9.37} + \num{1.58d-10}\rho^{-6.074}p_{\text{wind}}^{60.421} \\
+                                                                    &+ \num{4.05d-16}\rho^{-9.879}p_{\text{wind}}^{13.204} + 1048\rho^{6.33}p_{\text{wind}}^{46.232} 
+\end{align*}
+    
+        \item Solar energy
+        \begin{align*}
+        (E/S)_{\text{sun}}  &\geq (E/S)_{\text{day}} + \frac{E_{\text{batt}}}{\eta_{\text{charge}}\eta_{\text{solar}} S_{\text{solar}}} \\
+    E_{\text{batt}} &\geq \frac{P_{\text{oper}}t_{\text{night}}}{\eta_{\text{discharge}}} + (E/S)_{\text{twilight}} \eta_{\text{solar}} S_{\text{solar}} \\
+    (P/S)_{\text{min}} &= \frac{P_{\text{oper}}}{\eta_{\text{solar}} S_{\text{solar}}} \\
+    \eta_{\text{motor}} P_{\text{oper}} &\geq P_{\text{shaft}} + P_{\text{avionics}}\\
+            (E/S)_{\text{twilight}}) &= 0.00315661 ((P/S)_{\text{min}})^{2.02484} \\
+            (E/S)_{\text{day}} &= 14.1013((P/S)_{\text{min}})^{0.918619} \\
+            S_{\text{solar}} & \leq f_{\text{solar}}S
+        \end{align*}
+    \end{itemize}
+
 \end{frame}
 
 \begin{frame}
@@ -239,13 +464,13 @@
         \column{0.5\textwidth}
         \begin{center}
         Standard g-loading ($N_{\text{max}}$ = 5) \\
-        Sizes gas powered aircraft \\~\\
+        Constrains gas powered aircraft \\~\\
         \end{center}
         
         \column{0.5\textwidth}
         \begin{center}
         Gust Loading ($N_{\text{max}}$ = 2) \\
-        Sizes solar-electric aircraft \\~\\
+        Constrains solar-electric aircraft \\~\\
         \end{center}
     \end{columns}
 
@@ -355,25 +580,6 @@
 
 \end{frame}
 
-\begin{frame}
-    \frametitle{Weight Breakdown}
-
-    Gas Aircraft
-    \begin{align*}
-        \text{MTOW} &\geq W_{\text{structural}}  + W_{\text{payload}} + W_{\text{fuel}} + W_{\text{engine}} \\
-        W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} + W_{\text{fuse}}
-    \end{align*}
-
-    Solar-electric Aircraft
-    \begin{align*}
-        \text{MTOW} &\geq W_{\text{structural}} + W_{\text{payload}} + W_{\text{solar}} + W_{\text{batt}} + W_{\text{motor}} \\
-        W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} \\
-        W_{\text{solar}} &\geq \rho_{\text{solar}} S_{\text{solar}} g \\
-        W_{\text{batt}} &\geq \frac{E_{\text{batt}}}{h_{\text{batt}}} g \\
-        E_{\text{batt}} &= 350 \text{ [Whr/kg]}
-    \end{align*}
-
-\end{frame}
 
 \begin{frame}
     \frametitle{Weight vs Latitude}

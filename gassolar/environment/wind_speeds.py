@@ -83,7 +83,8 @@ def interpolate(xs, ys, x):
 if __name__ == "__main__":
 
     Fig, Ax = plt.subplots()
-    Colors = ["b", "g", "r"]
+    # Colors = ["#253B6E", "#1F5F8B", "#1891AC"]
+    Colors = ["#1C226B", "#3E31AE", "#4AA9AF"]
     for al, c in zip([15000, 50000, 60000], Colors):
         Wind85 = [get_windspeed(l, 80, al, 355) for l in np.arange(70)]
         Wind90 = [get_windspeed(l, 90, al, 355) for l in np.arange(70)]
@@ -100,6 +101,7 @@ if __name__ == "__main__":
 
     Fig, Ax = plt.subplots()
     Alt = range(1000, 80000, 1000)
+    Colors = ["#470031", "#971549", "#CF455C"]
     for l, c in zip([30, 35, 45], Colors):
         Wind85 = get_windspeed(l, 80, Alt, 355)
         Wind90 = get_windspeed(l, 90, Alt, 355)
@@ -115,6 +117,7 @@ if __name__ == "__main__":
     Fig.savefig("../../gassolarpaper/altvswind.pdf", bbox_inches="tight")
 
     Fig, Ax = plt.subplots()
+    Colors = ["#1C226B", "#3E31AE", "#4AA9AF"]
     Mos = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
            "oct", "nov", "dec", "jan"]
     Dayinmo = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
