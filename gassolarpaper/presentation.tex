@@ -45,6 +45,8 @@
     Requirements:
     \begin{itemize}
         \pause
+        \item Endurance
+        \pause
         \item Latitude
         \pause
         \item Altitude 
@@ -78,7 +80,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Latitude Requirement}
+    \frametitle{Defining the Latitude Requirement}
     
     \begin{center}
         \includegraphics[width=0.8\textwidth]{worldwinds.jpg} \\
@@ -90,7 +92,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Wind Speed by Latitude}
+    \frametitle{Wind Speed vs Latitude Optimums}
 
     \begin{center}
     \includegraphics[width=0.7\textwidth]{latvswind.pdf} \\
@@ -101,7 +103,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Operating Altitude}
+    \frametitle{Wind Speed Impact on Operating Altitude}
     
     \begin{columns}
         \column{0.55\textwidth}
@@ -127,7 +129,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Percentile Wind Speed}
+    \frametitle{Defining Percentile Wind Speed}
     
     \begin{columns}
         \column{0.5\textwidth}
@@ -231,6 +233,7 @@
 
 \begin{frame}
     \frametitle{Bag of Constraints}
+    \pause
     \begin{columns}
         \column{0.5\textwidth}
     \begin{itemize}
@@ -362,22 +365,21 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Wind Speed and Density Constraint}
-
-    \begin{align*}
-        V &\geq V_{\text{wind}_i} \\
-        V_{\text{wind}} &= f(\rho, p_{\text{wind}})
-    \end{align*}
 
     \begin{center}
-    \includegraphics[width=0.6\textwidth]{windfitl35.pdf}
+    \includegraphics[width=1.0\textwidth]{simpleaircraft.pdf}
     \end{center}
 
 \end{frame}
 
 \begin{frame}
-    \frametitle{Solar Energy}
+    \frametitle{Solar Energy Constraints}
 
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{lat30.pdf}
+    \end{center}
+    
+    \pause
     \scriptsize
     \[ \begin{array}{rrl}
         \text{Solar Energy} : & (E/S)_{\text{sun}}  &\geq (E/S)_{\text{day}} + \frac{E_{\text{batt}}}{\eta_{\text{charge}}\eta_{\text{solar}} S_{\text{solar}}} \\
@@ -385,21 +387,36 @@
         \text{Minimum operational solar power} : & (P/S)_{\text{min}} &= \frac{P_{\text{oper}}}{\eta_{\text{solar}} S_{\text{solar}}} 
     \end{array} \]
 
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{lat30.pdf}
-    \end{center}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Constraint Set per Integer Latitude}
+    \frametitle{Wind Speed and Air Density Constraint}
+
+    \pause
+    \[ V \geq V_{\text{wind}} \]
+        \pause
+    \[P_{\text{shaft}} \sim V^3 \]
+
+    \pause
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{windfitl35.pdf}
+    \end{center}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Solar Aircraft Environmental Constraints}
     
-    \scriptsize
+    \begin{columns}
+        \column{0.5\textwidth}
+    \tiny
     \begin{itemize}
         \item Wind speed
         \begin{align*}
-        V \geq V_{\text{wind}} \\
-        \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{7.213} &\geq 2918\rho^{7.587}p_{\text{wind}}^{9.37} + \num{1.58d-10}\rho^{-6.074}p_{\text{wind}}^{60.421} \\
-                                                                    &+ \num{4.05d-16}\rho^{-9.879}p_{\text{wind}}^{13.204} + 1048\rho^{6.33}p_{\text{wind}}^{46.232} 
+            V & \geq V_{\text{wind}} \\
+        \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{\alpha} &\geq c_1 \rho^{e_{1,1}}p_{\text{wind}}^{e_{1,2}} + c_2 \rho^{e_{2,1}}p_{\text{wind}}^{e_{2,2}} \\
+                                                                     &+ c_3 \rho^{e_{3,1}}p_{\text{wind}}^{e_{3,2}} + c_4 \rho^{e_{4,1}}p_{\text{wind}}^{e_{4,2}} \\
 \end{align*}
     
         \item Solar energy
@@ -408,19 +425,29 @@
     E_{\text{batt}} &\geq \frac{P_{\text{oper}}t_{\text{night}}}{\eta_{\text{discharge}}} + (E/S)_{\text{twilight}} \eta_{\text{solar}} S_{\text{solar}} \\
     (P/S)_{\text{min}} &= \frac{P_{\text{oper}}}{\eta_{\text{solar}} S_{\text{solar}}} \\
     \eta_{\text{motor}} P_{\text{oper}} &\geq P_{\text{shaft}} + P_{\text{avionics}}\\
-            (E/S)_{\text{twilight}}) &= 0.00315661 ((P/S)_{\text{min}})^{2.02484} \\
-            (E/S)_{\text{day}} &= 14.1013((P/S)_{\text{min}})^{0.918619} \\
+            (E/S)_{\text{twilight}} &= c_1 (P/S)_{\text{min}}^{e_1} \\
+            (E/S)_{\text{day}} &= c_2(P/S)_{\text{min}}^{e_2} \\
             S_{\text{solar}} & \leq f_{\text{solar}}S
         \end{align*}
     \end{itemize}
+        
+    \pause
+    \column{0.5\textwidth}
+        \includegraphics[width=1.0\textwidth]{latvswind.pdf} \\~\\
+        \pause
+        \includegraphics[width=1.0\textwidth]{solaranglepic.pdf}
+
+\end{columns}
 
 \end{frame}
 
 \begin{frame}
-    \frametitle{Gas Endurance}
+    \frametitle{Lower Power Affects BSFC and Endurance}
 
+    \pause
     \[ \text{Breguet Endurance}: t = \frac{W_{\text{ave}}}{P_{\text{shaft}}\text{BSFC}g} \ln{\left( \frac{W_{\text{initial}}}{W_{\text{final}}}\right)} \]
         
+    \pause
     \begin{center}
     \includegraphics[width=0.7\textwidth]{powertobsfcfit.pdf}
     \end{center}
@@ -428,8 +455,9 @@
 \end{frame}
         
 \begin{frame}
-    \frametitle{Engine Sizing}
+    \frametitle{Engine Power Requirement Set at Top of Climb}
 
+    \pause
     \scriptsize
     \[ \begin{array}{rrl}
             \text{Climb Rate}: & \dot{h} &\geq 100 \text{ [ft/min]} \\
@@ -437,6 +465,7 @@
             \text{Approxmiate Lapse Rate Equation}: & L_{\text{eng}}(h) &= 1 - \frac{0.035}{1000 \text{ [ft]}} h
     \end{array} \]
 
+    \pause
     \begin{center}
     \includegraphics[width=0.7\textwidth]{powervsweightfit.pdf}
     \end{center}
@@ -444,13 +473,15 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Aerodyanmics}
+    \frametitle{Aerodynamics}
 
+    \pause
     \[ C_D \geq C_{d_0} + c_{d_p} + \frac{C_L^2}{\pi e A} \]
 
     \begin{center}
     aircraft drag $\geq$ non-wing drag + wing profile drag + induced drag
-    \includegraphics[width=0.7\textwidth]{JH01polar.pdf} \\
+    \pause
+    \includegraphics[width=0.7\textwidth]{jho1polarfit1.pdf} \\
     \scriptsize
     JHO airfoil profile drag
     \end{center}
@@ -458,21 +489,21 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Wing Loading Cases}
+    \frametitle{Wing Sizing for Load Cases}
       
     \begin{columns}
         \column{0.5\textwidth}
         \begin{center}
-        Standard g-loading ($N_{\text{max}}$ = 5) \\
-        Constrains gas powered aircraft \\~\\
+        Standard g-loading ($N_{\text{max}}$ = 5) \\~\\
         \end{center}
         
         \column{0.5\textwidth}
         \begin{center}
-        Gust Loading ($N_{\text{max}}$ = 2) \\
-        Constrains solar-electric aircraft \\~\\
+        Gust Loading ($N_{\text{max}}$ = 2) \\~\\
         \end{center}
     \end{columns}
+
+    \pause
 
     \begin{columns}
         \column{0.5\textwidth}
@@ -481,15 +512,40 @@
         \column{0.5\textwidth}
         \includegraphics[width=1.0\textwidth]{gustloaddiagram.pdf}
     \end{columns}
+    
+    \pause
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{center}
+        Constrains gas powered aircraft \\~\\
+        \end{center}
+        
+        \column{0.5\textwidth}
+        \begin{center}
+        Constrains solar-electric aircraft \\~\\
+        \end{center}
+    \end{columns}
+
+    \pause
+    \begin{table}[]
+        \centering
+        \begin{tabular}{cc}
+            Architecture & Wing Loading [lbs/ft$^2$] \\ \hline
+            Solar        & $\sim$ 1                        \\
+            Gas          & $\sim$ 8                       
+        \end{tabular}
+    \end{table}
 \end{frame}
 
 \begin{frame}
     \frametitle{Discretized Beam}
 
+    \pause
     \begin{center}
         \includegraphics[width=0.8\textwidth]{disctbeam.pdf}
     \end{center}
 
+    \pause
     \begin{align*}
         \mathcal{S}_{i+1} &\geq \mathcal{S}_i + \frac{q_{i+1} + q_i}{2} \Delta y \\
         \mathcal{M}_{i+1} &\geq \mathcal{M}_i + \frac{\mathcal{S}_{i+1} + \mathcal{S}_i}{2} \Delta y \\
@@ -501,10 +557,12 @@
 \begin{frame}
     \frametitle{Cap Spar}
 
+    \pause
     \begin{center}
     \includegraphics[width=0.8\textwidth]{capspar.jpg}
     \end{center}
 
+    \pause
     \begin{columns}
         \column{0.5\textwidth}
         \begin{center}
@@ -534,12 +592,161 @@
 
 \end{frame}
 
+
+
 \begin{frame}
-    \frametitle{Configuration}
+    \frametitle{Results}
+
+    \pause
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{mtowvslat.pdf} \\
+    Minimize MTOW
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Solar Feasibility}
+
+    \pause
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{battsolarcontour.pdf} \\
+    Minimizing battery specific energy for solar cell efficiency sweeps, 90th percentile wind speeds
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Maximizing Endurance for Globally Operational Aircraft}
+
+    \pause
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{mtowvsendurance.pdf} \\
+    Minimizing MTOW
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Changing Objectives on Solar Aircraft}
+
+    \pause
+    \begin{columns}
+        \column{0.5\textwidth}
+        \includegraphics[width=1.0\textwidth]{solarobjcomp.pdf}
+        
+        \column{0.5\textwidth}
+        \includegraphics[width=1.0\textwidth]{solarobjcomp2.pdf}
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Changing Structural Models on Solar Aircraft}
+
 
     \begin{center}
-    \includegraphics[width=1.0\textwidth]{simpleaircraft.pdf}
+    \includegraphics[width=0.7\textwidth]{windaltoper0.pdf} \\
     \end{center}
+    
+    \[ \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Changing Structural Models on Solar Aircraft}
+
+
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{windaltoper1.pdf} \\
+    \end{center}
+    
+    \[ \]
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Changing Structural Models on Solar Aircraft}
+
+
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{windaltoper.pdf} \\
+    \end{center}
+    
+    \[ W_{\text{structural}} \geq \text{MTOW} f_{\text{structural}} \]
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{With and Without Wind Speed Constraint}
+
+    \begin{center}
+    \includegraphics[width=1.0\textwidth]{polarmission0.pdf} \\
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{With and Without Wind Speed Constraint}
+
+    \begin{center}
+    \includegraphics[width=1.0\textwidth]{polarmission1.pdf} \\
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{With and Without Wind Speed Constraint}
+
+    \begin{center}
+    \includegraphics[width=1.0\textwidth]{polarmission.pdf} \\
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Solar Aircraft Sensitivities: Objective = min(MTOW)}
+
+    \pause
+    Sensitivity of variable $x$ is $a$ \\
+    1\% increase in $x \rightarrow$ $a\%$ increase in objective 
+    \pause
+    \begin{center}
+        \scriptsize
+        90th percentile winds, 30 degrees latitude
+    \includegraphics[width=0.6\textwidth]{solarsensbar.pdf} 
+    \end{center}
+
+    \pause
+    Break-even point = ratio of sensitivities
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Gas Aircraft Sensitivities: Objective = min(MTOW)}
+    
+    \pause
+    
+    \begin{center}
+        \scriptsize
+        9 day endurance requirement
+    \includegraphics[width=0.7\textwidth]{gassensbar.pdf} 
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Contributions}
+
+    \begin{itemize}
+        \pause
+        \item Better understanding of long-endurance aircraft trade space \\~\\
+        \pause
+        \item Identified high level trade offs between architectures \\~\\
+        \pause
+        \item Proved that GP can be used to efficiently evaluate a complicated design space \\~\\
+            \pause
+        \item Built a working sizing model for gas and solar powered, long-endurance aircraft
+        \end{itemize}
 
 \end{frame}
 
@@ -577,134 +784,6 @@
         D_{\text{v}} &\geq \frac{1}{2} c_{d_{\text{v}}} \rho V^2 S_{\text{v}} 
         \end{align*}
     \end{columns}
-
-\end{frame}
-
-
-\begin{frame}
-    \frametitle{Weight vs Latitude}
-
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{mtowvslat.pdf} \\
-    Minimize MTOW
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Solar Feasibility}
-
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{battsolarcontour.pdf} \\
-    Minimizing battery specific energy for solar cell efficiency sweeps, 90th percentile wind speeds
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Gas Powered Endurance}
-
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{mtowvsendurance.pdf} \\
-    Minimizing MTOW
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Changing Objectives on Solar Aircraft}
-
-    \begin{columns}
-        \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{solarobjcomp.pdf}
-        
-        \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{solarobjcomp2.pdf}
-    \end{columns}
-    \begin{center}
-        90th percentile wind speeds
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Changing Structural Models on Solar Aircraft}
-
-    \[ W_{\text{structural}} \geq \text{MTOW} f_{\text{structural}} \]
-
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{windaltoper.pdf} \\
-    Minimizing MTOW, 90th percentile wind speeds
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{With and Without Wind Speed Constraint}
-
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{polarmission.pdf} \\
-    Minimizing MTOW, 90th percentile wind speeds
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Solar-electric Aircraft Sensitivities}
-
-    Objective: minimize MTOW
-    \tiny
-    \begin{longtable}{lccccccccccccc}
-        \toprule
-        \toprule
-        \multirow{2}{*}{Variable}& 25th Latitude & 30th Latitude & 25th Latitude & 30th Latitude \\
-                                 & 85th Percentile Winds & 85th Percentile Winds & 90th Percentile Winds & 90th Percentile Winds \\
-        \midrule
-        $\eta_{\text{prop}}$ &-3.58 & -3.89 & -8.62 & -13.6\\
-        $\eta_{\text{discharge}}$ &-2.8 & -3.04 & -6.61 & -10.3\\
-        $t_{\text{night}}$ &2.8 & 3.04 & 6.61 & 10.3\\
-        $h_{\text{batt}}$ &-2.27 & -2.45 & -4.74 & -7.23\\
-        $\eta_{\text{solar}}$ &-1.29 & -1.43 & -3.85 & -6.28\\
-        $(E/S)_{\text{sun}}$ &-1.15 & -1.28 & -3.58 & -5.87\\
-        $p_{\text{wind}}$ &1.12 & 1.86 & 3.05 & 7.59\\
-        $W_{\text{pay}}$ &0.738 & 0.73 & 0.816 & 0.967\\
-        $\eta_{\text{charge}}$ &-0.707 & -0.784 & -2.25 & -3.68\\
-        $\rho_{\text{solar}}$ &0.261 & 0.281 & 0.614 & 0.938\\
-        \bottomrule
-    \end{longtable}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Gas Aircraft Sensitivities}
-    
-    Objective: minimize MTOW
-
-    \scriptsize
-    \begin{longtable}{lccccccccccccc}
-        \toprule
-        \toprule
-        Variable & 5 Day Endurance & 7 Day Endurance & 9 Day Endurance\\
-        \midrule
-        $V_{\text{wind}}$ &1.76 & 2.87 & 6.93\\
-        $\eta_{\text{prop}}$ &-1.63 & -2.7 & -7.41\\
-        $\text{BSFC}_{100\%}$ &1.55 & 2.6 & 7.12\\
-            $t_{\text{endurance}}$ &1.46 & 2.48 & 6.91\\
-        $W_{\text{pay}}$ &0.251 & 0.188 & 0.117\\
-        $N_{\text{max}}$ &0.16 & 0.323 & 1.26\\
-        \bottomrule
-        \end{longtable}
-    
-\end{frame}
-
-\begin{frame}
-    \frametitle{Contributions}
-
-    \begin{itemize}
-        \item Comparison of long-endurance UAV archictures \\~\\
-        \item Solar-electric and gas powered sizing analysis \\~\\
-        \item Defined solar-electric operational feasilibity \\~\\
-        \end{itemize}
 
 \end{frame}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20170210143954" modified="D:20170211111248"/>
+<info created="D:20170210143954" modified="D:20170222102358"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -254,27 +254,7 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
-<path layer="alpha" matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="black">
-292 480 m
-268 484 l
-268 488 l
-316 488 l
-316 484 l
-292 480 l
-</path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
-292 480 m
-293.035 480.172 l
-</path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
-290.638 480.227 m
-292 480 l
-</path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
-290.319 488 m
-293.453 488 l
-</path>
-<path matrix="-0.0019914 -0.267739 0.169366 -0.00007135 192.533 525.262" stroke="black" pen="heavier">
+<path layer="alpha" matrix="-0.0019914 -0.267739 0.169366 -0.00007135 192.533 525.617" stroke="red" pen="heavier">
 309.023 629.786 m
 368.709 627.845
 425.482 622.022
@@ -298,6 +278,30 @@ h
 434.217 619.596
 434.217 619.596 c
 </path>
+<path matrix="1.92439 0 0 1.99176 -275.312 -365.037" stroke="white" pen="ultrafat">
+297.251 415.819 m
+297.708 400.197 l
+</path>
+<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="black">
+292 480 m
+268 484 l
+268 488 l
+316 488 l
+316 484 l
+292 480 l
+</path>
+<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
+292 480 m
+293.035 480.172 l
+</path>
+<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
+290.638 480.227 m
+292 480 l
+</path>
+<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
+290.319 488 m
+293.453 488 l
+</path>
 <path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="ultrafat">
 297.251 415.819 m
 297.708 400.197 l
@@ -317,7 +321,7 @@ h
 292 400 l
 292 400 l
 </path>
-<path matrix="1.92439 0 0 1.59102 -274.206 -201.668" stroke="black" pen="fat">
+<path matrix="1.92439 0 0 1.66736 -274.206 -239.23" stroke="black" pen="fat">
 292 408 m
 292 492 l
 292 492 l
@@ -334,42 +338,150 @@ h
 296.955 503.471
 297.278 503.31 c
 </path>
-<text matrix="1.07037 0 0 0.880204 -16.2624 77.8084" transformations="translations" pos="311.877 377.26" stroke="black" type="minipage" width="92.209" height="13.164" depth="8.2" valign="top" style="center">Elliptical Fuselage
-$\mathcal{V}_{\mathrm{fuse}} \geq W_{\mathrm{fuel}}/\rho_{\mathrm{fuel}}$</text>
-<text matrix="1 0 0 1 -25.2624 -1.89468" transformations="translations" pos="210.195 581.885" stroke="black" type="minipage" width="95.365" height="15.305" depth="10.33" valign="top" style="center">Tail Boom Bending:
-$\theta \geq \frac{L_{\mathrm{h}} l_{\mathrm{h}}^2}{EI_0} \frac{1+k}{2}$</text>
-<path stroke="black">
-307.495 594.289 m
-316.298 580.563
-308.719 574.879
-306.824 572.353
-318.824 572.984
-318.824 574.248 c
-</path>
-<path stroke="black">
-289.946 618.915 m
-300.509 629.193
-301.14 636.14
-301.14 639.93
-311.877 639.298
-311.877 639.298 c
-</path>
-<text matrix="1 0 0 1 -10.105 -6.94716" transformations="translations" pos="332.087 578.668" stroke="black" type="label" width="41.705" height="6.812" depth="1.49" valign="baseline">$V_{\mathrm{h}} = 0.45$</text>
-<text matrix="1 0 0 1 1.26312 -2.52624" transformations="translations" pos="311.877 639.298" stroke="black" type="label" width="41.597" height="6.812" depth="1.49" valign="baseline">$V_{\mathrm{v}}= 0.04$</text>
-<path stroke="black">
+<text matrix="1.07037 0 0 0.880204 -17.0925 64.942" transformations="translations" pos="311.877 377.26" stroke="black" type="minipage" width="92.209" height="6.926" depth="1.93" valign="top" style="center">elliptical fuselage</text>
+<path stroke="red">
 293.029 385.017 m
 306.711 379.727
 309.237 391.727
 320.605 392.301
 320.605 391.67 c
 </path>
-<path stroke="black">
-287.715 562.182 m
-273.432 565.329
-271.13 555.203
-265.008 561.875
-263.065 561.875
-263.065 561.875 c
+<text matrix="1 0 0 1 3.70335 -2.24215" transformations="translations" pos="208 400" stroke="black" type="label" width="44.887" height="6.661" depth="1.93" valign="baseline">gas engine</text>
+<path matrix="1.10064 0 0 1.15318 -27.803 -61.1684" stroke="red">
+286.776 388.693 m
+273.189 405.676
+269.307 396.457
+260.573 399.368
+260.573 399.368 c
 </path>
+<path stroke="red">
+281.949 387.167 m
+281.949 379.136 l
+291.427 379.136 l
+291.427 387.167 l
+h
+</path>
+<path matrix="1 0 0 1 -1.09562 0.709176" stroke="blue">
+281.998 442.17 m
+281.998 431.532 l
+294.763 431.532 l
+294.763 442.17 l
+h
+</path>
+<group>
+<path stroke="blue">
+126.633 440.53 m
+126.633 455.47 l
+65.3667 455.47 l
+65.3667 440.53 l
+h
+</path>
+<path stroke="blue">
+193.291 438.341 m
+193.291 457.659 l
+126.709 457.659 l
+126.709 438.341 l
+h
+</path>
+<path stroke="blue">
+254.283 435.95 m
+254.283 460.05 l
+193.717 460.05 l
+193.717 435.95 l
+h
+</path>
+<path stroke="blue">
+254.349 433.806 m
+254.349 462.194 l
+321.651 462.194 l
+321.651 433.806 l
+h
+</path>
+<path matrix="1 0 0 1 127.934 -0.322401" stroke="blue">
+254.283 435.95 m
+254.283 460.05 l
+193.717 460.05 l
+193.717 435.95 l
+h
+</path>
+<path matrix="1 0 0 1 255.508 -0.354342" stroke="blue">
+193.291 438.341 m
+193.291 457.659 l
+126.709 457.659 l
+126.709 438.341 l
+h
+</path>
+<path matrix="1 0 0 1 383.432 -0.00034173" stroke="blue">
+126.633 440.53 m
+126.633 455.47 l
+65.3667 455.47 l
+65.3667 440.53 l
+h
+</path>
+</group>
+<text matrix="1 0 0 1 -1.12108 -6.72646" transformations="translations" pos="198.587 452.163" stroke="black" type="label" width="51.059" height="6.926" depth="1.93" valign="baseline">solar panels</text>
+<text matrix="1 0 0 1 127.055 -7.47411" transformations="translations" pos="198.587 452.163" stroke="black" type="label" width="51.059" height="6.926" depth="1.93" valign="baseline">solar panels</text>
+<text matrix="1 0 0 1 0 1.12108" transformations="translations" pos="200.829 484.675" stroke="black" type="label" width="60.385" height="6.918" depth="0" valign="baseline">electric motor</text>
+<path stroke="blue">
+283.415 442.879 m
+271.457 468.232
+256.136 467.859
+253.894 484.675 c
+</path>
+<path stroke="blue">
+251.044 597.204 m
+251.044 606.812 l
+283.397 606.812 l
+283.397 597.204 l
+h
+</path>
+<path stroke="blue">
+326.141 597.506 m
+326.141 606.812 l
+292.061 606.812 l
+292.061 597.506 l
+h
+</path>
+<text matrix="1 0 0 1 -1.96913 -15.3592" transformations="translations" pos="321.992 588.094" stroke="black" type="label" width="51.059" height="6.926" depth="1.93" valign="baseline">solar panels</text>
+<path stroke="blue">
+305.81 597.506 m
+310.93 585.373
+302.659 578.284
+301.478 575.133
+317.231 575.527 c
+</path>
+<text matrix="1 0 0 1 -22.0479 -1.49477" transformations="translations" pos="214.97 562.631" stroke="black" type="label" width="71.953" height="6.918" depth="0" valign="baseline">conventional tail</text>
+<path stroke="black">
+287.716 561.884 m
+278.498 565.995
+276.629 556.652
+268.035 564.5
+266.166 563.753 c
+</path>
+<text matrix="1 0 0 1 -17.5635 -15.3214" transformations="translations" pos="372.295 502.841" stroke="black" type="label" width="73.143" height="6.926" depth="1.93" valign="baseline">batteries in wing</text>
+<path stroke="blue">
+396.585 447.162 m
+407.796 465.847
+391.353 472.947
+389.485 484.531 c
+</path>
+<path matrix="1.32442 0 0 1.00115 -20.7629 -0.700978" stroke="black">
+64 608 m
+64 560 l
+144 560 l
+144 608 l
+h
+</path>
+<path matrix="1 0 0 1 0 -16" stroke="blue" pen="heavier">
+80 592 m
+96 592 l
+96 592 l
+</path>
+<path matrix="1 0 0 1 0 16" stroke="red" pen="heavier">
+80 576 m
+96 576 l
+</path>
+<text matrix="1 0 0 1 -12.2631 -2.24215" transformations="translations" pos="112 592" stroke="black" type="label" width="49.094" height="6.926" depth="1.93" valign="baseline">gas aircraft</text>
+<text matrix="1 0 0 1 -10.8371 -5.97908" transformations="translations" pos="109.59 578.735" stroke="black" type="label" width="55.763" height="6.918" depth="0" valign="baseline">solar aircraft</text>
 </page>
 </ipe>

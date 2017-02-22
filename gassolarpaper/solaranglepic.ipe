@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20170210143954" modified="D:20170222094948"/>
+<info created="D:20170222110619" modified="D:20170222110622"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -254,89 +254,69 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
-<path layer="alpha" matrix="-0.0019914 -0.267739 0.169366 -0.00007135 192.533 525.262" stroke="black" pen="heavier">
-309.023 629.786 m
-368.709 627.845
-425.482 622.022
-519.62 603.097
-558.44 586.114
-581.732 553.117
-539.03 527.884
-485.653 508.474
-389.574 495.858
-345.902 493.917
-249.824 493.917
-156.656 503.622
-96.4859 517.209
-48.4466 535.648
-19.3318 569.615
-77.0761 595.818
-136.761 612.317
-216.342 624.448
-317.273 627.845
-391.515 624.448
-434.217 619.596
-434.217 619.596 c
+<path layer="alpha" stroke="black" pen="fat">
+64 0 0 64 192 640 e
 </path>
-<path matrix="1.92439 0 0 1.99176 -275.372 -364.901" stroke="white" pen="ultrafat">
-297.251 415.819 m
-297.708 400.197 l
+<path stroke="black" pen="heavier">
+166.553 698.723 m
+144 752 l
+144 752 l
 </path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="black">
-292 480 m
-268 484 l
-268 488 l
-316 488 l
-316 484 l
-292 480 l
+<path stroke="black" pen="heavier">
+216.449 580.854 m
+239.004 527.57 l
 </path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
-292 480 m
-293.035 480.172 l
+<path matrix="-0.0816851 2.17113 -2.21804 -0.08345 1813.39 363.796" stroke="black" pen="heavier">
+166.964 698.9 m
+144 752 l
+144 752 l
 </path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
-290.638 480.227 m
-292 480 l
+<group matrix="1 0 0 1 1.2952 -0.6476">
+<path stroke="orange" pen="heavier" arrow="normal/normal">
+448 704 m
+224 704 l
 </path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="heavier">
-290.319 488 m
-293.453 488 l
+<path matrix="1.03211 0 0 1 -14.3843 0" stroke="orange" pen="heavier" arrow="normal/normal">
+448 688 m
+256 688 l
 </path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="ultrafat">
-297.251 415.819 m
-297.708 400.197 l
+<path matrix="1.07048 0 0 1 -31.5733 0" stroke="orange" pen="heavier" arrow="normal/normal">
+448 672 m
+272 672 l
 </path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="white" pen="ultrafat">
-285.81 415.787 m
-285.806 400.214 l
-285.806 400.214 l
+<path matrix="1.04204 0 0 8.99754 -18.8334 -5246.39" stroke="orange" pen="heavier" arrow="normal/normal">
+448 656 m
+272 656 l
 </path>
-<path matrix="1.92439 0 0 1.99176 -274.206 -365.167" stroke="black" pen="heavier">
-292 400 m
-176 404 l
-176 412 l
-292 416 l
-408 412 l
-408 404 l
-292 400 l
-292 400 l
+<path matrix="1.03825 0 0 1 -17.1366 0" stroke="orange" pen="heavier" arrow="normal/normal">
+448 640 m
+272 640 l
 </path>
-<path matrix="8.24937 0 0 1.70786 -2121.1 -259.156" stroke="black" pen="fat">
-292 408 m
-292 492 l
-292 492 l
+<path matrix="1.05599 0 0 1 -25.0822 0" stroke="orange" pen="heavier" arrow="normal/normal">
+448 624 m
+272 624 l
 </path>
-<path matrix="1.14275 0.0603008 -0.0945764 1.91999 -3.49508 -348.76" stroke="black">
-297.117 503.632 m
-293.566 496.208
-291.629 487.171
-291.952 476.519
-294.696 472.807
-297.601 483.781
-298.085 490.076
-297.439 498.791
-296.955 503.471
-297.278 503.31 c
+<path stroke="orange" pen="heavier" arrow="normal/normal">
+448 608 m
+256 608 l
 </path>
+<path matrix="1.0544 0 0 1 -24.3718 0" stroke="orange" pen="heavier" arrow="normal/normal">
+448 592 m
+256 592 l
+</path>
+<path matrix="1.05897 0 0 1 -26.4176 0" stroke="orange" pen="heavier" arrow="normal/normal">
+448 576 m
+240 576 l
+</path>
+</group>
+<text matrix="1 0 0 1 28.4944 -71.8836" transformations="translations" pos="298.822 715.295" stroke="black" type="label" width="94.506" height="9.963" depth="0" valign="baseline" size="Large">solar irradiance</text>
+<path stroke="black" pen="heavier">
+192 752 m
+192 704 l
+</path>
+<group matrix="1 0 0 1 10.951 -31.7324">
+<text matrix="1 0 0 1 -92.762 0" transformations="translations" pos="160 752" stroke="black" type="label" width="61.786" height="9.968" depth="1.19" valign="baseline" size="Large">$\delta = -23.5$</text>
+<text matrix="1 0 0 1 -32 32" transformations="translations" pos="80 704" stroke="black" type="label" width="93.721" height="9.963" depth="0" valign="baseline" size="Large">Winter Solstice</text>
+</group>
 </page>
 </ipe>
