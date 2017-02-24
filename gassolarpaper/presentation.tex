@@ -14,7 +14,7 @@
 \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 \author{Michael Burton and Warren Hoburg}
 \institute{Massachusetts Institute of Technology}
-\date{Feb 14, 2017}
+\date{Feb 24, 2017}
  
 \begin{document}
  
@@ -52,7 +52,7 @@
                 \pause
                 \item Gas: time requirment (i.e. 5 days)
                 \pause
-                \item Solar: 24 hr availability (depends on solar flux)
+                \item Solar: 24 hr availability $\rightarrow$ solar flux
                 \end{itemize}
         \pause
         \item Station keeping ($V \geq V_{\text{wind}}$)
@@ -61,7 +61,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Meeting the Requirements}
+    \frametitle{Solar Flux and Wind Speed Dependencies}
 
     \pause
 
@@ -69,9 +69,9 @@
 
     \pause
 
-    $ V_{\text{wind}} = f(\text{Lat}, \text{ Alt}, \text{ Percentile Wind Speed}, \text{ Day}) $
+    $ V_{\text{wind}} = f(\text{Lat}, \text{ Alt},  \text{ Day}, \text{ Percentile Wind Speed}) $
 
-    \pause
+    Demonstrated \pause
     \begin{itemize}
         \item 90th Percentile Wind $\rightarrow V \geq V_{\text{wind}}$ 90\% of the time
         \end{itemize}
@@ -133,7 +133,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{How High Can You Fly?}
+    \frametitle{How High Should You Fly?}
 
     \pause
     Payload altitude requirement $\rightarrow h \geq h_{\text{min}}$ \\~\\
@@ -759,7 +759,7 @@
         \pause
         \item Identified high level trade offs between architectures \\~\\
         \pause
-        \item Proved that GP can be used to efficiently evaluate a complicated design space \\~\\
+        \item Demonstrated that GP can be used to efficiently evaluate a complicated design space \\~\\
             \pause
         \item Built a working sizing model for gas and solar powered, long-endurance aircraft
         \end{itemize}

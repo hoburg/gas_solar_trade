@@ -130,9 +130,9 @@ if __name__ == "__main__":
                         xytext=(8,-0.1), textcoords="offset points",
                         arrowprops=dict(arrowstyle="-"), fontsize=12)
 
-    Ax.plot([0, 80], [15000, 15000], "k", lw=2)
-    Ax.fill_between(np.linspace(0, 80, 10), 12000, 15000, hatch="//", facecolor="None", edgecolor="k", linewidth=0.0)
-    Ax.text(64, 18000, "$h_{\\mathrm{min}}$", fontsize=15)
+    # Ax.plot([0, 80], [15000, 15000], "k", lw=2)
+    # Ax.fill_between(np.linspace(0, 80, 10), 12000, 15000, hatch="//", facecolor="None", edgecolor="k", linewidth=0.0)
+    # Ax.text(64, 18000, "$h_{\\mathrm{min}}$", fontsize=15)
     Ax.set_ylabel("Altitude [ft]")
     Ax.set_xlabel("Wind speed [m/s]")
     Ax.set_ylim([0, 80000])
