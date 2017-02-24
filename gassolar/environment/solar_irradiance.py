@@ -2,7 +2,6 @@
 import numpy as np
 from numpy import sin, tan, cos, arccos, deg2rad
 import matplotlib.pyplot as plt
-from gpfit.fit import fit
 import pandas as pd
 plt.rcParams.update({'font.size':15})
 
@@ -102,7 +101,7 @@ if __name__ == "__main__":
     Ax.set_xlim([0, 365])
     Ax.set_ylim([0, 12000])
     Fig.savefig("../../gassolarpaper/eirrvsmonth.pdf", bbox_inches="tight")
-
+    
     data = {}
     fig1, ax1 = plt.subplots()
     fig2, ax2 = plt.subplots()
