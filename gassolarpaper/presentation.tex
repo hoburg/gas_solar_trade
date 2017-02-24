@@ -42,22 +42,46 @@
 
     How do you hold a 10 lb payload in the air for a long time? \\~\\
     \pause
-    Requirements:
+    Driving Requirements:
     \begin{itemize}
         \pause
+        \item Payload ($W=10$ [lbs])
+        \pause
         \item Endurance
+            \begin{itemize}
+                \pause
+                \item Gas: time requirment (i.e. 5 days)
+                \pause
+                \item Solar: 24 hr availability (depends on solar flux)
+                \end{itemize}
         \pause
-        \item Latitude
-        \pause
-        \item Altitude 
-        \pause
-        \item Wind speed ($V \geq V_{\text{wind}}(\text{Lat, Alt, Percentile, Day})$)
+        \item Station keeping ($V \geq V_{\text{wind}}$)
     \end{itemize}
 
 \end{frame}
- 
+
 \begin{frame}
-    \frametitle{Energy Limitations on Endurance}
+    \frametitle{Meeting the Requirements}
+
+    \pause
+
+    Solar flux = $f$(Latitude, Day) \\~\\
+
+    \pause
+
+    $ V_{\text{wind}} = f(\text{Lat}, \text{ Alt}, \text{ Percentile Wind Speed}, \text{ Day}) $
+
+    \pause
+    \begin{itemize}
+        \item 90th Percentile Wind $\rightarrow V \geq V_{\text{wind}}$ 90\% of the time
+        \end{itemize}
+
+
+\end{frame}
+ 
+
+\begin{frame}
+    \frametitle{How Long Can You Fly?}
 
     \pause
     \begin{itemize}
@@ -80,19 +104,25 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Defining the Latitude Requirement}
+    \frametitle{Where Can You Fly?}
     
-    \begin{center}
-        \includegraphics[width=0.8\textwidth]{worldwinds.jpg} \\
-        \scriptsize
-        95th Percentile Winds in 2015 at 15,000 ft 
-    \end{center}
-    
+    \pause
+    \begin{columns}
+        \column{0.4\textwidth}
+        \includegraphics[width=1.0\textwidth]{solaranglepic.pdf}
+        
+        \pause
+        \column{0.6\textwidth}
+        \begin{center}
+        \includegraphics[width=1.0\textwidth]{worldwinds.jpg} \\
+        90 percentile wind speeds in 2015
+        \end{center}
+    \end{columns}
 
 \end{frame}
 
 \begin{frame}
-    \frametitle{Wind Speed vs Latitude Optimums}
+    \frametitle{Where Can You Fly?}
 
     \begin{center}
     \includegraphics[width=0.7\textwidth]{latvswind.pdf} \\
@@ -103,8 +133,12 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Wind Speed Impact on Operating Altitude}
-    
+    \frametitle{How High Can You Fly?}
+
+    \pause
+    Payload altitude requirement $\rightarrow h \geq h_{\text{min}}$ \\~\\
+
+    \pause
     \begin{columns}
         \column{0.55\textwidth}
         \includegraphics[width=1.0\textwidth]{altvswind.pdf}
@@ -128,22 +162,6 @@
 
 \end{frame}
 
-\begin{frame}
-    \frametitle{Defining Percentile Wind Speed}
-    
-    \begin{columns}
-        \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{Boston_dec_2015.pdf}
-        
-        \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{Boston_dec_2015auto.pdf}
-    \end{columns}
-
-    \begin{center}
-    Wind speeds in Boston, December 2015 at 60,000 ft. 
-    \end{center}
-    
-\end{frame}
 
 \begin{frame}
     \frametitle{How to set up the problem?}
@@ -170,9 +188,7 @@
             \pause
             \item Powerplant
             \pause
-            \item Weights
-            \pause
-            \item Materials \\~\\
+            \item Weights \\~\\
             \end{itemize}
     \end{columns}
     
@@ -180,7 +196,7 @@
     \begin{columns}
         \column{0.6\textwidth}
     \begin{center}
-       number of independent variables
+       number of unknowns
     \end{center}
     \begin{columns}
         \column{0.5\textwidth}
@@ -271,7 +287,7 @@
         
     \item Aerodynamics
         \begin{align*}
-        C_D \geq C_{d_0} + c_{d_p} + \frac{C_L^2}{\pi e A} \\
+            C_D &\geq C_{d_0} + c_{d_p} + \frac{C_L^2}{\pi e A} \\
         c_{d_p}^{3.72} &\geq 0.0247C_L^{2.49}Re^{-1.11} + 2.03e^{-7}C_L^{12.7}Re^{-0.338} + 6.35e^{10}C_L^{-0.243}Re^{-3.43} \nonumber \\
                        &+ 6.49e^{-6}C_L^{-1.9}Re^{-0.681} \\
         Re &= \frac{\rho V S/b}{\mu}
@@ -785,6 +801,24 @@
         \end{align*}
     \end{columns}
 
+\end{frame}
+
+\begin{frame}
+    \frametitle{Percentile Wind Speed}
+    
+    \pause
+    \begin{columns}
+        \column{0.5\textwidth}
+        \includegraphics[width=1.0\textwidth]{Boston_dec_2015.pdf}
+    
+        \column{0.5\textwidth}
+        \includegraphics[width=1.0\textwidth]{Boston_dec_2015auto.pdf}
+    \end{columns}
+
+    \begin{center}
+    Wind speeds in Boston, December 2015 at 60,000 ft. 
+    \end{center}
+    
 \end{frame}
 
 \end{document}
