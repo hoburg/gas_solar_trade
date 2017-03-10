@@ -4,6 +4,10 @@ from gassolar.gas.gas import Mission as Mgas
 from gassolar.environment.wind_speeds import get_windspeed
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+
+FIGPATH = (os.path.abspath(__file__).replace(os.path.basename(__file__), "")
+           + "figs" + os.sep)
 
 plt.rcParams.update({'font.size':15})
 fig, ax = plt.subplots()
@@ -24,7 +28,6 @@ for a in [80, 90, 95]:
         if runagains:
             Ms = Msolar(latitude=l)
             Ms.substitutions.update({"W_{pay}": 10})
-            print Ms.substitutions["W_{pay}"]
             for vk in Ms.varkeys["p_{wind}"]:
                 Ms.substitutions.update({vk: a/100.0})
             Ms.cost = Ms["W_{total}"]
