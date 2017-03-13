@@ -1,5 +1,5 @@
 all:
-	ipython gaslat.py
-	ipython print_sens.py
+	ipython gaslat.py ../../docs/figs/
+	ipython disp_sens ../../docs/figs/
 	ipython ldratios.py
 	ipython mtowendtrade.py

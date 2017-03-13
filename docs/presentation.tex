@@ -9,12 +9,17 @@
  \usepackage[sort, numbers]{natbib}
  \usepackage{siunitx}
 \newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
+\setbeamertemplate{footline}
+{\begin{beamercolorbox}[sep=1ex]{author in head/foot}
+     \rlap{}\hfill\llap{\insertframenumber}%
+     \end{beamercolorbox}%
+     }
    
 %Information to be included in the title page:
 \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 \author{Michael Burton and Warren Hoburg}
 \institute{Massachusetts Institute of Technology}
-\date{Feb 24, 2017}
+\date{March 20, 2017}
  
 \begin{document}
  
@@ -71,7 +76,7 @@
 
     $ V_{\text{wind}} = f(\text{Lat}, \text{ Alt},  \text{ Day}, \text{ Percentile Wind Speed}) $
 
-    Demonstrated \pause
+    \pause
     \begin{itemize}
         \item 90th Percentile Wind $\rightarrow V \geq V_{\text{wind}}$ 90\% of the time
         \end{itemize}
@@ -489,7 +494,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Aerodynamics}
+    \frametitle{Estimating Drag}
 
     \pause
     \[ C_D \geq C_{d_0} + c_{d_p} + \frac{C_L^2}{\pi e A} \]

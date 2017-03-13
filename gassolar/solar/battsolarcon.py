@@ -37,13 +37,13 @@ for lat in range(20, 44, 1):
                                solver="mosek")
             if lat % 4 == 0:
                 l = ax.plot(xmin_, bst.sample_at(xmin_)["cost"], "k",
-                            label="%d" % lat)
+                            label="%d$^{\\circ}$ Lat" % lat)
                 lines.append(l[0])
                 etamax.append(max(bst.sample_at(xmin_)["cost"].magnitude))
                 midx.append(np.median(xmin_))
             elif lat % 2 == 0:
                 l = ax.plot(xmin_, bst.sample_at(xmin_)["cost"], "--", c="0.5",
-                            label="%d" % lat)
+                            label="%d$^{\\circ}$ Lat" % lat)
         except RuntimeWarning:
             passing = False
 
@@ -56,4 +56,4 @@ ax.set_xlabel("Battery Specific Energy [Whr/kg]")
 ax.set_xlim([250, 500])
 ax.set_ylim([0.1, max(etamax)])
 ax.grid()
-fig.savefig("../../gassolarpaper/battsolarcontour.pdf", bbox_inches="tight")
+fig.savefig("../../docs/battsolarcontour.pdf", bbox_inches="tight")

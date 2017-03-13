@@ -46,4 +46,10 @@ if __name__ == "__main__":
     latns = ["$V_{\\mathrm{wind}}$", "$W_{\\mathrm{pay}}$", "$\\eta_{\\mathrm{prop}}$", "$BSFC_{\\mathrm{min}}$", "$t_{\\mathrm{loiter}}$", "$N_{\\mathrm{max}}$"]
     sens_table(sols, varnames, filename="sens.generated.tex")
     fig, ax = plot_sens(M, sols[2], varnames, latns=latns)
-    fig.savefig("../../gassolarpaper/gassensbar.pdf", bbox_inches="tight")
+
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+        fig.savefig(path + "gassensbar.pdf", bbox_inches="tight")
+    else:
+        fig.savefig("gassensbar.pdf", bbox_inches="tight")
+
