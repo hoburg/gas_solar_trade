@@ -48,3 +48,5 @@ If you wish to generate this data yourself, change the `GENERATE=True` flag in:
 ./gassolar/environment/solar_irradiance.py
 ```
  and run each file. 
+
+ Please report and issues with the installation, makefiles, or models.
