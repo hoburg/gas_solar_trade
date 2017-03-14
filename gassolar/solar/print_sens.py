@@ -2,6 +2,7 @@
 from gassolar.solar.solar import Mission
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 def sens_table(sols, varnames,
                filename="../../gassolarpaper/solarsens.generated.tex"):
@@ -85,5 +86,9 @@ if __name__ == "__main__":
               "$\\eta_{\\mathrm{prop}}$"]
     sens_table(sols, varns, filename="test.tex")
     fig, ax = plot_sens(M, sols[3], varns, latns=latns)
-    fig.savefig("../../gassolarpaper/solarsensbar.pdf", bbox_inches="tight")
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+        fig.savefig(path + "solarsensbar.pdf", bbox_inches="tight")
+    else:
+        fig.savefig("solarsensbar.pdf", bbox_inches="tight")
 

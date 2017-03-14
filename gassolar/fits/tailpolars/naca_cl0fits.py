@@ -89,5 +89,9 @@ if __name__ == "__main__":
     NACA = ["0005", "0008", "0009", "0010", "0015", "0020"]
     X, Y = fit_setup(NACA, Re) # call fit(X, Y, 4, "SMA") to get fit
     F, A = plot_fits(NACA, Re)
-    F.savefig("../../../gassolarpaper/taildragpolar.pdf",
-              bbox_inches="tight")
+    if len(sys.argv) > 1:
+        path = sys.argv[0]
+        F.savefig(path + "taildragpolar.pdf", bbox_inches="tight")
+    else:
+        F.savefig("taildragpolar.pdf", bbox_inches="tight")
+

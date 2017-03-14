@@ -4,6 +4,7 @@ from gpkitmodels.GP.aircraft.mission.breguet_endurance import BreguetEndurance
 from steady_level_flight import SteadyLevelFlight
 from flight_state import FlightState
 from gassolar.environment.wind_speeds import get_windspeed
+from gpkit.constraints.tight import Tight as TCS
 
 class FlightSegment(Model):
     "flight segment"

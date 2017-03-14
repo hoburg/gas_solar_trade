@@ -92,14 +92,14 @@ def ld_plot(model, num):
     return fig, ax
 
 if __name__ == "__main__":
+    M = Mission()
 
     nums = [0, 1, 2]
     if len(sys.argv) > 1:
         path = sys.argv[1]
         for num in nums:
-            M = Mission()
             fig, ax = ld_plot(M, num)
-            fig.savefig(path + "polarmission%d.pdf" % num)
+            fig.savefig(path + "polarmission%d.pdf" % num, bbox_inches="tight")
     else:
         for num in nums:
             M = Mission()

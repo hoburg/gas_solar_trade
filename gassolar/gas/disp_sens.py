@@ -1,5 +1,6 @@
 "print sensitivities"
 import numpy as np
+import sys
 from gassolar.gas.gas import Mission
 from gassolar.environment.wind_speeds import get_windspeed
 from gassolar.solar.print_sens import plot_sens
