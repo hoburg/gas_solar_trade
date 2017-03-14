@@ -79,7 +79,7 @@ if __name__ == "__main__":
     X, Y = fit_setup(Re) # call fit(X, Y, 4, "SMA") to get fit
     F, A = plot_fits([300, 350, 400, 450, 500])
     if len(sys.argv) > 1:
-        path = sys.argv[0]
+        path = sys.argv[1]
         F.savefig(path + "jho1polarfit1.pdf", bbox_inches="tight")
     else:
         F.savefig(path + "jho1polarfit1.pdf", bbox_inches="tight")

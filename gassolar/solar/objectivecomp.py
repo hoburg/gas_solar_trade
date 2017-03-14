@@ -67,6 +67,6 @@ def plot_objectivecomp(path=None):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        plot_objectivecomp(path=sys.argv[0])
+        plot_objectivecomp(path=sys.argv[1])
     else:
         plot_objectivecomp()

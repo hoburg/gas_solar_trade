@@ -5,4 +5,4 @@ all:
 	$(MAKE) -C environment
 	$(MAKE) -C solar/fits
 	$(MAKE) -C gas/fits
-	ipython gassolarlat.py
+	ipython gassolarlat.py ../docs/figs/

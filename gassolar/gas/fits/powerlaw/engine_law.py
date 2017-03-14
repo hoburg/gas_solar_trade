@@ -1,14 +1,18 @@
 from gpfit.fit import fit
 import pandas as pd
+import sys
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 
 plt.rcParams.update({'font.size':15})
 WEIGHT = 10.0
 POWER = 10.0
+PATH = (os.path.abspath(__file__).replace(os.path.basename(__file__), "")
+        + os.sep)
 
-def plot_powerlaw()
-    df = pd.read_csv("powervsweight.csv")
+def plot_powerlaw(csv):
+    df = pd.read_csv(csv)
     u = np.array(df["lbs"]/WEIGHT)
     w = np.array(df["hp"]/POWER)
 
@@ -26,9 +30,11 @@ def plot_powerlaw()
     ax.set_ylabel("Maximum Shaft Power [hp]")
     ax.legend(["UND Engine Data", "Power Law Fit"], loc=2)
     ax.grid()
+    return fig, ax
 
 if __name__ == "__main__":
-    fig, ax = plot_powerlaw()
+    csvname = PATH + "powervsweight.csv"
+    fig, ax = plot_powerlaw(csvname)
     if len(sys.argv) > 1:
         path = sys.argv[1]
         fig.savefig(path + "powervsweightfit.pdf", bbox_inches="tight")

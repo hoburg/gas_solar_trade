@@ -21,7 +21,7 @@ if __name__ == "__main__":
     df = pd.read_csv("windaltfitdata.csv")
 
     if len(sys.argv) > 1:
-        path = sys.argv[0]
+        path = sys.argv[1]
         filename = path + "windfitdata.generated.tex"
     else:
         filename = "windfitdata.generated.tex"

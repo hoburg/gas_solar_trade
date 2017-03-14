@@ -2,6 +2,7 @@ from gpfit.fit import fit
 from gpfit.evaluate_fit import evaluate_fit
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 plt.rcParams.update({'font.size':15})
 
 def arctanfit():
@@ -29,6 +30,7 @@ def arctanfit():
 if __name__ == "__main__":
     fig, ax = arctanfit()
     if len(sys.argv) > 1:
+        path = sys.argv[1]
         fig.savefig(path + "arctanfit.pdf", bbox_inches="tight")
     else:
         fig.savefig("arctanfit.pdf", bbox_inches="tight")

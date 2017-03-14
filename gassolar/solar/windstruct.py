@@ -41,6 +41,6 @@ if __name__ == "__main__":
         fig, ax = plot_structm(num)
         if len(sys.argv) > 1:
             path = sys.argv[1]
-            fig.savefig(path + "windaltoper.pdf", bbox_inches="tight")
+            fig.savefig(path + "windaltoper%d.pdf" % num, bbox_inches="tight")
         else:
             fig.savefig("windaltoper.pdf", bbox_inches="tight")

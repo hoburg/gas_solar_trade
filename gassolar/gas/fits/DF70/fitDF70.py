@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import sys
+import os
 from numpy import logspace, log, log10
 import matplotlib.pyplot as plt
 from gpfit.fit import fit
@@ -8,14 +9,16 @@ from scipy import interpolate
 plt.rcParams.update({'font.size':19})
 
 np.random.seed(0)
+PATH = (os.path.abspath(__file__).replace(os.path.basename(__file__), "")
+        + os.sep)
 
-def plot_BSFCtoPower():
+def plot_BSFCtoPower(power_csv, bsfc_csv):
     # Fitting BSFC vs. Power
-    df = pd.read_csv('Dataset_Power_Kw.csv')
+    df = pd.read_csv(power_csv)
     p = df['P']
     rpm = df["RPM"]
     f = interpolate.interp1d(rpm, p)
-    df = pd.read_csv('Dataset_BSFC_kgKwh.csv')
+    df = pd.read_csv(bsfc_csv)
     df = df[(df["RPM"] > min(rpm)) & (df["RPM"] < max(rpm))]
     rpmnew = df["RPM"]
     u = f(rpmnew)/max(p)
@@ -110,7 +113,9 @@ def plot_lapse():
     return fig, ax
 
 if __name__ == "__main__":
-    fig, ax = plot_BSFCtoPower()
+    csvname = PATH + 'Dataset_Power_Kw.csv'
+    csvname2 = PATH + 'Dataset_BSFC_kgKwh.csv'
+    fig, ax = plot_BSFCtoPower(csvname, csvname2)
     if len(sys.argv) > 1:
         path = sys.argv[1]
         fig.savefig(path + "powertobsfcfit.pdf", bbox_inches="tight")
