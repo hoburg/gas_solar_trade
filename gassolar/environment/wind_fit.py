@@ -78,8 +78,7 @@ def plot_fits(xdata, ydata, yfit, latitude):
             else:
                 wid = 1
             ax.plot(np.exp(x1), np.exp(yf)*WIND_NORM, c="#3E31AE", lw=wid)
-                    #label="%d Percentile Winds" % np.rint(np.exp(p)*PERCT_NORM))
-    #ax.legend(loc=2, fontsize=15)
+
     ax.fill_between(np.exp(x1), yfits[0], yfits[-1], alpha=0.2,
                     facecolor="#3E31AE", edgecolor="None")
     if not GENERATE:

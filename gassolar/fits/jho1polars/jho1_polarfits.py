@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from gpfit.fit import fit
 import sys
 plt.rcParams.update({'font.size':15})
 
@@ -56,30 +57,37 @@ def return_fit(cl, re):
     # SMA function, K=3, max RMS error = 0.00489
     return cd
 
-def plot_fits(re):
+def plot_fits(re, cnstr, x, y):
     "plot fit compared to data"
     # colors = ["k", "m", "b", "g", "y"]
     colors = ["#084081", "#0868ac", "#2b8cbe", "#4eb3d3", "#7bccc4"]
     assert len(re) == len(colors)
+    lre, ind = np.unique(X[1], return_index=True)
+    xre = np.exp(lre)
+    xcl = [np.exp(X[0][ind[i-1]:ind[i]]) for i in range(1, len(ind))]
+    cds = [np.exp(Y[ind[i-1]:ind[i]]) for i in range(1, len(ind))]
+    yfit = cnstr.evaluate(x)
+    cdf = [np.exp(yfit[ind[i-1]:ind[i]]) for i in range(1, len(ind))]
     fig, ax = plt.subplots()
-    cls = np.linspace(0.2, 1.3, 20)
-    for r, col in zip(re, colors):
-        dataf = text_to_df("jho1.ncrit09.Re%dk.pol" % r)
-        ax.plot(dataf["CL"], dataf["CD"], "o", mec=col, mfc="none", mew=1.5)
-        cd = return_fit(cls, r*1000.)
-        ax.plot(cls, cd, c=col, label="Re = %dk" % r, lw=2)
-    ax.legend(loc=2, fontsize=15)
+    i = 0
+    for r, cl, cd, fi in zip(xre, xcl, cds, cdf):
+        if int(np.round(r)/1000) in re:
+            ax.plot(cl, cd, "o", mec=colors[i], mfc="none", mew=1.5)
+            ax.plot(cl, fi, c=colors[i], label="Re = %dk" % r, lw=2)
+            i += 1
     ax.set_xlabel("$C_L$")
     ax.set_ylabel("$c_{d_p}$")
     ax.grid()
     return fig, ax
 
 if __name__ == "__main__":
-    Re = range(200, 750, 50)
+    Re = np.arange(200, 750, 50)
     X, Y = fit_setup(Re) # call fit(X, Y, 4, "SMA") to get fit
-    F, A = plot_fits([300, 350, 400, 450, 500])
+    cn, err = fit(X, Y, 4, "SMA")
+    replot = np.array([300, 350, 400, 450, 500])
+    F, A = plot_fits(replot, cn, X, Y)
     if len(sys.argv) > 1:
         path = sys.argv[1]
         F.savefig(path + "jho1polarfit1.pdf", bbox_inches="tight")
     else:
-        F.savefig(path + "jho1polarfit1.pdf", bbox_inches="tight")
+        F.savefig("jho1polarfit1.pdf", bbox_inches="tight")
