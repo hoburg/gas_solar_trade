@@ -4,6 +4,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from gpfit.fit import fit
 import sys
+from gpkitmodels.GP.aircraft.wing.wing import Wing
+import inspect
+import os
+
+GENERATE = False
 plt.rcParams.update({'font.size':15})
 
 def text_to_df(filename):
@@ -81,10 +86,20 @@ def plot_fits(re, cnstr, x, y):
     return fig, ax
 
 if __name__ == "__main__":
-    Re = np.arange(200, 750, 50)
+    Re = np.arange(150, 750, 50)
     X, Y = fit_setup(Re) # call fit(X, Y, 4, "SMA") to get fit
+    np.random.seed(0)
     cn, err = fit(X, Y, 4, "SMA")
-    replot = np.array([300, 350, 400, 450, 500])
+    print "RMS error: %.5f    Max Err: %.5f" % (err[0], err[1])
+    df = cn.get_dataframe(X)
+    if GENERATE:
+        path = os.path.dirname(inspect.getfile(Wing))
+        df.to_csv(path + os.sep + "jho_fitdata.csv")
+    else:
+        df.to_csv("jho_fitdata.csv")
+
+    replot = np.array([150, 200, 300, 350, 400])
+    # replot = np.array([300, 350, 400, 450, 500])
     F, A = plot_fits(replot, cn, X, Y)
     if len(sys.argv) > 1:
         path = sys.argv[1]
