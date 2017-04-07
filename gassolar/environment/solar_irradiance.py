@@ -6,7 +6,7 @@ from gpfit.fit import fit
 import sys
 import pandas as pd
 plt.rcParams.update({'font.size':15})
-GENERATE = False
+GENERATE = True
 
 def get_Eirr(latitude, day, N=50.0):
     """
@@ -110,7 +110,8 @@ if __name__ == "__main__":
     Ax.set_ylim([0, 12000])
     Fig.savefig(path + "eirrvsmonth.pdf", bbox_inches="tight")
 
-    data = {}
+    datatw = []
+    dataday = []
     fig1, ax1 = plt.subplots()
     fig2, ax2 = plt.subplots()
 
@@ -134,7 +135,8 @@ if __name__ == "__main__":
 
         x = np.log(P[1:-15])
         y = np.log(2*C[:-14])
-        cn, rm = fit(x, y, 1, "MA")
+        cn, err = fit(x, y, 1, "MA")
+        rm = err[0]
         print "RMS error: %.4f" % rm
         yfit = cn.evaluate(x)
         ax1.plot(P[1:-15], 2*C[:-14], "o", c="g", markerfacecolor="none", mew=1.5)
@@ -144,10 +146,13 @@ if __name__ == "__main__":
         ax1.grid()
         params.append(cn[0].right.c)
         params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])
+        df = cn.get_dataframe(x)
+        datatw.append(df)
 
         x = np.log(P[1:-15])
         y = np.log(2*B[:-14])
-        cn, rm = fit(x, y, 1, "MA")
+        cn, err = fit(x, y, 1, "MA")
+        rm = err[0]
         print "RMS error: %.4f" % rm
         yfit = cn.evaluate(x)
         ax2.plot(P[1:-15], 2*B[:-14], "o", c="g", markerfacecolor="none", mew=1.5)
@@ -155,15 +160,24 @@ if __name__ == "__main__":
         ax2.grid()
         ax2.set_xlabel("Minimum Necessary Power $(P/S)_{\mathrm{min}}$ [W/m$^2$]", fontsize=19)
         ax2.set_ylabel("Daytime Energry $(E/S)_{\mathrm{day}}$ [Whr/m$^2$]", fontsize=19)
-        params.append(cn[0].right.c)
-        params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])
-        data["%d" % l] = params
+        # params.append(cn[0].right.c)
+        # params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])
+        # data["%d" % l] = params
+        df = cn.get_dataframe(x)
+        dataday.append(df)
 
     if GENERATE:
-        df = pd.DataFrame(data).transpose()
-        colnames = ["latitude", "Cc", "Ce", "Bc", "Be"]
-        df.columns = colnames
-        df.to_csv("solarirrdata.csv")
+        # df = pd.DataFrame(data).transpose()
+        df = pd.concat(datatw)
+        df['latitude'] = pd.Series(np.arange(20,61,1), index=df.index)
+        df.to_csv("solar_twlightfit.csv")
+        df = pd.concat(dataday)
+        df['latitude'] = pd.Series(np.arange(20,61,1), index=df.index)
+        df.to_csv("solar_dayfit.csv")
+
+        # colnames = ["latitude", "Cc", "Ce", "Bc", "Be"]
+        # df.columns = colnames
+        # df.to_csv("solarirrdata.csv")
     else:
         fig1.savefig(path + "Cenergy.pdf")
         fig2.savefig(path + "Benergy.pdf")

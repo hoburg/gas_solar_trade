@@ -14,7 +14,8 @@ from gpkitmodels.tools.fit_constraintset import FitCS
 basepath = os.path.abspath(__file__).replace(os.path.basename(__file__), "")
 path = basepath.replace(os.sep+"solar"+os.sep, os.sep+"environment"+os.sep)
 DF = pd.read_csv(path + "windaltfitdatanew.csv")
-DF2 = pd.read_csv(path + "solarirrdata.csv")
+DFt = pd.read_csv(path + "solar_twlightfit.csv")
+DFd = pd.read_csv(path + "solar_dayfit.csv")
 
 class Aircraft(Model):
     "vehicle"
@@ -200,7 +201,8 @@ class FlightState(Model):
     def setup(self, latitude=45, day=355):
 
         df = DF[DF["latitude"] == latitude]
-        df2 = DF2[DF2["latitude"] == latitude]
+        dft = DFt[DFt["latitude"] == latitude]
+        dfd = DFd[DFd["latitude"] == latitude]
         esirr, td, tn, _ = get_Eirr(latitude, day)
 
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
@@ -215,8 +217,8 @@ class FlightState(Model):
                          "solar cells energy during daytime")
         ESc = Variable("(E/S)_C", "W*hr/m^2",
                        "energy for batteries during sunrise/set")
-        ESvar = Variable("(E/S)_{var}", 1, "W*hr/m^2", "energy units variable")
-        PSvar = Variable("(P/S)_{var}", 1, "W/m^2", "power units variable")
+        ESvar = Variable("(E/S)_{ref}", 1, "W*hr/m^2", "energy units variable")
+        PSvar = Variable("(P/S)_{ref}", 1, "W/m^2", "power units variable")
         tday = Variable("t_{day}", td, "hr", "Daylight span")
         tnight = Variable("t_{night}", tn, "hr", "night duration")
         pct = Variable("p_{wind}", 0.9, "-", "percentile wind speeds")
@@ -228,12 +230,9 @@ class FlightState(Model):
 
         constraints = [
             V/mfac >= Vwind,
-            # (Vwind/Vwindref)**df["alpha"].iloc[0] >= (
-            #     sum([df["c%d" % i]*(rho/rhoref)**df["e%d1" % i]
-            #          * pct**df["e%d2" % i] for i in range(1, 5)]).iloc[0]),
             FitCS(df, Vwind/Vwindref, [rho/rhoref, pct]),
-            ESday/ESvar == df2["Bc"].iloc[0]*(PSmin/PSvar)**df2["Be"].iloc[0],
-            ESc/ESvar == df2["Cc"].iloc[0]*(PSmin/PSvar)**df2["Ce"].iloc[0]
+            FitCS(dfd, ESday/ESvar, [PSmin/PSvar]),
+            FitCS(dft, ESc/ESvar, [PSmin/PSvar]),
             ]
 
         return constraints
