@@ -13,7 +13,7 @@ from gpkitmodels.tools.fit_constraintset import FitCS
 
 basepath = os.path.abspath(__file__).replace(os.path.basename(__file__), "")
 path = basepath.replace(os.sep+"solar"+os.sep, os.sep+"environment"+os.sep)
-DF = pd.read_csv(path + "windaltfitdatanew.csv")
+DF = pd.read_csv(path + "windaltfitdata.csv")
 DFt = pd.read_csv(path + "solar_twlightfit.csv")
 DFd = pd.read_csv(path + "solar_dayfit.csv")
 
