@@ -8,7 +8,7 @@ from gpfit.fit import fit
 plt.rc("text", usetex=True)
 plt.rcParams.update({'font.size':15})
 
-GENERATE = False
+GENERATE = True
 PERCT_NORM = 100.0
 WIND_NORM = 100.0
 RHO_NORM = 1.0
@@ -101,8 +101,7 @@ if __name__ == "__main__":
     else:
         latitude = [35]
 
-    constraintlist = []
-    data = {}
+    data = []
 
     for l in latitude:
         print "Fitting for %d latitude" % l
@@ -113,13 +112,14 @@ if __name__ == "__main__":
             i = 0
             rms = []
             while tol:
-                if i > 100:
+                if i > 25:
                     tol = False
                     continue
                 else:
                     print "rms iter=%d" % i
                 np.random.seed(i)
-                cns, rm = fit(X, Y, 4, "SMA")
+                cns, err = fit(X, Y, 4, "SMA")
+                rm = err[0]
                 rms.append(rm)
                 if rm > 0.05:
                     i += 1
@@ -127,7 +127,8 @@ if __name__ == "__main__":
                     if rm > 0.06:
                         print "RMS too big... try new altitude range"
                         tol = False
-                    if i > 10 and np.all(np.round(rms, 3), round(rm, 3)):
+                    if i > 10 and np.array_equal(
+                            np.round(rms, 3), np.array([round(rm, 3)]*10)):
                         print "RPM not changing... try new altitude range"
                         tol = False
                     continue
@@ -140,17 +141,8 @@ if __name__ == "__main__":
                     tol = False
             if rm < 0.05:
                 print "RMS Error: %.3f after iter=%d, Altitude %d" % (rm, j, a)
-                wvk = [vk for vk in cns.varkeys if vk.name == "w"][0]
-                alpha = [ex[wvk] for ex in cns.left.exps][0]
-                vkn = range(len(cns.right.varkeys))
-                expos = np.array(
-                    [e[list(cns.varkeys["u_fit_(%d,)" % n])[0]] for e in
-                     cns.right.exps for n in vkn]).reshape(
-                         len(cns.right.cs), len(vkn))
-                params = np.hstack([l] + [np.hstack([c] + [ex]) for c, ex in
-                                          zip(cns.right.cs, expos)])
-                params = np.append(params, alpha)
-                data["%d" % l] = params
+                df = cns.get_dataframe(X)
+                data.append(df)
                 break
             else:
                 print "RMS Error: %.3f, Alt iter=%d" % (rm, j)
@@ -160,10 +152,6 @@ if __name__ == "__main__":
         plt.close()
 
     if GENERATE:
-        df = pd.DataFrame(data).transpose()
-        colnames = np.hstack([["c%d" % d, "e%d1" % d, "e%d2" % d] for d in
-                              range(1, 5, 1)])
-        colnames = np.append(colnames, "alpha")
-        colnames = np.insert(colnames, 0, "latitude")
-        df.columns = colnames
-        df.to_csv("windaltfitdata.csv")
+        df = pd.concat(data)
+        df['latitude'] = pd.Series(np.arange(20,61,1), index=df.index)
+        df.to_csv("windaltfitdatanew.csv")

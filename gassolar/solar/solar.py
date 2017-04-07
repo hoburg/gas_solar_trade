@@ -9,10 +9,11 @@ from gpkitmodels.GP.aircraft.tail.empennage import Empennage
 from gpkitmodels.GP.aircraft.tail.tail_boom import TailBoomState
 from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
 from gpkitmodels.tools.summing_constraintset import summing_vars
+from gpkitmodels.tools.fit_constraintset import FitCS
 
 basepath = os.path.abspath(__file__).replace(os.path.basename(__file__), "")
 path = basepath.replace(os.sep+"solar"+os.sep, os.sep+"environment"+os.sep)
-DF = pd.read_csv(path + "windaltfitdata.csv")
+DF = pd.read_csv(path + "windaltfitdatanew.csv")
 DF2 = pd.read_csv(path + "solarirrdata.csv")
 
 class Aircraft(Model):
@@ -227,9 +228,10 @@ class FlightState(Model):
 
         constraints = [
             V/mfac >= Vwind,
-            (Vwind/Vwindref)**df["alpha"].iloc[0] >= (
-                sum([df["c%d" % i]*(rho/rhoref)**df["e%d1" % i]
-                     * pct**df["e%d2" % i] for i in range(1, 5)]).iloc[0]),
+            # (Vwind/Vwindref)**df["alpha"].iloc[0] >= (
+            #     sum([df["c%d" % i]*(rho/rhoref)**df["e%d1" % i]
+            #          * pct**df["e%d2" % i] for i in range(1, 5)]).iloc[0]),
+            FitCS(df, Vwind/Vwindref, [rho/rhoref, pct]),
             ESday/ESvar == df2["Bc"].iloc[0]*(PSmin/PSvar)**df2["Be"].iloc[0],
             ESc/ESvar == df2["Cc"].iloc[0]*(PSmin/PSvar)**df2["Ce"].iloc[0]
             ]
