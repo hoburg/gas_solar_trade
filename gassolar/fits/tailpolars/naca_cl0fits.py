@@ -10,19 +10,26 @@ plt.rcParams.update({'font.size':15})
 
 GENERATE = True
 REFAC = 1e6
-NACAFAC = 100
+NACAFAC = 100.0
 
 def text_to_df(filename):
     "parse XFOIL polars and concatente data in DataFrame"
     lines = list(open(filename))
+    data = {}
     for i, l in enumerate(lines):
         lines[i] = l.split("\n")[0]
         for j in 10-np.arange(9):
             if " "*j in lines[i]:
                 lines[i] = lines[i].replace(" "*j, " ")
+            if "Re = " in l:
+                re = l[l.find("Re =") + 5:l.find("Ncrit")-1].replace(" ", "")
+                data["Re"] = float(re)
+            if "NACA" in l:
+                t = l[l.find("NACA")+5:-1]
+                data["tau"] = float(t)/NACAFAC
             if "---" in lines[i]:
                 start = i
-    data = {}
+
     titles = lines[start-1].split(" ")[1:]
     for t in titles:
         data[t] = []
@@ -37,19 +44,24 @@ def text_to_df(filename):
 
 def fit_setup(naca_range, re_range):
     "set up x and y parameters for gp fitting"
-    tau = [[float(n)]*len(re_range) for n in naca_range]
-    re = [re_range]*len(naca_range)
+    re = []
+    tau = []
     cd = []
     for n in naca_range:
         for r in re_range:
             dataf = text_to_df("naca%s.cl0.Re%dk.pol" % (n, r))
+            if dataf.empty:
+                continue
             cd.append(dataf["CD"])
+            tau.append(dataf["tau"])
+            re.append(dataf["Re"])
+
 
     u1 = np.hstack(re)
     u2 = np.hstack(tau)
     w = np.hstack(cd)
-    u1 = u1.astype(np.float)*1000
-    u2 = u2.astype(np.float)/100
+    u1 = u1.astype(np.float)
+    u2 = u2.astype(np.float)
     w = w.astype(np.float)
     u = [u1, u2]
     x = np.log(u)
@@ -64,11 +76,10 @@ def plot_fits(naca_range, cnstr, x, y):
     assert len(colors) == len(naca_range)
     lna, ind = np.unique(x[1], return_index=True)
     xna = np.exp(lna)*100
-    xre = np.array([np.exp(x[0][ind[i-1]:ind[i]]) for i in range(1, len(ind))])*1e3
-    cds = [np.exp(y[ind[i-1]:ind[i]]) for i in range(1, len(ind))]
+    xre = np.split(np.exp(x[0]), ind[1:])
+    cds = np.split(np.exp(y), ind[1:])
     yfit = cnstr.evaluate(x)
-    cdf = [np.exp(yfit[ind[i-1]:ind[i]]) for i in range(1, len(ind))]
-    fig, ax = plt.subplots()
+    cdf = np.split(np.exp(yfit), ind[1:])
     i = 0
     nacaint = np.array([int(n) for n in naca_range])
     for na, re, cd, fi in zip(xna, xre, cds, cdf):
@@ -85,8 +96,8 @@ def plot_fits(naca_range, cnstr, x, y):
     return fig, ax
 
 if __name__ == "__main__":
-    Re = range(200, 950, 50)
-    NACA = np.array(["0005", "0008", "0009", "0010", "0015", "0020"])
+    Re = range(50, 1050, 50)
+    NACA = np.array(["0005", "0008", "0009", "0010", "0015"])
     X, Y = fit_setup(NACA, Re) # call fit(X, Y, 4, "SMA") to get fit
     np.random.seed(0)
     cn, err = fit(X, Y, 4, "MA")
@@ -98,7 +109,7 @@ if __name__ == "__main__":
     else:
         df.to_csv("tail_dragfit.csv")
 
-    F, A = plot_fits(NACA[1:], cn, X, Y)
+    F, A = plot_fits(NACA, cn, X, Y)
     if len(sys.argv) > 1:
         path = sys.argv[1]
         F.savefig(path + "taildragpolar.pdf", bbox_inches="tight")
