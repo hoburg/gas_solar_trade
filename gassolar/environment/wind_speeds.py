@@ -6,8 +6,10 @@ import sys
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size':15})
 
+# PATH = (os.path.abspath(__file__).replace(os.path.basename(__file__), "")
+#         + "windspeeds" + os.sep)
 PATH = (os.path.abspath(__file__).replace(os.path.basename(__file__), "")
-        + "windspeeds" + os.sep)
+        + "windsNS" + os.sep)
 
 def get_windspeed(latitude, perc, altitude, day, path=PATH):
     """
@@ -90,13 +92,13 @@ if __name__ == "__main__":
     Fig, Ax = plt.subplots()
     # Colors = ["#253B6E", "#1F5F8B", "#1891AC"]
     Colors = ["#1C226B", "#3E31AE", "#4AA9AF"]
-    lat = np.arange(70)
+    lat = np.arange(0, 70)
     for al, c in zip([15000, 50000, 60000], Colors):
         Wind85 = [get_windspeed(l, 80, al, 355) for l in lat]
         Wind90 = [get_windspeed(l, 90, al, 355) for l in lat]
         Wind95 = [get_windspeed(l, 95, al, 355) for l in lat]
-        Ax.fill_betweenx(np.arange(70), Wind85, Wind95, alpha=0.5, facecolor=c)
-        Ax.plot(Wind90, np.arange(70), c, label="Altitude=%d" % al, lw=2)
+        Ax.fill_betweenx(lat, Wind85, Wind95, alpha=0.5, facecolor=c)
+        Ax.plot(Wind90, lat, c, label="Altitude=%d" % al, lw=2)
         if al == 50000:
             Ax.annotate("80%", xy=(Wind85[np.where(lat==31)[0][0]],31),
                         xytext=(3,0.1), textcoords="offset points",

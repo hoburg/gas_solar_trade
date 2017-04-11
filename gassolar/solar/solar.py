@@ -200,7 +200,8 @@ class FlightState(Model):
     """
     def setup(self, latitude=45, day=355):
 
-        df = DF[DF["latitude"] == latitude]
+        df = pd.read_csv(path + "windfits/windaltfit_lat%d.csv" % latitude)
+        # df = DF[DF["latitude"] == latitude]
         dft = DFt[DFt["latitude"] == latitude]
         dfd = DFd[DFd["latitude"] == latitude]
         esirr, td, tn, _ = get_Eirr(latitude, day)

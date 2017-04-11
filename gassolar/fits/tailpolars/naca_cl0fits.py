@@ -96,11 +96,11 @@ def plot_fits(naca_range, cnstr, x, y):
     return fig, ax
 
 if __name__ == "__main__":
-    Re = range(50, 1050, 50)
+    Re = [20, 35] + range(50, 1050, 50)
     NACA = np.array(["0005", "0008", "0009", "0010", "0015"])
     X, Y = fit_setup(NACA, Re) # call fit(X, Y, 4, "SMA") to get fit
     np.random.seed(0)
-    cn, err = fit(X, Y, 4, "MA")
+    cn, err = fit(X, Y, 5, "MA")
     print "RMS error: %.5f    Max Err: %.5f" % (err[0], err[1])
     df = cn.get_dataframe(X)
     if GENERATE:

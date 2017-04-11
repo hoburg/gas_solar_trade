@@ -99,59 +99,55 @@ if __name__ == "__main__":
     if GENERATE:
         latitude = range(20, 61, 1)
     else:
-        latitude = [35]
+        latitude = [20]
 
     data = []
+    np.random.seed(0)
 
     for l in latitude:
         print "Fitting for %d latitude" % l
         altitudestart = range(40000, 50500, 500)
         for j, a in enumerate(altitudestart):
+            print "Trying Altitude Range: %d-80000" % a
             X, Y = fit_setup(altitude=(a, 80000), latitude=l)
             tol = True
             i = 0
             rms = []
-            while tol:
-                if i > 25:
-                    tol = False
-                    continue
+            rms_best = 1
+            cn_best = None
+            df_best = None
+            yfit = None
+            for K in range(2, 6):
+                for ftype in ["MA", "SMA"]:
+                    cns, err = fit(X, Y, K, ftype)
+                    print "Lat %d; K = %d; ftype = %s; RMS = %.4f" % (
+                        l, K, ftype, err[0])
+                    if err[0] < rms_best:
+                        df = cns.get_dataframe(X)
+                        if "0.0" in df.values or "inf" in df.values:
+                            continue
+                        rms_best = err[0]
+                        cn_best, df_best = cns, df
+
+            if rms_best == 1:
+                print "Nothing worked... trying new altitude range"
+                continue
+            elif rms_best < 0.05:
+                print "success"
+                if GENERATE:
+                    df_best.to_csv("windfits/windaltfit_lat%d.csv" % l)
                 else:
-                    print "rms iter=%d" % i
-                np.random.seed(i)
-                cns, err = fit(X, Y, 4, "SMA")
-                rm = err[0]
-                rms.append(rm)
-                if rm > 0.05:
-                    i += 1
-                    print "Latitude: %d     RMS Error: %.3f" % (l, rm)
-                    if rm > 0.06:
-                        print "RMS too big... try new altitude range"
-                        tol = False
-                    if i > 10 and np.array_equal(
-                            np.round(rms, 3), np.array([round(rm, 3)]*10)):
-                        print "RPM not changing... try new altitude range"
-                        tol = False
-                    continue
-                yfit = cns.evaluate(X)
-                if not hasattr(yfit, "__len__"):
-                    i += 1
-                    print "Params out of range"
-                    continue
-                else:
-                    tol = False
-            if rm < 0.05:
-                print "RMS Error: %.3f after iter=%d, Altitude %d" % (rm, j, a)
-                df = cns.get_dataframe(X)
-                data.append(df)
+                    yfit = cn_best.evaluate(X)
                 break
             else:
-                print "RMS Error: %.3f, Alt iter=%d" % (rm, j)
-        fig, ax = plot_fits(X, Y, yfit, l)
+                print "Lowest RMS: %.3f, trying new altitude range" % rms_best
         if not GENERATE:
-            fig.savefig(path + "windfitl%d.pdf" % l, bbox_inches="tight")
-        plt.close()
+            if not yfit is None:
+                fig, ax = plot_fits(X, Y, yfit, l)
+                fig.savefig(path + "windfitl%d.pdf" % l, bbox_inches="tight")
+                plt.close()
 
-    if GENERATE:
-        df = pd.concat(data)
-        df['latitude'] = pd.Series(np.arange(20,61,1), index=df.index)
-        df.to_csv("windaltfitdatanew.csv")
+#     if GENERATE:
+#         df = pd.concat(data)
+#         df['latitude'] = pd.Series(np.arange(20,61,1), index=df.index)
+#         df.to_csv("windaltfitdataNS.csv")
