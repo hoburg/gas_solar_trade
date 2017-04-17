@@ -38,19 +38,33 @@ def fit_setup(Re_range):
     CL = []
     CD = []
     RE = []
+    fig, ax = plt.subplots()
     for r in Re_range:
         dataf = text_to_df("jho1.ncrit09.Re%dk.pol" % r)
-        CL.append(dataf["CL"])
-        CD.append(dataf["CD"])
-        RE.append([r*1000.0]*len(dataf["CL"]))
+        if r < 150:
+            cl = dataf["CL"].values.astype(np.float)
+            cd = dataf["CD"].values.astype(np.float)
+            CL.append(cl[cl >= 1.0])
+            CD.append(cd[cl >= 1.0])
+        elif r < 200:
+            cl = dataf["CL"].values.astype(np.float)
+            cd = dataf["CD"].values.astype(np.float)
+            CL.append(cl[cl >= 0.8])
+            CD.append(cd[cl >= 0.8])
+        else:
+            CL.append(dataf["CL"].values.astype(np.float))
+            CD.append(dataf["CD"].values.astype(np.float))
+        ax.plot(dataf["CL"].values.astype(np.float), dataf["CD"].values.astype(np.float))
+        ax.legend(["%d" % re for re in Re_range])
+        RE.append([r*1000.0]*len(CL[-1]))
+
+    fig.savefig("polarstest.pdf")
 
     u1 = np.hstack(CL)
     u2 = np.hstack(RE)
     w = np.hstack(CD)
-    u1 = u1.astype(np.float)
-    u2 = u2.astype(np.float)
-    w = w.astype(np.float)
     u = [u1, u2]
+    xx = np.log(u2)
     x = np.log(u)
     y = np.log(w)
     return x, y
@@ -86,7 +100,7 @@ def plot_fits(re, cnstr, x, y):
     return fig, ax
 
 if __name__ == "__main__":
-    Re = np.arange(150, 750, 50)
+    Re = np.arange(100, 750, 50)
     X, Y = fit_setup(Re) # call fit(X, Y, 4, "SMA") to get fit
     np.random.seed(0)
     cn, err = fit(X, Y, 4, "SMA")
@@ -98,7 +112,7 @@ if __name__ == "__main__":
     else:
         df.to_csv("jho_fitdata.csv")
 
-    replot = np.array([150, 200, 300, 350, 400])
+    replot = np.array([100, 150, 200, 300, 350])
     # replot = np.array([300, 350, 400, 450, 500])
     F, A = plot_fits(replot, cn, X, Y)
     if len(sys.argv) > 1:

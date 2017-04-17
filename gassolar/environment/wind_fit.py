@@ -8,7 +8,7 @@ from gpfit.fit import fit
 plt.rc("text", usetex=True)
 plt.rcParams.update({'font.size':15})
 
-GENERATE = True
+GENERATE = False
 PERCT_NORM = 100.0
 WIND_NORM = 100.0
 RHO_NORM = 1.0
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     if GENERATE:
         latitude = range(20, 61, 1)
     else:
-        latitude = [20]
+        latitude = [30]
 
     data = []
     np.random.seed(0)
