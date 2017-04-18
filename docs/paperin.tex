@@ -94,7 +94,7 @@ $m_{\text{fac-wing}}$ \> wing weight margin factor \\
 $m_{\text{motor}}$ \> electric motor mass \\
 $\dot{m}_{\text{fuel}}$ \> fuel flow rate \\ % [kg/s] \\
 $\mathcal{M}$ \> wing bending moment \\ % [Nm] \\
-MTOW \> max take-off weight \\ % [N] \\
+$W_{\text{MTO}}$\> max take-off weight \\ % [N] \\
 $n$ \> number of wing segments \\
 $N$ \> number of flight segments \\
 $N_{\text{max}}$ \> safety load factor\\
@@ -206,7 +206,7 @@ The complexity of sizing these kinds of aircraft makes the trade offs between ga
 
 This paper presents a physics-based optimization model that uses geometric programming as a systematic and rapid approach to evaluate trade offs between the two archictures for a given mission.  Geometric programming, a form of convex optimization, is chosen as a means of evaluating the design space because of its rapid solve time and guaranteed convergence to a global optimum.\cite{gp}
 Models and equations representing the interaction of the various disciplines are expressed in a geometric programming form that are then combined to form an optimization model. 
-The optimization is solved multiple times for different design parameters such as endurance, latitude, and percentile wind speed to observe how aircraft size and weight are affected by different requirements. 
+The optimization is solved multiple times to observe how aircraft size and weight are affected by different design parameters and requirements. 
 
 The driving requirement that sizes solar-electric powered aircraft is the ability to operate at multiple locations and during all seasons.  
 To fly multiple days, solar-electric powered aircraft must carry enough solar cells and batteries to fly during the day while storing enough energy to fly through the night.\cite{solartech}
@@ -229,7 +229,7 @@ Similar trade offs are calculated for other requirements and performance metrics
 
 \section{Mission Requirements}
 
-A comparision of the gas and solar-elecrtric powered aircraft is achieved by comparing their respective capabilities at satisfying a common set of requirements, shown in Table~\ref{t:mreqs}.  These requirements can and will be changed in the results section to observe which archicture is best suited to meet various sets of requirements. A discussion of each requirement is included in this section.  
+A comparision of the gas and solar-elecrtric powered aircraft is achieved by comparing their respective capabilities at satisfying a common set of requirements shown in Table~\ref{t:mreqs}.  These requirements can and will be changed in the results section to observe which archicture is best suited to meet various sets of requirements. A discussion of each requirement is included in this section.  
 
 \begin{longtable}{lccccccccccccc}
 \caption{Mission Requirements}\\
@@ -239,7 +239,7 @@ A comparision of the gas and solar-elecrtric powered aircraft is achieved by com
 Payload & 10 lbs\\
 Endurance & 6 days\\
 Season & all seasons\\
-Altitude & 4,600 m\\
+Altitude & > 4,600 m\\
 Latitude & $\pm30^{\circ}$\\
 \bottomrule
 \end{longtable}
@@ -268,7 +268,7 @@ It is assumed that the wind speed distribution is independent of longitude.
 \subsection{Endurance}
 
 For long-endurance gas powered aircraft, the endurance requirement is defined by amount of time the aircraft needs to remain in the air without refueling.  
-For a solar-electric powered aircraft, however, if it can fly during the shortest day of the year, December 21st (June 21st for Southern Hemisphere), then it can thoretically fly at any time of the year, thus more than satisfying the 6 day endurance requirement. 
+For a solar-electric powered aircraft, however, if it can fly during the shortest day of the year, December 21st (June 21st for Southern Hemisphere), then it can thoretically fly at any time of the year, more than satisfying the 6 day endurance requirement. 
 Therefore, to meet the endurance requirement the solar-electric powered aircraft must be able to fly during the winter solstice.  
 To achieve this design constraint the aircraft must be able to fly with limited solar energy, discussed in Section IV.B, and with higher than average wind speeds as shown in Figure~\ref{f:windvsmonth}.  
 Because becuase wind speeds are greatest during the winter solstice for both the Northern and Southern Hemispheres only winds speeds from December and June will be used for the aircraft sizing and performance analysis presented in this paper. 
@@ -298,7 +298,7 @@ The altitude requirement is generally set by a minimum payload required to meet 
  h \geq h_{\text{min}}.
 \end{equation}
 
-Long-endurance aircraft tend to fly at low velocities, which based on Figure~\ref{f:altvswind} means there are two possible operating altitude regiems: at or around the minimum payload requirement 4,600 - 7,600 m or at high altitudes between 16,700-20,000 m. 
+Long-endurance aircraft tend to fly at low velocities, which based on Figure~\ref{f:altvswindhmin} means there are two possible operating altitude regiems: at or around the minimum payload requirement 4,600 - 7,600 m or at high altitudes between 16,700-20,000 m. 
 Gas powered aircraft generally fly in the lower altitude regime of 4,600-7,600 m because naturally aspirated engines lose power with increased altitude and are unable to reach altitudes higher than about 13,500 m depending on the engine.  
 Solar-electric powered aircraft, which do not have naturally aspirated engines, will to fly around 18,000 m to avoid cloud coverage.
 
@@ -321,7 +321,7 @@ Figure~\ref{f:latvswind} shows how the wind speed varies with latitude in the No
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=576,natheight=432]{latvswindN.pdf}
-    \caption{\textbf{Wind speeds by latitude.  Bands represent 80th, 90th and 95th percentile winds.\cite{winds} }}
+    \caption{\textbf{Wind speeds by latitude.  Bands represent 80th, 90th and 95th percentile winds.\cite{wind} }}
 	\label{f:latvswind}
 	\end{center}
 \end{figure}
@@ -380,7 +380,8 @@ f(\bold{x}) &= \displaystyle\sum_{k=1}^K c_k x_1^{a_{1_k}} x_2^{a_{2_k}} \dotsm 
 The properties of a geometric program allow solution algorithms to guarantee convergence to a global optimum, provided that there exists a feasible solution to the set of constraint functions.  
 Additionally, geometric programs can be solved rapidly with existing algorithms.  
 Using state of the art, standard interior-point algorithms, GPs with 1,000 variables and 10,000 constraints converge to a solution in tens of seconds.\cite{gp}  
-To evaulate the gas and solar-electric powered design space, the requirements, architecture type, physical models, and assummed values are expressed as constraints on the GP.\cite{hoburgthesis} 
+
+To evaluate the gas and solar-electric powered design space, the requirements, architecture type, physical models, and assummed values are expressed as constraints on the GP.\cite{hoburgthesis} 
 Essentially, the gas and solar-electric powered geometric programming optimization models are long lists of constraints in a GP-form that can be rapidly solved using interior point methods.  
 Figure~\ref{f:flowchart} shows how the optimization problem is constructed and solved. 
 The following sections explain in detail the configuration, physical modeling, and input value assumptions and their resulting constraint equations that were used in both the gas and solar-electric powered optimization models.
@@ -400,16 +401,15 @@ Both the gas and solar-electric powered GP optimization models are available for
 \section{Configuration}
 
 Various structural, aerodynamic, and weight models necesistate assumptions about the vehicle configuration.  
-Both aircraft have a constant tapered wing and a conventional tail with a single tail boom extending from the wing.  
+Common characteristics between the two models include a constant tapered wing and a conventional tail with a single tail boom extending from the wing.  
 The gas powered aircraft has a fuselage to hold all of the fuel required for the mission.  
 The solar-electric powered aircraft holds the batteries in the wings.  
-It is assummed that the added weight and complexity of wet wings outweights the drag and weight penalty of a fuselage for the gas powered archicture.  
 The solar cells for the solar-electric aircraft are placed along the wing and possibly on the horizontal tail.  
 A simple diagram of what each vehicle might look like is shown in Figure~\ref{f:simpleaircraft} with their corresponding weight breakdowns in Figure~\ref{f:wbreak}.
 
 \begin{figure}[H]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth,natwidth=517,natheight=408]{simpleaircraft.pdf}
+	\includegraphics[width=0.8\textwidth,natwidth=517,natheight=408]{simpleaircraft.pdf}
     \caption{\textbf{Blue and red are specific to the solar-electric and gas archictures respectively.  Black are shared characteristics.}}
 	\label{f:simpleaircraft}
 	\end{center}
@@ -462,7 +462,7 @@ Altitude can be post-calculated from the optimized air density.
 For example, an aircraft optimized for $\pm$30 degrees latitude will have 11 different wind speed and solar flux constraints that must be satisfied, one for each degree of latitude between 20 and 30 degrees. 
 Because wind speeds are low and solar flux is higher below 20 degrees latitude, no constraints for latitudes below 20 degrees are actually included in the optimization. 
 The wind speed data used to generate these equations includes December wind speeds from the Northern Hemisphere and June wind speeds from the Southern Hemisphere for the year 2005-2015.
-I n total, 41 wind speed constraints were generated from 20-60 degrees North latitude. (See Appendix A) 
+In total, 41 wind speed constraints were generated to represent $\pm$20-60 degrees. (See Appendix A) 
 The constraint on December wind speeds and air density at the 30 degree latitude is 
 
 \begin{align}
@@ -476,7 +476,7 @@ where $V_{\text{ref}} = 100$ [m/s] and $p_{\text{wind}}$ is the percentile wind 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=511,natheight=405]{windfitl30.pdf}
-    \caption{\textbf{Posynomial approximation to wind speed data at 35$^{\circ}$ latitude. (Log-space RMS error = 0.043.)}}
+    \caption{\textbf{Posynomial approximation to wind speed data\cite{wind} (circles) at 35$^{\circ}$ latitude. (Log-space RMS error = 0.043.)}}
 	\label{f:windfitl35}
 	\end{center}
 \end{figure}
@@ -1137,33 +1137,33 @@ where the reference velocity is an assumed conservative value\cite{acgust}, $V_{
 
 \subsubsection{Discretized Beam Model}
 
-Using a standard Bernoulli-Euler discretized beam model with $n=5$ nodes, the shear forces and moments can be computed from the distributed loads $q(y)$, with boundary conditions of zero shear forces and moments at the wing tips.\cite{bending}
+Using a standard Bernoulli-Euler discretized beam model with $n=5$ nodes, the shear forces, moments, angles, and deflections can be expressed in a GP-compatible form using the distributed loads $q(y)$, as an input. Boundary conditions are zero shear forces and moments at the wing tips and zero angle and deflection at the wing root.\cite{bending}
 
-\begin{align}
-    \label{e:shear}
-    \mathcal{S}_i &= \mathcal{S}_{i+1} - \frac{q_{i+1} + q_i}{2}\Delta y \\
-    \label{e:moment}
-    M_i &= M_{i+1} - \frac{\mathcal{S}_{i+1} + \mathcal{S}_i}{2}\Delta y \\
-    \label{e:shearboundary}
-    \mathcal{S}_n &= 0 \\
-    \label{e:momentboundary}
-    M_n &= 0
-\end{align}
-
-Similarly, the angle deflection and deflection can be calculated with boundary conditions of zero angle and deflection and the wing root.\cite{bending}
-
-\begin{align}
-    \label{e:angle}
-    \Theta_{i} &= \Theta_{i+1} + \frac{1}{2} \left(\frac{M_i}{EI_i} + \frac{M_{i-1}}{EI_{i-1}} \right) \Delta y \\
-    \label{e:deflection}
-    w_{i} &= w_{i+1} + \frac{1}{2} (\Theta_i + \Theta_{i-1}) \Delta y \\
-    \label{e:angleboundary}
-    \Theta_0 &= 0 \\
-    \label{e:defboundary}
-    w_0 &= 0 
-\end{align}
- 
-Equations~\eqref{e:shear}-\eqref{e:defboundary} are GP-compatible if expressed as
+% \begin{align}
+%     \label{e:shear}
+%     \mathcal{S}_i &= \mathcal{S}_{i+1} - \frac{q_{i+1} + q_i}{2}\Delta y \\
+%     \label{e:moment}
+%     M_i &= M_{i+1} - \frac{\mathcal{S}_{i+1} + \mathcal{S}_i}{2}\Delta y \\
+%     \label{e:shearboundary}
+%     \mathcal{S}_n &= 0 \\
+%     \label{e:momentboundary}
+%     M_n &= 0
+% \end{align}
+% 
+% Similarly, the angle deflection and deflection can be calculated with boundary conditions of zero angle and deflection and the wing root.\cite{bending}
+% 
+% \begin{align}
+%     \label{e:angle}
+%     \Theta_{i} &= \Theta_{i+1} + \frac{1}{2} \left(\frac{M_i}{EI_i} + \frac{M_{i-1}}{EI_{i-1}} \right) \Delta y \\
+%     \label{e:deflection}
+%     w_{i} &= w_{i+1} + \frac{1}{2} (\Theta_i + \Theta_{i-1}) \Delta y \\
+%     \label{e:angleboundary}
+%     \Theta_0 &= 0 \\
+%     \label{e:defboundary}
+%     w_0 &= 0 
+% \end{align}
+%  
+% Equations~\eqref{e:shear}-\eqref{e:defboundary} are GP-compatible if expressed as
 
 \begin{align}
     \label{e:sheargp}
@@ -1362,31 +1362,31 @@ The XFOIL data was generated for a zero angle of attack, based upon steady level
 % \end{figure}
 
 
-\subsection{Weight Breakdown}
-
-The weight of each component of both the gas and solar platforms is summed to constrain the max take off weight.  
-The structural weight comprises the weight of the wing, fuselage, horizontal and vertical stabilizers, and engine. 
-The weight breakdown for the gas powered aircraft is a summation of the structural weight, the total fuel weight, and the payload weight. 
-
-\begin{align}
-    \label{e:weightmtow}
-    \text{MTOW} &\geq W_{\text{structural}}  + W_{\text{payload}} + W_{\text{fuel}} + W_{\text{engine}} \\
-    W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} + W_{\text{fuse}}
-\end{align}
-
-A similar weight breakdown is done for the solar-electric powered aircraft, 
-
-\begin{align}
-    \label{e:weightsmtow}
-    \text{MTOW} &\geq W_{\text{structural}} + W_{\text{payload}} + W_{\text{solar}} + W_{\text{batt}} + W_{\text{motor}} \\
-    W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} \\
-    W_{\text{solar}} &\geq \rho_{\text{solar}} S_{\text{solar}} g \\
-    W_{\text{batt}} &\geq \frac{E_{\text{batt}}}{h_{\text{batt}}} g
-\end{align}
-
-where the solar cell density is $\rho_{\text{solar}} = 0.27$ [kg/m$^2$].\cite{solartech}\cite{solarparam}
-Lithim-sulfur batteries are selected with a battery specific energy $h_{\text{batt}} = 350$ [Whr/kg].\cite{lithiumsul}
-The payload weight is assumed to be $W_{\text{payload}} = 10$ [lbs].
+% \subsection{Weight Breakdown}
+% 
+% The weight of each component of both the gas and solar platforms is summed to constrain the max take off weight.  
+% The structural weight comprises the weight of the wing, fuselage, horizontal and vertical stabilizers, and engine. 
+% The weight breakdown for the gas powered aircraft is a summation of the structural weight, the total fuel weight, and the payload weight. 
+% 
+% \begin{align}
+%     \label{e:weightmtow}
+%     W_{\text{MTO}} &\geq W_{\text{structural}}  + W_{\text{payload}} + W_{\text{fuel}} + W_{\text{engine}} \\
+%     W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} + W_{\text{fuse}}
+% \end{align}
+% 
+% A similar weight breakdown is done for the solar-electric powered aircraft, 
+% 
+% \begin{align}
+%     \label{e:weightsmtow}
+%     W_{\text{MTO}} &\geq W_{\text{structural}} + W_{\text{payload}} + W_{\text{solar}} + W_{\text{batt}} + W_{\text{motor}} \\
+%     W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} \\
+%     W_{\text{solar}} &\geq \rho_{\text{solar}} S_{\text{solar}} g \\
+%     W_{\text{batt}} &\geq \frac{E_{\text{batt}}}{h_{\text{batt}}} g
+% \end{align}
+% 
+% where the solar cell density is $\rho_{\text{solar}} = 0.27$ [kg/m$^2$].\cite{solartech}\cite{solarparam}
+% Lithim-sulfur batteries are selected with a battery specific energy $h_{\text{batt}} = 350$ [Whr/kg].\cite{lithiumsul}
+% The payload weight is assumed to be $W_{\text{payload}} = 10$ [lbs].
 
 \section{Results}
 
@@ -1471,13 +1471,13 @@ The previous results are dependent on the assumed input values and parameters.
 Changing the input values can help show where the designs becomes infeasible. 
 Two input values that are especially important to the solar aircraft are the solar cell efficiency and battery specific energy. 
 By solving the model for different assumed solar cell efficiency and battery specific energy values a broader picture of the design space is achieved.   
-Figure~\ref{f:battsolarcontour} shows contours of latitude for a gien solar cell efficiency and battery energy density.  Put another way, this plot shows how good the solar cells and batteries must be in order to reach a given latitude. 
+Figure~\ref{f:battsolarcontour} shows contours of latitude for a given solar cell efficiency and battery energy density.  Put another way, this plot shows how good the solar cells and batteries must be in order to reach a given latitude. 
 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=527,natheight=405]{battsolarcontour.pdf}
     \caption{\textbf{Contours of latitude. Reaching higher latitudes required better solar cells and batteries.}}
-	\label{f:spanvsendurance}
+	\label{f:battsolarcontour}
 	\end{center}
 \end{figure}
 
@@ -1508,7 +1508,7 @@ It might be assumed that because the wind speeds are lowest at 67,000 ft at 29 d
 If it is assumed that the structural weight of the aircraft can be modeled as a fraction of the total weight 
 
 \begin{equation}
-    W_{\text{structural}} \geq \text{MTOW} f_{\text{structural}}
+    W_{\text{structural}} \geq W_{\text{MTO}} f_{\text{structural}}
 \end{equation}
 
 where $f_{\text{structural}} = 0.35$, then the optimized flight altitude is almost exactly 67,000 ft as shown in Figure~\ref{f:altoper}.  
@@ -1542,7 +1542,7 @@ If it is assumed that wind speeds are negligible or that station-keeping is not 
 When a GP is solved, the sensitivity of the optimal objective value with respect to each constraint is also returned.  
 From this information, the sensitivity of the optimal objective value to each fixed variable can be extracted.\cite{hoburgthesis} 
 While sensitivities are local and therefore only exact for small changes, they provide useful information about the relative importance of various design variables. 
-For example, if the objective function were MTOW and the sensitivity to battery specific energy were 0.5, then a 1\% increase in the solar cell efficiency would result in a 0.5\% increase in weight.  
+For example, if the objective function were $W_{\text{MTO}}$ and the sensitivity to battery specific energy were 0.5, then a 1\% increase in the solar cell efficiency would result in a 0.5\% increase in weight.  
 Tables~\ref{t:sens} and~\ref{t:gassens} show the variables with the highest sensitivities for the solar-electric and gas powered architectures respectively, where the objective was max take off weight.
 
 For the solar-electric aircraft, it is interesting to note that the battery discharge efficiency sensitivity is higher than the battery charge efficiency sensitivity.
@@ -1762,7 +1762,7 @@ For the solar aircraft altitude is calculated based off of the optimized air den
     h &= 11,000 \text{ [m] } + \frac{R_{\text{spec}}T_{11}}{g}\frac{p}{p_{11}}.
 \end{align}
 
-According to Sutherland's law\cite{fluiddyhandbook}, viscosity varies with temperature.  Because temperature is assumed constant above 11,000 meters\cite{isaatm}, viscosity is also assumed to be constant, $\mu=\num{1.42d-5}$. \\
+According to Sutherland's law\cite{fluiddyhandbook}, viscosity varies with temperature.  Because temperature is assumed constant 11,000-20,000 meters\cite{isaatm}, viscosity is also assumed to be constant, $\mu=\num{1.42d-5}$. \\
 
 \end{document}
 

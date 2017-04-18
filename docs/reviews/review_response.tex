@@ -1,0 +1,148 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{latexsym}
+\usepackage{amssymb,amsmath}
+\usepackage[pdftex]{graphicx}
+\newcommand{\dbar}[1]{\Bar{\Bar{#1}}}
+
+\topmargin = 0.1in \textwidth=5.7in \textheight=8.6in
+
+\oddsidemargin = 0.1in \evensidemargin = 0.1in
+
+% headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\chead{} 
+\rhead{\thepage} 
+% footer
+\lfoot{\small\scshape } 
+\cfoot{} 
+%%%% insert your name here %%%%
+% \rfoot{\footnotesize Author} 
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+\begin{document}
+
+\title{Response to referees \\
+C034405: "Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming``}
+\author{Warren Hoburg and Michael Burton}
+\maketitle
+
+We thank the anonymous referees for their thoughtful and insightful comments on the draft manuscript.
+We feel that the paper has improved significantly thanks to the feedback. 
+Specific comments from the reviews (in italics) are addressed herein.
+
+\section*{Referee 1}
+
+\emph{
+This article presents a description of a methodology to design a hale type aircraft using geometric programming.
+As such, the approach is probably of more relevance than the specifics.
+Review of Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming
+This article presents a description of a methodology to design a hale type aircraft using geometric programming.
+As such, the approach is probably of more relevance than the specifics.
+It lacks focus. Frankly this article is far more appropriate as a conference paper than a journal article. It reads like a recipe with a significant number of assumptions that are not supported.
+While the approach is definitely of value, the presentation is less so. If published, this article should be shortened to an engineering note. 
+A flow chart/figure could be included that shows the parameters (equations) that feed into the formulation. This way the reader gets the “bigger” picture. 
+The most significant figures to include are the results only. 
+Perhaps show a sketch of what a typical vehicle would look like. 
+Include only the most relevant equations.
+}
+
+\section*{Referee 2}
+
+\emph{Optimization: I would like to see more information on what were the design variables for both aircraft, how long a single analysis took and how many analyses were required by the GP approach.}
+
+We would like to thank the referee for this suggestion.  We claim that speed is o of great benefits of using GP and we should have absolutely included more information about our design variables, solve times, and number of analysis.  We refer the referee to the results section of the revised paper where we have included a table of key design parameters and solve times and number of analysis throughout. 
+
+\emph{Approximation: In order to accommodate the use of GP posynomial approximations were used. It is important then to check the final designs and see if they perform as approximated. Often the optimization process is steered to regions where the quality of the approximations is poor.}
+
+We thank the referee for this insightful point.  We have since included bounds on each posynmial approxmiation to ensure that the solution does not enter a region where we do not have representative data.  We noticed that the solar-electric solution tended to operate a lower Reynolds numbers than was approximated by our posynomial approxmiation.  We have since generated more drag data from XFOIL at low Reynolds numbers and re-generated the posynomial fits for the airfoil drag data.
+
+\emph{Assumptions:
+The paper appears to insist that a single model of the UAV need to be used for all latitudes. This seems to be very restrictive. I would like to know how much better the performance is for UAVs that are tailored for a narrow band of latitudes.
+In a similar vein, why not have both kind of UAVs depending on the latitude and the season.
+}
+
+We thank the referee for this comment.  These are both interesting trade studies that we could certainly explore.  We chose not to include them in this paper because we felt they were not central take aways of our findings.  This would have additionally increased the length of our paper.  If the referee feels that these two trade studies should be explored and included we would be happy to discuss this futher.
+
+\emph{Length: The paper is tedious to read with the long listing of models and constraints. It may make more sense to put some of the material as additional on-line material, which I assume is available with the Journal of Aircraft.}
+
+We recognize that this paper is long.  We have cut a few non-essential equations and graphs to try and shorten the paper.  However, because GP solves a list of constraints we can explicity state all of our assumptions.  We feel that this is important to justify our results.  We are willing to discuss cutting additionally sections/figures/equations if the referee has specific suggestions.
+
+\emph{Minor issues}
+\begin{itemize}
+    \item \emph{The fact that the design is limited to the northern hemisphere should be articulated clearly in the Abstract.}
+        We thank the referee for this comment.  We recongnize that this may have seemed like a limitation in our assumptions.  We have since revised our study to include wind speed data from the Southern Hemisphere.  We would refer the referee to Figure 1 of the revised paper.  We initially chose not to include wind speed data from the Southern Hemisphere because the wind speeds are consistently lower in the Southern Hemisphere versus the Northern Hemisphere.  Thus our assumption was conservative.  However, given that our results do not change drastically by including the Southern Hemisphere wind speed data we have chosen to included it to avoid misconceptions about our results. 
+
+    \item \emph{Sources for data presented in figures should be given in the captions.}
+        We thank the reader for this comment.  Citations have since been added to all capations where data is used.  
+
+    \item \emph{It was not clear to me why the solar UAV not fly substantially higher as there is less drag even if wind speeds are higher.}
+    There are two separate, but related issues that affect the operating altitude.  The first is wind speed.  It is true that drag is lower at higher altitudes.  But, if we want to be faster than the wind speeds then we pay a higher penalty for wind speeds than we do for air density, 
+
+    \begin{equation}
+        D = \frac{1}{2} \rho V^2 S C_D
+    \end{equation}
+    
+    as drag goes by $V^2$ but only varies linearly with $\rho$.  Additionally, wind speeds cause an even greater constraint on power because power goes by velcoity cubed, $P \sim V^3$.  This affects the number of solar cells and number of batteries, which in turn affects the wing size and therefore aircraft weight. This would suggest that we should fly at the minimum wind speed always.  
+
+    There is a second factor that is also going on, which is the trade off between wing weight and air density.  Because lift also scales equally with air density and wing area, like drag, 
+
+    \begin{equation}
+        L = \frac{1}{2} \rho V^2 S C_L
+    \end{equation}
+
+    for lower air densities a bigger wing is required.  Because of the cubed square law, a larger wing is very costly.  Therefore, it is actually more advantageous to fly at a lower altitude to accomodate a slightly larger wing.  
+
+    If we assume that a large wing doesn't affect the weight at all, then we should see the aircraft fly at the minimum wind speed.  This is precisely the point we are trying to make in Figure 17.  
+
+    \item \emph{I did not understand what the autocorrelation indicated in terms of performance. That is, I could not make sense of the meaning of Figs 4a and 5a.}
+        We thank the referee for this comment.  We realized that these autocorrelation plots, while interesting, are not actually pertinent to the optimization model and we chose to cut them from the paper.  We initially included them because as we were doing the research we wanted to understand what a percentile wind speed meant operationally.  We were asking ourselves does the 90th percentile wind speed mean that everyday we will be blown off station 10\% of the time, or that there will be 5 days in the month during which it is impossible to station keep.  The autocorrelation plots showed that the later was true.  In other words, when there are high wind speeds they can occur for days a time. `
+
+    \item \emph{When data is given for a certain latitude, it is not clear whether the implication is that there is no difference with longitude, or that this is the worst for any longitude.}
+        While wind speeds certianly vary with longitude, our claim is that the variation with longitude is minimial compared to the variation to latitude and can be ignored.  
+
+    \end{itemize}
+
+\section*{Referee 3}
+\emph{Overall the paper is well written and follows a logical progression. The analysis is clearly explained in sufficient detail. }
+
+    We thank the referee for this supportive comment. 
+
+\emph{When I started reading the paper I was under the impression that it would be a direct comparison between an optimized solar electric aircraft and an internal combustion driven aircraft for a specific mission or mission type. However since the mission requirements on the 2 aircraft types are not the same the paper is mainly an example of how the geometric programming method can be applied to 2 different types of aircraft (combustion engine and solar electric). This is fine but it should be made clear at the beginning of the paper.}
+
+    We thank the referee for this comment.  We realize that we may have been unclear in our comparison.  What we are really comparing is the capability of gas and solar-electric powered aircraft to meet the same set of requirements.  We have changed the second section in the paper to convey that statement.  We believe this to be a fair comparison and will hopefully address other comments made by this referee. 
+
+\emph{Overall I only had a few other comments:}
+
+\begin{itemize}
+    \item \emph{On page 5: again this speaks to not having the same mission constraints for both aircraft. Using the winter solstice to set the endurance level for the solar aircraft does not truly examine the design space for that aircraft. From a mission perspective having an aircraft that can fly 6 months of the year can be desirable when you are comparing it to an aircraft with a 7 day endurance. Even though that 7 day endurance can happen at any time during the year.}
+
+        We believe this comment is best addressed by a clarification of the requirements.  One requirement states that the mission must be greater than 6 days.  Obviously, the solar-electric powered aircraft will likely exceed 6 days with ease, but it is same requiement for both aircraft.  Another requirement is that the aircraft be able to fly in all seasons.  This requires the solar-electric aircraft to fly during the winter-solstice.  As we explored changing the latitude requirement, we could also explore changing the season requirement.  We chose not to explore this trade study in the paper because of the additional length to the paper.  We would be happy to include a season trade study if the referee feels it is an important result. 
+
+    \item \emph{On page 8: it should be stated that the temperature is constant between the altitude range of 11 km up to 20 km not above 11 km. Also figure 3 shows the altitude in ft. This is not consistent with the text which states altitude in meters. A single unit system should be used, otherwise it gets confusing. I would suggest listing everything in meters and then if needed put the equivalent value in ft in parenthesis next to it.}
+
+        We thank the referee for noticing this error.  It has since been corrected.  Additionally, all altitude references in the paper are now in meters.
+
+    \item \emph{On page 12: in figure 6 it should be indicated that the markers "o" are data points for the wind speed and their source should be referenced on the figure.}
+
+        We thank the referee for noticing this.  The data points have since been labeled and their source referenced. 
+
+    \item \emph{On page 26: Using the fuselage to store all of the fuel for the combustion engine aircraft and then using the wings to store the batteries for the solar electric aircraft is not consistent between the designs. Again, this is fine for just demonstrating the optimization method but is an issue if you are trying to compare the results between the two aircraft types and draw a conclusion.}
+
+        We thank the referee for the insightful comment.  Because we are attempting to do a fair comparison between the two archictures we have put a lot of thought into whether or not to putting fuel in the wings is the best possible configuration for the gas powered archicture.  We could certainly add it as a constraint to the optimization but to be fair we would have to add additional constraints to account for the added weight and complexity of wet wings.  For the smaller gas powered UAVs that are being considered in this problem wet wings would add a significant amount of weight and complexity whereas a fuselage of this size is easy to build and light weight.  For the solar-electric aircraft putting batteries in the wings is much simpler than putting fuel in wings.  Batteries do not require a special fuel tank and have low volume density.  Therefore, we believe that putting batteries in the wings for the solar-electric aircraft and fuel in a fuselage for the gas aircraft is a fair comparison. 
+
+    \item \emph{On page 29: This is just another point showing the significant differences between the proposed flight requirements between the two aircraft types and why the should not be compared. From equation 105 it can be seen that above ~44,000 ft the engine would produce no output due to the air density. Therefore to fly at altitudes comparable to the solar electric aircraft a compressor system would be needed which would greatly increase the mass and impact the performance of the combustion aircraft.}
+
+        We thank the referee for this comment.  We hope that previous comments about the requirements have address this concern.  Because the requirement is to be at an altitude > 4,500 meters we don't necessarily care where each aircraft flies so long as it meets the requirement.  In this respect, we believe it to be a fair comparison.  An obvious take away from the lapse rate of the gas engine is that any payloads requiring an altitude greater than 44,000 ft is that the solar-electric is the preferred option. 
+
+    \item \emph{On Page 31 line 28: it should state ±30 degrees Latitude not North latitude}
+
+        We thank the referee for noticing this error.  It has been corrected. 
+
+    \item \emph{On page 38, I could not get to the file given in reference 19 from the link provided. The actual report should be referenced not just the web site.}
+    \end{itemize}
+
+\end{document}

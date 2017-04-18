@@ -86,6 +86,7 @@ def plot_fits(xdata, ydata, yfit, latitude):
             ax.text(np.exp(x1)[0]+0.005, yfits[i][0]-1.0, p)
     ax.set_xlabel("Air Density [kg/m$^3$]")
     ax.set_ylabel("Wind Speed [m/s]")
+    ax.legend(["ECF Wind Data", "GP approximation"], loc=2)
     ax.grid()
     return fig, ax
 
