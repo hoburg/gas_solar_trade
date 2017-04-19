@@ -396,7 +396,7 @@ The following sections explain in detail the configuration, physical modeling, a
 
 A python package for defining and manipulating geometric programs, GPkit\cite{gpkitdocs}, is used to create the models described in this paper.  
 A commercial solver, mosek\cite{mosek}, is used to solve the GP. 
-Both the gas and solar-electric powered GP optimization models are available for download and use. \cite{gas_solar_trade} \\
+Both the gas and solar-electric powered GP optimization models are available for download and use. \cite{gassolartrade} \\
 
 \section{Configuration}
 
@@ -691,7 +691,7 @@ $W_{\text{ave}}$ is assumed to be the geometric mean, defined as
 
     For evaluation of long-endurance, gas-powered aircraft a discretization of $N=5$ was used. 
 
-\subsubsection{Elliptcal Fuselage for Gas Powered Aircraft}
+\subsubsection{Elliptcal Fuselage}
 
 For the gas powered aircraft it is assumed that the fuel is carried in an elliptically shaped fuselage.  The fuselage will increase the overall weight and drag of the aircraft.  The solar-electric powered aircraft is assumed to carry the batteries in the wings will therefore have a small fuselage whose effects will be ignored.  
 
@@ -723,7 +723,7 @@ The weight of the fuselage is constrained by
     W_{\text{fuse}} \geq S_{\text{fuse}} \rho_{A_{\text{cfrp}}} g
 \end{equation} 
 
-where $\rho_{A_{\text{cfrp}}} = 0.0975$ [g/cm$^2$], or the area density of two plys of carbon fiber.\cite{carbonfiber}  The surface area is also used to calculate the drag assuming a skin friction based drag model,
+where $\rho_{A_{\text{cfrp}}} = 0.0975$ [g/cm$^2$], or the area density of two plys of carbon fiber.\cite{cfply}  The surface area is also used to calculate the drag assuming a skin friction based drag model,
 
 \begin{align}
     \label{e:fusedrag}
@@ -1232,7 +1232,7 @@ The wing spar at each section root must be strong enough to withstand the bendin
     w_n &\leq w_{\text{max}}.
 \end{align}
 
-The ultimate compressive strength for carbon fiber is, $\sigma_{\text{cfrp}} = 1700$ [MPa].\cite{carbonfiber}
+The ultimate compressive strength for carbon fiber is, $\sigma_{\text{cfrp}} = 1700$ [MPa].\cite{cfprop}
 The tip deflection is constrained to be less than 20\% of the half span, $\frac{w_{\text{max}}}{b/2} = 0.2$.
 
 Finally, the weight of the spar cap is computed as
@@ -1244,7 +1244,7 @@ Finally, the weight of the spar cap is computed as
     W_{\text{spar}} &\geq 2 \sum\limits_{1}^{n-1} \Delta W_i
 \end{align}
 
-where $\rho_{\text{cfrp}} = 1.6$ [g/cm$^3$].\cite{carbonfiber}
+where $\rho_{\text{cfrp}} = 1.6$ [g/cm$^3$].\cite{cfply}
 
 \subsection{Wing Skin Weight}
 
@@ -1255,7 +1255,7 @@ It is assumed that the wing skin is made of carbon fiber.  The weight of the win
     W_{\text{skin}} \geq 2 \rho_{A_{\text{cfrp}}} S g.
 \end{equation}
 
-where $\rho_{A_{\text{cfrp}}} = 0.049$ [g/cm$^2$], or approximately the area density of one ply of carbon fiber.\cite{carbonfiber} The wing skin is asssumed not to contribute to the bending stiffness. 
+where $\rho_{A_{\text{cfrp}}} = 0.049$ [g/cm$^2$], or approximately the area density of one ply of carbon fiber.\cite{cfply} The wing skin is asssumed not to contribute to the bending stiffness. 
 
 \subsection{Empennage}
 
