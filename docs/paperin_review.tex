@@ -803,11 +803,11 @@ The lapse rate $L_{\text{eng}}(h) \leq 1$, is assumed to affect the maximum powe
     L_{\text{eng}}(h) \equiv \frac{P_{\text{max}}}{P_{\text{SL-max}}}.
 \end{equation}
 
-The lapse is calculated from the required flight altitude $h=15,000$ [ft], prior to the optimization solve using an approximate engine loss rate for normally aspirated engines of 3.5\% hp per 1000 ft,\cite{enginelapse}
+The lapse is calculated from the required flight altitude $h=4,500$ [m], prior to the optimization solve using an approximate engine loss rate for normally aspirated engines of 3.5\% hp per 300 m,\cite{enginelapse}
 
 \begin{equation}
     \label{e:lapsefit}
-    L_{\text{eng}}(h) = 1 - \frac{0.035}{1000 \text{ [ft]}} h.
+    L_{\text{eng}}(h) = 1 - \frac{0.035}{300 \text{ [m]}} h.
 \end{equation}
 
 \subsubsection{Climb Constraints}
@@ -817,7 +817,7 @@ The climb constraint ultimately sizes the engine because at the top of climb, wh
 
 \begin{equation}
     \label{e:climbrate}
-    \dot{h} \geq 100 \text{ [ft/min]}.
+    \dot{h} \geq 30 \text{ [m/min]}.
 \end{equation}
 
 The climb rate affects the required thrust, and therefore the required power during climb, 

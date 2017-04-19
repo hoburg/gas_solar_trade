@@ -1,7 +1,8 @@
 %DIF 1a1
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL paperin_1submission.tex   Mon Apr  3 10:08:32 2017
-%DIF ADD paperin_review.tex        Tue Apr 18 20:17:04 2017
+%DIF ADD paperin_review.tex        Tue Apr 18 20:35:01 2017
+\usepackage{tikz} %DIF > 
 %DIF -------
 \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 
@@ -1051,14 +1052,14 @@ verify that this performance curve is representative of engines of similar sizes
     L_{\text{eng}}(h) \equiv \frac{P_{\text{max}}}{P_{\text{SL-max}}}.
 }\end{equation}
 
-\DIFadd{The lapse is calculated from the required flight altitude $h=15,000$ }[\DIFadd{ft}]\DIFadd{, prior to the optimization solve using an approximate engine loss rate for normally aspirated engines of 3.5\% hp per 1000 ft,\mbox{%DIFAUXCMD
+\DIFadd{The lapse is calculated from the required flight altitude $h=4,500$ }[\DIFadd{m}]\DIFadd{, prior to the optimization solve using an approximate engine loss rate for normally aspirated engines of 3.5\% hp per 300 m,\mbox{%DIFAUXCMD
 \cite{enginelapse}
 }%DIFAUXCMD
 }
 
 \begin{equation}
     \DIFadd{\label{e:lapsefit}
-    L_{\text{eng}}(h) = 1 - \frac{0.035}{1000 \text{ [ft]}} h.
+    L_{\text{eng}}(h) = 1 - \frac{0.035}{300 \text{ [m]}} h.
 }\end{equation}
 
 \subsubsection{\DIFadd{Climb Constraints}}
@@ -1069,7 +1070,7 @@ The climb constraint ultimately sizes the engine because at the top of climb, wh
 
 \begin{equation}
     \DIFadd{\label{e:climbrate}
-    \dot{h} \geq 100 \text{ [ft/min]}.
+    \dot{h} \geq 30 \text{ [m/min]}.
 }\end{equation}
 
 \DIFadd{The climb rate affects the required thrust, and therefore the required power during climb, 
