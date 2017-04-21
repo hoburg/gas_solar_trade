@@ -44,13 +44,13 @@ def fit_setup(Re_range):
         if r < 150:
             cl = dataf["CL"].values.astype(np.float)
             cd = dataf["CD"].values.astype(np.float)
-            CL.append(cl[cl >= 1.0])
-            CD.append(cd[cl >= 1.0])
+            CL.append(np.hstack([cl[cl >= 1.0]]*1))
+            CD.append(np.hstack([cd[cl >= 1.0]]*1))
         elif r < 200:
             cl = dataf["CL"].values.astype(np.float)
             cd = dataf["CD"].values.astype(np.float)
-            CL.append(cl[cl >= 0.8])
-            CD.append(cd[cl >= 0.8])
+            CL.append(cl[cl >= 0.9])
+            CD.append(cd[cl >= 0.9])
         else:
             CL.append(dataf["CL"].values.astype(np.float))
             CD.append(dataf["CD"].values.astype(np.float))
@@ -100,7 +100,7 @@ def plot_fits(re, cnstr, x, y):
     return fig, ax
 
 if __name__ == "__main__":
-    Re = np.arange(100, 750, 50)
+    Re = np.arange(150, 750, 50)
     X, Y = fit_setup(Re) # call fit(X, Y, 4, "SMA") to get fit
     np.random.seed(0)
     cn, err = fit(X, Y, 4, "SMA")
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     else:
         df.to_csv("jho_fitdata.csv")
 
-    replot = np.array([100, 150, 200, 300, 350])
+    replot = np.array([150, 200, 300, 350, 400])
     # replot = np.array([300, 350, 400, 450, 500])
     F, A = plot_fits(replot, cn, X, Y)
     if len(sys.argv) > 1:

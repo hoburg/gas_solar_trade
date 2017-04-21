@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20170413131126" modified="D:20170415091014"/>
+<info created="D:20170413131126" modified="D:20170419144321"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -359,23 +359,6 @@ h
 </group>
 </group>
 <group>
-<path matrix="5.33333 0 0 0 -562.667 628" stroke="black" pen="heavier" arrow="normal/normal">
-128 608 m
-152 624 l
-</path>
-<group matrix="1 0 0 1 -8 20">
-<path stroke="black" pen="heavier">
-32 624 m
-32 592 l
-128 592 l
-128 624 l
-h
-</path>
-<text matrix="1 0 0 1 -16.4016 9.46244" transformations="translations" pos="52.0948 612.868" stroke="black" type="minipage" width="93.363" height="18.222" depth="13.26" valign="top" size="Large">Values \\
-(e.g. $\lambda=0.5$)</text>
-</group>
-</group>
-<group>
 <path matrix="1 0 0 1 96 -52" stroke="black" pen="heavier" arrow="normal/normal">
 128 704 m
 152 704 l
@@ -391,5 +374,17 @@ h
 <text matrix="3.56407 0 0 1.13042 -89.038 -145.18" transformations="translations" pos="61.4981 711.277" stroke="black" type="minipage" width="93.994" height="8.862" depth="3.89" valign="top" size="Large">Configuration</text>
 </group>
 </group>
+<path matrix="5.33333 0 0 0 -562.667 628" stroke="black" pen="heavier" arrow="normal/normal">
+128 608 m
+152 624 l
+</path>
+<path matrix="1 0 0 1 -8 20" stroke="black" pen="heavier">
+32 624 m
+32 592 l
+128 592 l
+128 624 l
+h
+</path>
+<text matrix="1 0 0 1 -25.7312 19.4458" transformations="translations" pos="52.0948 612.868" stroke="black" type="minipage" width="93.363" height="7.393" depth="2.41" valign="top" size="Large">Parameters</text>
 </page>
 </ipe>

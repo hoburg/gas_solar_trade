@@ -237,24 +237,25 @@ A comparision of the gas and solar-elecrtric powered aircraft is achieved by com
 \toprule
 \label{t:mreqs}
 Payload & 10 lbs\\
-Endurance & 6 days\\
+Station Keeping & 90\% \\
+Endurance & $>6$ days\\
 Season & all seasons\\
-Altitude & > 4,600 m\\
+Altitude & $>$ 4,600 m\\
 Latitude & $\pm30^{\circ}$\\
 \bottomrule
 \end{longtable}
 
-\subsection{Payload}
+\subsection{Station Keeping}
 
-A 10 lbs payload is a baseline requirement for both the gas and solar-electric powered aircraft. This requirement can be changed to observe how each architeure is able to handle larger or smaller payloads.
-
-Inherent in a payload requirement is the ability to station keep. To station keep an aircraft must fly at least as fast as the wind speed,
+To station keep an aircraft must fly at least as fast as the wind speed,
 
 \begin{equation}
     \label{e:availreq}
     V \geq V_{\text{wind}}.
 \end{equation}
 
+Observations in wind speed data\cite{wind} indicate that it is unlikely for long-endurance UAVs to be able to station keep in 100 percentile wind speeds.  
+Therefore, the station keeping requirement is defined as a percentage which is the percentile wind speed. 
 The wind speed at a station is a function of latitude, altitude, season or day of the year, and percentile wind speed,
 
 \begin{equation}
@@ -462,24 +463,24 @@ Altitude can be post-calculated from the optimized air density.
 For example, an aircraft optimized for $\pm$30 degrees latitude will have 11 different wind speed and solar flux constraints that must be satisfied, one for each degree of latitude between 20 and 30 degrees. 
 Because wind speeds are low and solar flux is higher below 20 degrees latitude, no constraints for latitudes below 20 degrees are actually included in the optimization. 
 The wind speed data used to generate these equations includes December wind speeds from the Northern Hemisphere and June wind speeds from the Southern Hemisphere for the year 2005-2015.
-In total, 41 wind speed constraints were generated to represent $\pm$20-60 degrees. (See Appendix A) 
-The constraint on December wind speeds and air density at the 30 degree latitude is 
-
-\begin{align}
-    \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{7.066} &\geq 18413.2\rho^{9.3}p_{\text{wind}}^{5.51} + 9658.5\rho^{8.25}p_{\text{wind}}^{23.47} \nonumber \\
-    \label{e:windfit35}
-    &+ \num{2.55d-13}\rho^{-7.72}p_{\text{wind}}^{49.65} + \num{1.11d-16}\rho^{-9.80}p_{\text{wind}}^{10.26} + 10.493.8\rho^{7.31}p_{\text{wind}}^{226.9}
-\end{align}
-
-where $V_{\text{ref}} = 100$ [m/s] and $p_{\text{wind}}$ is the percentile wind speed. The comparison of the fitted Equation~\eqref{e:windfit35} to the actual data is presented in Figure~\ref{f:windfitl35}. 
-
-\begin{figure}[H]
-	\begin{center}
-	\includegraphics[width=0.6\textwidth,natwidth=511,natheight=405]{windfitl30.pdf}
-    \caption{\textbf{Posynomial approximation to wind speed data\cite{wind} (circles) at 35$^{\circ}$ latitude. (Log-space RMS error = 0.043.)}}
-	\label{f:windfitl35}
-	\end{center}
-\end{figure}
+In total, 41 wind speed constraints were generated to represent $\pm$20-60 degrees each with a log space RMS error of less than 5\%. (See Appendix A) 
+% The constraint on December wind speeds and air density at the 30 degree latitude is 
+% 
+% \begin{align}
+%     \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{7.066} &\geq 18413.2\rho^{9.3}p_{\text{wind}}^{5.51} + 9658.5\rho^{8.25}p_{\text{wind}}^{23.47} \nonumber \\
+%     \label{e:windfit35}
+%     &+ \num{2.55d-13}\rho^{-7.72}p_{\text{wind}}^{49.65} + \num{1.11d-16}\rho^{-9.80}p_{\text{wind}}^{10.26} + 10.493.8\rho^{7.31}p_{\text{wind}}^{226.9}
+% \end{align}
+% 
+% where $V_{\text{ref}} = 100$ [m/s] and $p_{\text{wind}}$ is the percentile wind speed. The comparison of the fitted Equation~\eqref{e:windfit35} to the actual data is presented in Figure~\ref{f:windfitl35}. 
+% 
+% \begin{figure}[H]
+% 	\begin{center}
+% 	\includegraphics[width=0.6\textwidth,natwidth=511,natheight=405]{windfitl30.pdf}
+%     \caption{\textbf{Posynomial approximation to wind speed data\cite{wind} (circles) at 35$^{\circ}$ latitude. (Log-space RMS error = 0.043.)}}
+% 	\label{f:windfitl35}
+% 	\end{center}
+% \end{figure}
 
 For the gas powered aircraft, the altitude is not optimized.  
 Gas-powered aircraft, which are naturally aspirated, will be less efficient at higher altitudes.  
@@ -526,6 +527,7 @@ In order for the aircraft to begin charging batteries there must be a minimum so
 
 where $\eta_{\text{motor}} = 0.95$. Thus for a given latitude and day, and therfore total solar energy $(E/S)_{\text{sun}}$, both $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$ are functions of $(P/S)_{\text{min}}$.  
 The total solar energy available $(E/S)_{\text{sun}}$, is computed prior to the optimization solve and is used to generate monomial approximations for $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$ as functions $(P/S)_{\text{min}}$, one for each degree of latitude between 20 and 60 degrees latitude. 
+$(E/S)_{\text{sun}}$, $(E/S)_{\text{day}}$, $(E/S)_{\text{twilight}}$, and $t_{\text{night}}$ are precomputed using the formulas in Appendix B to generate the fitted equations. 
 % Figure~\ref{f:energyapprox} shows sample monomial approximations at 30 degrees latitude. 
 % 
 % \begin{figure}[H]
@@ -537,6 +539,7 @@ The total solar energy available $(E/S)_{\text{sun}}$, is computed prior to the 
 %  \label{f:energyapprox}
 % \end{figure}
 
+
 For the purposes of this design study, it is assumed that the solar cells are placed on the wing and the horizontal tail but not on the vertical tail. 
 The fractional solar cell area index $f_{\text{solar}}$ is one when the solar cells completely cover the main wing and greater than one if solar cells are placed on the horizontal tail,
 
@@ -545,70 +548,6 @@ The fractional solar cell area index $f_{\text{solar}}$ is one when the solar ce
     S_{\text{solar}} \leq f_{\text{solar}}S.
 \end{equation}
 
-The total available solar energy per day is an integral of the available solar power during the course of the day,
-
-    \begin{equation}
-        \label{e:solares}
-        (E/S)_{\text{sun}} = \int_{t_{\text{sun rise}}}^{t_{\text{sun set}}} (P/S)_{\text{sun}} dt.
-    \end{equation}
-    
-For simplicity, energy and power will refer to energy and power per unit area throughout the rest of this section (i.e. $(P/S) = P$). 
-The solar irradiated power $P_{\text{sun}}$, is a function of $\theta$, the angle between the normal to the flat surface, or aircraft wing, and the sun beam.\cite{solar}
-
-\begin{equation}
-    \label{e:solarp}
-    P_{\text{sun}} = P_0 \cos{\theta}
-\end{equation}
-
-The angle $\theta$, depends on the time of day $t$, latitude $\phi$, and declination angle $\Delta$,\cite{solar}
-
-    \begin{equation}
-        \label{e:solartheta}
-        \cos{\theta} = \sin{\Delta} \sin{\phi} + \cos{\Delta} \cos{\phi} \cos{2\pi t/24}.
-    \end{equation}
-
- The declination angle $\Delta$, can be found using the relation\cite{solar} 
-
-    \begin{align}
-        \label{e:solardelta}
-        \Delta = &0.006918 - 0.399912 \cos{\beta} + 0.070257\sin{\beta} - 0.006758\cos{2\beta} + \nonumber \\
-        & 0.000907\sin{2\beta} - 0.002697\cos{3\beta} + 0.00148\sin{3\beta},
-    \end{align}
-
-    where $\beta = 2\pi (\text{DOY}-1)/365$.
-    The time of day $t_{\text{day}}$, and the time of night $t_{\text{night}}$, can be calculated using a derivation of Equation~\eqref{e:solartheta}, \cite{solar}
-
-    \begin{align}
-        \label{e:solartday}
-        \cos{(\pi t_{\text{sun rise}}/12)} &= -\tan{\Delta} \tan{\phi} \\
-        \label{e:solarsunrise}
-        t_{\text{sun rise}} &= -t_{\text{sun set}} \\
-        \label{e:solartday2}
-        t_{\text{day}} &= 2t_{\text{sun rise}} \\
-        \label{e:solartnight}
-        t_{\text{night}} &= 24 - t_{\text{day}}
-    \end{align}
-
-    where noon is $t=0$. Both $t_{\text{day}}$ and $t_{\text{night}}$ affect the battery size as defined in Equations~\eqref{e:solarreq} and~\eqref{e:solarbatt}. The solar power available assuming no inclination angle $P_0$, is found using the eccentricity of the earth's orbit, 
-
-    \begin{align}
-        \label{e:solarp0}
-        P_0 & = P_{\text{sun surface}} \frac{R_{\text{sun}}^2}{R_{\text{earth orbit}}^2}, \\
-        \label{e:solareo}
-        R_{\text{earth orbit}} & = r_0 \left[ 1 + 0.017 \sin{\left( 2\pi \frac{\text{DOY}-93}{365}\right)} \right],
-    \end{align}
-    
-    where 
-
-    \[ \begin{array}{lcl}
-        P_{\text{sun surface}} & : & \text{Power emitted at the sun's surface} \\
-        R_{\text{sun}} & : & \text{Radius of the sun} \\
-        R_{\text{earth orbit}} & : & \text{Distance from earth to sun} \\
-        r_0 & : & \text{Average distance from earth to sun} \\
-        0.017 & : & \text{Eccentricity of earth-sun orbit}.
-    \end{array} \]
-
-    Using a trapezoidal integration of Equation~\eqref{e:solares}, the total available solar energy per unit area can be obtained for a given latitude and day of the year. Because only Equations~\eqref{e:solarreq}-\eqref{e:solarssolar} are GP compatible, the total solar energy per unit area per day, the length of the day and the length of the night are calculated from the latitude and the day of the year prior to an optimization solve.
 
 \subsection{Gas Powered Aircraft Physical Models}
 
@@ -833,7 +772,7 @@ where $W$ is the weight of the aircraft during climb.
 
 The models described in this section were applied to both the gas powered and solar-electric powered aircraft models. 
 
-\subsection{Steady Level Flight}
+\subsubsection{Steady Level Flight}
 
 Both the gas and solar powered aircraft are assumed to be in steady level flight,\cite{hoburgthesis}
 
@@ -853,7 +792,7 @@ The shaft power produced by the engine or motor can be expressed as
 
     where the propulsive efficiency is assumed to be a constant, $\eta_{\text{prop}} = 0.75$. 
 
-\subsection{Aerodynamics}
+\subsubsection{Aerodynamics}
 
 The aircraft aerodynamics is modeled as a drag build up of the non-wing drag, wing profile drag, and induced drag coefficients, 
 
@@ -1039,13 +978,15 @@ The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from th
 %  \label{f:solarcontours}
 % \end{figure}
 
-\subsection{Wing Spar Model}
+\subsubsection{Wing Spar Model}
 
 A wing spar is one of the primary structural elements of both aircraft. 
 A conservative approach to calculating the size of the spar is to assume that the spar carries all of the bending loads caused by the lifting loads and weight of the aircraft.  
 It is assumed that there are two out of plane bending cases to which both the gas powered and the solar-electric powered aircraft are subject: standard wing bending and gust loads. 
 
-\subsubsection{Standard Wing Bending Case}
+\begin{itemize}
+
+\item[Standard Wing Bending Case]
 
 The distributed load along the wing that is a combination of the lifting distribution and weight distribution along the wing
 The wing loading distribution, $q(y)$, can be approximated as a scaling of the local chord,\cite{bending}
@@ -1089,7 +1030,7 @@ The center weight for the solar powered aircraft is
 \end{equation}
 
 
-\subsubsection{Gust Loading Case}
+\item[Gust Loading Case]
 
 Because long-endurance aircraft typically have high aspect ratio wings, they are considered flexible aircraft. 
 To account for this flexibility and size a structural wing spar that will ensure enough rigidity in the event of a gust load, a distributed gust lifting load is added to the steady level flight loading distribution in Equation~\eqref{e:qbar}
@@ -1135,7 +1076,7 @@ The gust velocity has an assumed profile along the wing\cite{acgust},
 
 where the reference velocity is an assumed conservative value\cite{acgust}, $V_{\text{ref}} = 10$ [m/s]. The gust velocity profile is computed prior to solve to preserve GP-compatibility.
 
-\subsubsection{Discretized Beam Model}
+\item[Discretized Beam Model]
 
 Using a standard Bernoulli-Euler discretized beam model with $n=5$ nodes, the shear forces, moments, angles, and deflections can be expressed in a GP-compatible form using the distributed loads $q(y)$, as an input. Boundary conditions are zero shear forces and moments at the wing tips and zero angle and deflection at the wing root.\cite{bending}
 
@@ -1178,7 +1119,7 @@ Using a standard Bernoulli-Euler discretized beam model with $n=5$ nodes, the sh
 
 where the Young's Modulous of carbon fiber is $E = 20$ [MPa]. 
 
-\subsubsection{Cap Spar for Bending Loads}
+\item[Cap Spar for Bending Loads]
 
 A cap spar is considered for the solar-electric and gas powered aircraft.  Both aircraft optimization models share the same governing equations.  A cap spar has two carbon fiber caps separated by a foam core as seen in Figure~\ref{f:capspar}. A thin shear web is wrapped around the caps and foam to prevent shearing and buckling.
 
@@ -1246,7 +1187,9 @@ Finally, the weight of the spar cap is computed as
 
 where $\rho_{\text{cfrp}} = 1.6$ [g/cm$^3$].\cite{cfply}
 
-\subsection{Wing Skin Weight}
+\end{itemize}
+
+\subsubsection{Wing Skin Weight}
 
 It is assumed that the wing skin is made of carbon fiber.  The weight of the wing skin is 
 
@@ -1257,7 +1200,8 @@ It is assumed that the wing skin is made of carbon fiber.  The weight of the win
 
 where $\rho_{A_{\text{cfrp}}} = 0.049$ [g/cm$^2$], or approximately the area density of one ply of carbon fiber.\cite{cfply} The wing skin is asssumed not to contribute to the bending stiffness. 
 
-\subsection{Empennage}
+
+\subsubsection{Empennage}
 
 An empennage model is added to both the solar-electric and gas powered aircraft models.  The empennage model consists of a single tail boom, horizontal tail and vertical tail.  
 The empennage adds both weight and drag to each aircraft.  
@@ -1340,17 +1284,17 @@ The drag of the empennage was modeled as three separate parts with no interferen
 \end{align}
 
 The drag of the horizontal and vertical tails is computed using a GP-compatible fit of XFOIL data for a range of Reynolds numbers and NACA airfoil thicknesses,
-
-\begin{align}
-    D_{\text{(v,h)}} &\geq \frac{1}{2} c_{d_{\text{(v,h)}}} \rho V^2 S_{\text{(v,h)}} \\
-    \label{e:taildrag}
-    c_{d_{\text{(v,h)}}}^{70.5599} &\geq \num{7.42688d-90} \left( \frac{Re_{\text{(v,h)}}}{\num{1d3}} \right)^{-33.0637}(100 \tau_{\text{(v,h)}})^{18.0419}  \nonumber \\
-                 & + \num{5.02826d-163}\left(\frac{Re_{\text{(v,h)}}}{\num{1d3}}\right)^{-18.7959} (100\tau_{\text{(v,h)}})^{53.1879} \\
-                 &+ \num{4.22901d-77}\left(\frac{Re_{\text{(v,h)}}}{\num{1d3}}\right)^{-41.1704} (100\tau_{\text{(v,h)}})^{28.4609} \nonumber \\
-\end{align}
-
 where the selected airfoil is the NACA 0008 for both the horizontal and vertical tails (i.e. $\tau_{\text{(v,h)}} = 0.08$). 
 The XFOIL data was generated for a zero angle of attack, based upon steady level flight where neither surface is generating lift.  
+
+% \begin{align}
+%     D_{\text{(v,h)}} &\geq \frac{1}{2} c_{d_{\text{(v,h)}}} \rho V^2 S_{\text{(v,h)}} \\
+%     \label{e:taildrag}
+%     c_{d_{\text{(v,h)}}}^{70.5599} &\geq \num{7.42688d-90} \left( \frac{Re_{\text{(v,h)}}}{\num{1d3}} \right)^{-33.0637}(100 \tau_{\text{(v,h)}})^{18.0419}  \nonumber \\
+%                  & + \num{5.02826d-163}\left(\frac{Re_{\text{(v,h)}}}{\num{1d3}}\right)^{-18.7959} (100\tau_{\text{(v,h)}})^{53.1879} \\
+%                  &+ \num{4.22901d-77}\left(\frac{Re_{\text{(v,h)}}}{\num{1d3}}\right)^{-41.1704} (100\tau_{\text{(v,h)}})^{28.4609} \nonumber \\
+% \end{align}
+
 % A comparison of the XFOIL data and Equation~\eqref{e:taildrag} is shown in Figure~\ref{f:taildragpolar}.
 
 % \begin{figure}[H]
@@ -1763,6 +1707,75 @@ For the solar aircraft altitude is calculated based off of the optimized air den
 \end{align}
 
 According to Sutherland's law\cite{fluiddyhandbook}, viscosity varies with temperature.  Because temperature is assumed constant 11,000-20,000 meters\cite{isaatm}, viscosity is also assumed to be constant, $\mu=\num{1.42d-5}$. \\
+
+\section*{Appendix D}
+
+\subsection{Solar energy calculations}
+
+The total available solar energy per day is an integral of the available solar power during the course of the day,
+
+    \begin{equation}
+        \label{e:solares}
+        (E/S)_{\text{sun}} = \int_{t_{\text{sun rise}}}^{t_{\text{sun set}}} (P/S)_{\text{sun}} dt.
+    \end{equation}
+    
+For simplicity, energy and power will refer to energy and power per unit area throughout the rest of this section (i.e. $(P/S) = P$). 
+The solar irradiated power $P_{\text{sun}}$, is a function of $\theta$, the angle between the normal to the flat surface, or aircraft wing, and the sun beam.\cite{solar}
+
+\begin{equation}
+    \label{e:solarp}
+    P_{\text{sun}} = P_0 \cos{\theta}
+\end{equation}
+
+The angle $\theta$, depends on the time of day $t$, latitude $\phi$, and declination angle $\Delta$,\cite{solar}
+
+    \begin{equation}
+        \label{e:solartheta}
+        \cos{\theta} = \sin{\Delta} \sin{\phi} + \cos{\Delta} \cos{\phi} \cos{2\pi t/24}.
+    \end{equation}
+
+ The declination angle $\Delta$, can be found using the relation\cite{solar} 
+
+    \begin{align}
+        \label{e:solardelta}
+        \Delta = &0.006918 - 0.399912 \cos{\beta} + 0.070257\sin{\beta} - 0.006758\cos{2\beta} + \nonumber \\
+        & 0.000907\sin{2\beta} - 0.002697\cos{3\beta} + 0.00148\sin{3\beta},
+    \end{align}
+
+    where $\beta = 2\pi (\text{DOY}-1)/365$.
+    The time of day $t_{\text{day}}$, and the time of night $t_{\text{night}}$, can be calculated using a derivation of Equation~\eqref{e:solartheta}, \cite{solar}
+
+    \begin{align}
+        \label{e:solartday}
+        \cos{(\pi t_{\text{sun rise}}/12)} &= -\tan{\Delta} \tan{\phi} \\
+        \label{e:solarsunrise}
+        t_{\text{sun rise}} &= -t_{\text{sun set}} \\
+        \label{e:solartday2}
+        t_{\text{day}} &= 2t_{\text{sun rise}} \\
+        \label{e:solartnight}
+        t_{\text{night}} &= 24 - t_{\text{day}}
+    \end{align}
+
+    where noon is $t=0$. Both $t_{\text{day}}$ and $t_{\text{night}}$ affect the battery size as defined in Equations~\eqref{e:solarreq} and~\eqref{e:solarbatt}. The solar power available assuming no inclination angle $P_0$, is found using the eccentricity of the earth's orbit, 
+
+    \begin{align}
+        \label{e:solarp0}
+        P_0 & = P_{\text{sun surface}} \frac{R_{\text{sun}}^2}{R_{\text{earth orbit}}^2}, \\
+        \label{e:solareo}
+        R_{\text{earth orbit}} & = r_0 \left[ 1 + 0.017 \sin{\left( 2\pi \frac{\text{DOY}-93}{365}\right)} \right],
+    \end{align}
+    
+    where 
+
+    \[ \begin{array}{lcl}
+        P_{\text{sun surface}} & : & \text{Power emitted at the sun's surface} \\
+        R_{\text{sun}} & : & \text{Radius of the sun} \\
+        R_{\text{earth orbit}} & : & \text{Distance from earth to sun} \\
+        r_0 & : & \text{Average distance from earth to sun} \\
+        0.017 & : & \text{Eccentricity of earth-sun orbit}.
+    \end{array} \]
+
+    Using a trapezoidal integration of Equation~\eqref{e:solares}, the total available solar energy per unit area can be obtained for a given latitude and day of the year. Because only Equations~\eqref{e:solarreq}-\eqref{e:solarssolar} are GP compatible, the total solar energy per unit area per day, the length of the day and the length of the night are calculated from the latitude and the day of the year prior to an optimization solve.
 
 \end{document}
 
