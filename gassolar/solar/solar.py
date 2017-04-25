@@ -259,7 +259,7 @@ class FlightSegment(Model):
 
         self.submodels = [self.fs, self.aircraftPerf, self.slf]
 
-        return self.aircraft, self.submodels
+        return self.submodels
 
 class SteadyLevelFlight(Model):
     "steady level flight model"
