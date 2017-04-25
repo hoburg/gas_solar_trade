@@ -6,7 +6,7 @@ from gpfit.fit import fit
 import sys
 import pandas as pd
 plt.rcParams.update({'font.size':15})
-GENERATE = True
+GENERATE = False
 
 def get_Eirr(latitude, day, N=50.0):
     """

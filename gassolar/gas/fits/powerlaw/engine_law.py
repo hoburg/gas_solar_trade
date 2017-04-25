@@ -11,7 +11,7 @@ WEIGHT = 10.0
 POWER = 10.0
 PATH = (os.path.abspath(__file__).replace(os.path.basename(__file__), "")
         + os.sep)
-GENERATE = True
+GENERATE = False
 
 def plot_powerlaw(csv):
     df = pd.read_csv(csv)

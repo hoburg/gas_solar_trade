@@ -112,8 +112,8 @@ if __name__ == "__main__":
     else:
         df.to_csv("jho_fitdata.csv")
 
-    replot = np.array([150, 200, 300, 350, 400])
-    # replot = np.array([300, 350, 400, 450, 500])
+    # replot = np.array([150, 200, 300, 350, 400])
+    replot = np.array([300, 350, 400, 450, 500])
     F, A = plot_fits(replot, cn, X, Y)
     if len(sys.argv) > 1:
         path = sys.argv[1]

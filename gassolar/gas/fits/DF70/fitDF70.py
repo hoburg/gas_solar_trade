@@ -12,7 +12,7 @@ plt.rcParams.update({'font.size':19})
 np.random.seed(0)
 PATH = (os.path.abspath(__file__).replace(os.path.basename(__file__), "")
         + os.sep)
-GENERATE = True
+GENERATE = False
 
 def plot_BSFCtoPower(power_csv, bsfc_csv):
     # Fitting BSFC vs. Power

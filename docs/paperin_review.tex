@@ -1,4 +1,5 @@
 \usepackage{tikz}
+\usepackage{bm}
 \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 
  \author{
@@ -53,9 +54,9 @@ $\text{BSFC}_{100\%}$ \> BSFC at full throttle \\ %[kg/kW/hr] \\
 $c$ \> wing chord \\ %[m] \\
 $C_D$ \> aircraft drag coefficient \\
 $C_{d_0}$ \> non-wing drag coefficient \\
-$c_{d_{\text{h}}}$ \> horizontal tail profile drag coefficient \\
+% $c_{d_{\text{h}}}$ \> horizontal tail profile drag coefficient \\
 $c_{d_p}$ \> wing profile drag coefficient \\
-$c_{d_{\text{v}}}$ \> vertical tail profile drag coefficient \\
+% $c_{d_{\text{v}}}$ \> vertical tail profile drag coefficient \\
 $C_f$ \> skin friction coefficient \\
 $C_L$ \> lift coefficient \\
 $c_{l_{\alpha}}$ \> lift slope coefficient \\
@@ -65,7 +66,7 @@ $D_{\text{boom}}$ \> tail boom drag \\% [N] \\
 $\Delta W$ \> wing section weight \\ %[N] \\
 $\Delta y$ \> wing section length \\ %[m] \\
 DOY \> day of the year \\
-$e$ \> Oswald efficiency factor \\
+$e$ \> span efficiency factor \\
 $E$ \> Young's Modulus \\ %[Pa] \\
 $E_{\text{batt}}$ \> energy stored in battery \\ %[J] \\
 $E_{\text{sun}}$ \> total solar energy available \\ %[Whr] \\
@@ -89,8 +90,8 @@ $l_\text{h}$ \> horizontal tail moment arm \\ % [m] \\
 $l_\text{v}$ \> vertical tail moment arm \\ % [m] \\
 $m$ \> tail boom mass \\ % [kg] \\
 $m'$ \> local wing mass \\ % [kg/m] \\
-$m_{\text{fac-wing}}$ \> margin factor\\
-$m_{\text{fac-wing}}$ \> wing weight margin factor \\
+% $m_{\text{fac-wing}}$ \> margin factor\\
+$m_{\text{fac}}$ \> weight margin factor \\
 $m_{\text{motor}}$ \> electric motor mass \\
 $\dot{m}_{\text{fuel}}$ \> fuel flow rate \\ % [kg/s] \\
 $\mathcal{M}$ \> wing bending moment \\ % [Nm] \\
@@ -121,7 +122,7 @@ $Re_{\text{boom}}$ \> tail boom Reynolds number \\
 $Re_{\text{h}}$ \> horizontal tail Reynolds number \\
 $Re_{\text{v}}$ \> vertical tail Reynolds number \\
 $S$ \> wing planform area \\ % [m$^2$]\\
-$\mathcal{S}$ \> shear forces \\ % [N] \\
+$\mathcal{S}$ \> shear force \\ % [N] \\
 $S_{\text{fuse}}$ \> fuselage wetted surface area \\ % [m$^2$]\\
 $S_{\text{h}}$ \> horizontal tail planform area \\ % [m$^2$]\\
 $S_{\text{solar}}$ \> solar cell area \\ % [m$^2$]\\
@@ -152,6 +153,7 @@ $w_{\text{cap}}$ \> spar cap width \\ % [m] \\
 $W_{\text{cent}}$ \> center of aircraft weight \\ % [N] \\
 $W_{\text{empennage}}$ \> empennage weight \\ % [N] \\
 $W_{\text{engine}}$ \> engine weight \\ % [N] \\
+$W_{\text{fadd}}$ \> additional wing structural weight\\ % [N] \\
 $W_{\text{final}}$ \> end of flight segment aircraft weight \\ % [N] \\
 $W_{\text{fuel}}$ \> fuel weight \\ % [N] \\
 $W_{\text{fuselage}}$ \> fuselage weight \\ % [N] \\
@@ -206,7 +208,7 @@ The complexity of sizing these kinds of aircraft makes the trade offs between ga
 
 This paper presents a physics-based optimization model that uses geometric programming as a systematic and rapid approach to evaluate trade offs between the two archictures for a given mission.  Geometric programming, a form of convex optimization, is chosen as a means of evaluating the design space because of its rapid solve time and guaranteed convergence to a global optimum.\cite{gp}
 Models and equations representing the interaction of the various disciplines are expressed in a geometric programming form that are then combined to form an optimization model. 
-The optimization is solved multiple times to observe how aircraft size and weight are affected by different design parameters and requirements. 
+The optimization is solved multiple times for different design parameters and requirements to observe changes in aircraft size and weight. 
 
 The driving requirement that sizes solar-electric powered aircraft is the ability to operate at multiple locations and during all seasons.  
 To fly multiple days, solar-electric powered aircraft must carry enough solar cells and batteries to fly during the day while storing enough energy to fly through the night.\cite{solartech}
@@ -225,7 +227,7 @@ Using this methodology, trade offs are observed between different aircraft confi
 The results show that gas-powered aircraft can generally be built lighter and can fly faster and can therefore fly at higher latitudes and in higher percentile wind speeds.  
 Solar-powered aircraft have greater endurance but are limited operationally by their ability to reach higher speeds.  
 This optimization methodology can quantify the difference in weight and endurance between and gas and solar-electric powered aircraft for the same set of requirements. 
-Similar trade offs are calculated for other requirements and performance metrics to determine under what conditions each platform is best suited to meet a set of requirements.
+Varying mission requirements reveals how the best architecture changes depending on the requirements. 
 
 \section{Mission Requirements}
 
@@ -255,8 +257,8 @@ To station keep an aircraft must fly at least as fast as the wind speed,
 \end{equation}
 
 Observations in wind speed data\cite{wind} indicate that it is unlikely for long-endurance UAVs to be able to station keep in 100 percentile wind speeds.  
-Therefore, the station keeping requirement is defined as a percentage which is the percentile wind speed. 
-The wind speed at a station is a function of latitude, altitude, season or day of the year, and percentile wind speed,
+Therefore, the station keeping requirement is defined as the percentage of time the aircraft can remain on station, which is the percentile wind speed, $p_{\text{wind}}$. 
+The wind speed at a station is also a function of latitude, altitude, season or day of the year,
 
 \begin{equation}
     \label{e:windspeed}
@@ -271,15 +273,15 @@ It is assumed that the wind speed distribution is independent of longitude.
 For long-endurance gas powered aircraft, the endurance requirement is defined by amount of time the aircraft needs to remain in the air without refueling.  
 For a solar-electric powered aircraft, however, if it can fly during the shortest day of the year, December 21st (June 21st for Southern Hemisphere), then it can thoretically fly at any time of the year, more than satisfying the 6 day endurance requirement. 
 Therefore, to meet the endurance requirement the solar-electric powered aircraft must be able to fly during the winter solstice.  
-To achieve this design constraint the aircraft must be able to fly with limited solar energy, discussed in Section IV.B, and with higher than average wind speeds as shown in Figure~\ref{f:windvsmonth}.  
-Because becuase wind speeds are greatest during the winter solstice for both the Northern and Southern Hemispheres only winds speeds from December and June will be used for the aircraft sizing and performance analysis presented in this paper. 
+To achieve this design constraint the aircraft must be able to fly with limited solar energy, discussed in Section IV.A, and with higher than average wind speeds as shown in Figure~\ref{f:windvsmonth}.  
+Because becuase wind speeds are greatest during the winter solstice for both the Northern and Southern Hemispheres only winds speeds from December and June respectively, will be used for the aircraft sizing and performance analysis presented in this paper. 
 
 \begin{figure}[H]
  \begin{subfigmatrix}{2}% number of columns
      \subfigure[-30$^{\circ}$ latitude \label{f:windvsmonthS30}]{\includegraphics[natwidth=560,natheight=420]{windvsmonthS30.pdf}}
      \subfigure[+30$^{\circ}$ latitude \label{f:windvsmonthN30}]{\includegraphics[natwidth=560,natheight=420]{windvsmonthN30.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Winds peak at summer and winter solstice in Southern and Northern Hemispheres respectively.\cite{wind}}}
+ \caption{\textbf{Winds peak at the winter solstice in Southern and Northern Hemispheres.\cite{wind}}}
  \label{f:windvsmonth}
 \end{figure}
 
@@ -300,7 +302,7 @@ The altitude requirement is generally set by a minimum payload required to meet 
 \end{equation}
 
 Long-endurance aircraft tend to fly at low velocities, which based on Figure~\ref{f:altvswindhmin} means there are two possible operating altitude regiems: at or around the minimum payload requirement 4,600 - 7,600 m or at high altitudes between 16,700-20,000 m. 
-Gas powered aircraft generally fly in the lower altitude regime of 4,600-7,600 m because naturally aspirated engines lose power with increased altitude and are unable to reach altitudes higher than about 13,500 m depending on the engine.  
+Gas powered aircraft generally fly in the lower altitude regime of 4,600-7,600 m because naturally aspirated engines lose power with increased altitude and are unable to reach altitudes higher than about 13,500 m.  
 Solar-electric powered aircraft, which do not have naturally aspirated engines, will to fly around 18,000 m to avoid cloud coverage.
 
 \begin{figure}[H]
@@ -327,7 +329,7 @@ Figure~\ref{f:latvswind} shows how the wind speed varies with latitude in the No
 	\end{center}
 \end{figure}
 
-Latitude additionally affects the solar-electric powered aircraft because at higher latitudes there is less daylight and therefore less solar energy during the winter months. This is further discussed in Section IV.B.
+Latitude additionally affects the solar-electric powered aircraft because at higher latitudes there is less daylight and therefore less solar energy during the winter months. This is further discussed in Section IV.A.
 
 % \subsection{Percentile Wind Speed}
 % 
@@ -407,6 +409,7 @@ The gas powered aircraft has a fuselage to hold all of the fuel required for the
 The solar-electric powered aircraft holds the batteries in the wings.  
 The solar cells for the solar-electric aircraft are placed along the wing and possibly on the horizontal tail.  
 A simple diagram of what each vehicle might look like is shown in Figure~\ref{f:simpleaircraft} with their corresponding weight breakdowns in Figure~\ref{f:wbreak}.
+The configuration is assumed to be static for this study.
 
 \begin{figure}[H]
 	\begin{center}
@@ -435,9 +438,6 @@ A simple diagram of what each vehicle might look like is shown in Figure~\ref{f:
 %  \label{f:wbreak}
 % \end{figure}
 
-    
-These assumptions can be changed to evaulate different configuration.  Changes in configuration assumptions may require modification of models or equations. 
-
 \section{Aircraft Physical Models}
 
 To evaluate the size and performance of both gas and solar-electric powered aircraft, underlying physics models are used.  
@@ -458,12 +458,12 @@ This approach assumes that the solar-electric powered aircraft will not be confi
 Because wind speeds also vary with latitude, several constraints are needed to optimize altitude. 
 Constraints relating wind speed and air density were generated using the data fitting technique described by Hoburg et. al\cite{fitting}.
 Air density was chosen as the dependent variable instead of altitude to eliminate an extra equation relating altitude to air density. 
-Altitude can be post-calculated from the optimized air density. 
+Altitude can be post-calculated from the optimized air density. (See Appendix A) 
 
 For example, an aircraft optimized for $\pm$30 degrees latitude will have 11 different wind speed and solar flux constraints that must be satisfied, one for each degree of latitude between 20 and 30 degrees. 
 Because wind speeds are low and solar flux is higher below 20 degrees latitude, no constraints for latitudes below 20 degrees are actually included in the optimization. 
-The wind speed data used to generate these equations includes December wind speeds from the Northern Hemisphere and June wind speeds from the Southern Hemisphere for the year 2005-2015.
-In total, 41 wind speed constraints were generated to represent $\pm$20-60 degrees each with a log space RMS error of less than 5\%. (See Appendix A) 
+The wind speed data used to generate these equations includes December wind speeds from the Northern Hemisphere and June wind speeds from the Southern Hemisphere for the years 2005-2015.
+In total, 41 wind speed constraints were generated to represent $\pm$20-60 degrees each with a log space RMS error of less than 5\%. (See Appendix B) 
 % The constraint on December wind speeds and air density at the 30 degree latitude is 
 % 
 % \begin{align}
@@ -503,7 +503,7 @@ To operate continually for multiple days the total available solar energy $(E/S)
     \label{e:solarreq}
     (E/S)_{\text{sun}}  &\geq (E/S)_{\text{day}} + \frac{E_{\text{batt}}}{\eta_{\text{charge}}\eta_{\text{solar}} S_{\text{solar}}} \\
     \label{e:solarbatt}
-    E_{\text{batt}} &\geq \frac{P_{\text{oper}}t_{\text{night}}}{\eta_{\text{discharge}}} + (E/S)_{\text{twilight}} \eta_{\text{solar}} S_{\text{solar}}
+    E_{\text{batt}} \eta_{\text{discharge}} &\geq P_{\text{oper}}t_{\text{night}} + (E/S)_{\text{twilight}} \eta_{\text{solar}} S_{\text{solar}}
 \end{align}
 
 where the charge, discharge and solar cell efficiencies are assumed to be $\eta_{\text{charge}} = \eta_{\text{discharge}} = 0.98$ and $\eta_{\text{solar}}= 0.22$. 
@@ -525,9 +525,10 @@ In order for the aircraft to begin charging batteries there must be a minimum so
     \eta_{\text{motor}} P_{\text{oper}} &\geq P_{\text{shaft}} + P_{\text{avionics}}.
 \end{align}
 
-where $\eta_{\text{motor}} = 0.95$. Thus for a given latitude and day, and therfore total solar energy $(E/S)_{\text{sun}}$, both $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$ are functions of $(P/S)_{\text{min}}$.  
+where $\eta_{\text{motor}} = 0.95$. 
+Thus, for a given latitude and day, and therfore total solar energy $(E/S)_{\text{sun}}$, both $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$ are functions of $(P/S)_{\text{min}}$.  
 The total solar energy available $(E/S)_{\text{sun}}$, is computed prior to the optimization solve and is used to generate monomial approximations for $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$ as functions $(P/S)_{\text{min}}$, one for each degree of latitude between 20 and 60 degrees latitude. 
-$(E/S)_{\text{sun}}$, $(E/S)_{\text{day}}$, $(E/S)_{\text{twilight}}$, and $t_{\text{night}}$ are precomputed using the formulas in Appendix B to generate the fitted equations. 
+$(E/S)_{\text{sun}}$, $(E/S)_{\text{day}}$, $(E/S)_{\text{twilight}}$, and $t_{\text{night}}$ are precomputed using the formulas in Appendix C to generate the fitted equations. 
 % Figure~\ref{f:energyapprox} shows sample monomial approximations at 30 degrees latitude. 
 % 
 % \begin{figure}[H]
@@ -548,6 +549,16 @@ The fractional solar cell area index $f_{\text{solar}}$ is one when the solar ce
     S_{\text{solar}} \leq f_{\text{solar}}S.
 \end{equation}
 
+\subsubsection{Motor Weight}
+
+The solar-electric powered aircraft has a motor whose weight is based on the approximation\cite{electricengine}
+
+\begin{equation}
+    \label{e:electricengine}
+    P_{\text{max}} = B_{PM} m_{\text{motor}}
+\end{equation}
+
+where $m_{\text{motor}}$ is the motor mass, $P_{\text{max}} \geq P_{\text{oper}}$ is the maximum operating power, and the power to mass ratio is $B_{PM} = 4140.8$ [W/kg]. \\
 
 \subsection{Gas Powered Aircraft Physical Models}
 
@@ -584,7 +595,7 @@ For GP-compatibility and to optimize endurance, not range, a variation of the Br
 
 This version comes from assuming that $\text{BSFC}$ and the power to weight ratio, $(P_{\text{shaft}}/W)$, are constant during the considered flight segment. 
 One way to obtain a constant power to weight ratio is a constant velocity and constant lift coefficient.\cite{br2}
-$W_{\text{ave}}$ is assumed to be the geometric mean, defined as
+The average weight, $W_{\text{ave}}$, is assumed to be the geometric mean, defined as
 
 % Dividing by $W$,
 % 
@@ -678,15 +689,6 @@ where $k_{\text{fuse}}$ is the form factor approximated by\cite{raymer}
 \end{equation}
 
 \subsubsection{Engine Weight}
-
-The solar-electric powered aircraft has a motor whose weight is based on the approximation\cite{electricengine}
-
-\begin{equation}
-    \label{e:electricengine}
-    P_{\text{max}} = B_{PM} m_{\text{motor}}
-\end{equation}
-
-where $m_{\text{motor}}$ is the motor mass, $P_{\text{max}} \geq P_{\text{oper}}$ is the maximum operating power, and the power to mass ratio is $B_{PM} = 4140.8$ [W/kg]. \\
 
 The engine weight of the gas powered aircraft is governed by a simple power law derived from existing two-stroke and four-stroke engines\cite{gasengine}
 
@@ -804,16 +806,16 @@ The aircraft aerodynamics is modeled as a drag build up of the non-wing drag, wi
 where the Oswald efficiency factor is assumed to be constant, $e=0.9$. 
 The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from the fuselage, tail boom, and horizontal and vertical surfaces discussed later.
     
-    To estimate the wing profile drag, a posynomial fit is made of the drag polar of the selected \emph{JH01} airfoil (See Appendix B for a discussion of the airfoil choice). 
+    To estimate the wing profile drag, a posynomial fit is made of the drag polar of the selected \emph{JH01} airfoil (See Appendix D for a discussion of the airfoil choice). 
     Drag polars were produced using XFOIL\cite{xfoil} at various Reynolds and the data was then fit to a posynomial equation using techniques described in Hoburg et. al.\cite{fitting}
     The XFOIL drag polar data is compared to the posynomial fit in Figure~\ref{f:JH01polar}.
 
-    \begin{align}
-        \label{e:aerodragprof}
-        c_{d_p}^{3.72} &\geq 0.0247C_L^{2.49}Re^{-1.11} + 2.03e^{-7}C_L^{12.7}Re^{-0.338} + 6.35e^{10}C_L^{-0.243}Re^{-3.43} \nonumber \\
-                       &+ 6.49e^{-6}C_L^{-1.9}Re^{-0.681} \\
-        Re &= \frac{\rho V S/b}{\mu}
-    \end{align}
+%     \begin{align}
+%         \label{e:aerodragprof}
+%         c_{d_p}^{3.72} &\geq 0.0247C_L^{2.49}Re^{-1.11} + 2.03e^{-7}C_L^{12.7}Re^{-0.338} + 6.35e^{10}C_L^{-0.243}Re^{-3.43} \nonumber \\
+%                        &+ 6.49e^{-6}C_L^{-1.9}Re^{-0.681} \\
+%         Re &= \frac{\rho V S/b}{\mu}
+%     \end{align}
 
 \begin{figure}[H]
 	\begin{center}
@@ -986,7 +988,7 @@ It is assumed that there are two out of plane bending cases to which both the ga
 
 \begin{itemize}
 
-\item[Standard Wing Bending Case]
+\item{Standard Wing Bending Case}
 
 The distributed load along the wing that is a combination of the lifting distribution and weight distribution along the wing
 The wing loading distribution, $q(y)$, can be approximated as a scaling of the local chord,\cite{bending}
@@ -1030,7 +1032,7 @@ The center weight for the solar powered aircraft is
 \end{equation}
 
 
-\item[Gust Loading Case]
+\item{Gust Loading Case}
 
 Because long-endurance aircraft typically have high aspect ratio wings, they are considered flexible aircraft. 
 To account for this flexibility and size a structural wing spar that will ensure enough rigidity in the event of a gust load, a distributed gust lifting load is added to the steady level flight loading distribution in Equation~\eqref{e:qbar}
@@ -1052,7 +1054,7 @@ For the solar-electric powered aircraft the batteries and solar cells are also i
     W_{\text{wing}} \geq W_{\text{spar}} + W_{\text{skin}} + W_{\text{batt}} + W_{\text{solar}}.
 \end{equation}
 
-Because the gust velocity is assumed to be vertical to the flight path, the local angle of attack is approximated by 
+The gust velocity is assumed to be vertical to the flight path such that the local angle of attack is approximated by 
 
 \begin{equation}
     \label{e:gustalpha}
@@ -1076,7 +1078,7 @@ The gust velocity has an assumed profile along the wing\cite{acgust},
 
 where the reference velocity is an assumed conservative value\cite{acgust}, $V_{\text{ref}} = 10$ [m/s]. The gust velocity profile is computed prior to solve to preserve GP-compatibility.
 
-\item[Discretized Beam Model]
+\item{Discretized Beam Model}
 
 Using a standard Bernoulli-Euler discretized beam model with $n=5$ nodes, the shear forces, moments, angles, and deflections can be expressed in a GP-compatible form using the distributed loads $q(y)$, as an input. Boundary conditions are zero shear forces and moments at the wing tips and zero angle and deflection at the wing root.\cite{bending}
 
@@ -1119,9 +1121,9 @@ Using a standard Bernoulli-Euler discretized beam model with $n=5$ nodes, the sh
 
 where the Young's Modulous of carbon fiber is $E = 20$ [MPa]. 
 
-\item[Cap Spar for Bending Loads]
+\item{Cap Spar for Bending Loads}
 
-A cap spar is considered for the solar-electric and gas powered aircraft.  Both aircraft optimization models share the same governing equations.  A cap spar has two carbon fiber caps separated by a foam core as seen in Figure~\ref{f:capspar}. A thin shear web is wrapped around the caps and foam to prevent shearing and buckling.
+A cap spar is considered for the solar-electric and gas powered aircraft.  A cap spar has two carbon fiber caps separated by a foam core as seen in Figure~\ref{f:capspar}. A thin shear web is wrapped around the caps and foam to prevent shearing and buckling.
 
 \begin{figure}[H]
 	\begin{center}
@@ -1189,7 +1191,7 @@ where $\rho_{\text{cfrp}} = 1.6$ [g/cm$^3$].\cite{cfply}
 
 \end{itemize}
 
-\subsubsection{Wing Skin Weight}
+\subsubsection{Additional Wing Weight}
 
 It is assumed that the wing skin is made of carbon fiber.  The weight of the wing skin is 
 
@@ -1199,6 +1201,14 @@ It is assumed that the wing skin is made of carbon fiber.  The weight of the win
 \end{equation}
 
 where $\rho_{A_{\text{cfrp}}} = 0.049$ [g/cm$^2$], or approximately the area density of one ply of carbon fiber.\cite{cfply} The wing skin is asssumed not to contribute to the bending stiffness. 
+
+Additional wing weight, $W_{\text{fadd}}$, accounts for additional structural weight in the wing,
+
+\begin{equation}
+    W_{\text{fadd}} \geq (W_{\text{spar}} + W_{\text{skin}}) m_{\text{fac}}
+\end{equation}
+
+where $m_{\text{fac}} = 1.2$.
 
 
 \subsubsection{Empennage}
@@ -1334,7 +1344,7 @@ The XFOIL data was generated for a zero angle of attack, based upon steady level
 
 \section{Results}
 
-The gas and solar-electric powered aircraft optimization models were solved by minimizing take of weight for the requirements listed in Table~\ref{t:mreqs}. 
+The gas and solar-electric powered aircraft optimization models were solved by minimizing the take of weight for the requirements listed in Table~\ref{t:mreqs}. 
 Key design parameters for both aircraft optimization model are listed in Table~\ref{t:gassolarparams}.
 The gas powered aircraft optimization model had 552 unknowns and was solved in 0.144 seconds for a max take off weight of 84.0 lbs.  
 The solar-electric powered optimization model had 375 unknowns and was solved in 0.164 seconds for a max take off weight of 320.5 lbs.
@@ -1356,7 +1366,7 @@ $N_{\text{max}}$ - gust load & 2    & $N_{\text{max}}$ - gust load & 2 \\
 $\text{BSFC}_{100\%}$ [kg/hr/kW] & 0.31 & $\eta_{\text{solar}}$      & 0.22 \\
 Lapse Rate [hp/1000 ft]      & 0.035 &  $h_{\text{batt}}$ [Whr/kg]   & 350 \\
 $\dot{h}$ [ft/min]           & 100 & $\eta_{\text{motor}}$           & 0.95 \\ 
-                             &     & $\eta_{\text{charge}}$          & 0.98 \\
+$\rho_{\text{fuel}} $ [lbf/gallon] & 6.01 & $\eta_{\text{charge}}$          & 0.98 \\
                              &     & $\eta_{\text{discharge}}$       & 0.98 \\
 \bottomrule
 \label{t:gassolarparams}
@@ -1367,8 +1377,7 @@ $\dot{h}$ [ft/min]           & 100 & $\eta_{\text{motor}}$           & 0.95 \\
 Important trade offs between the gas powered and solar-electric powered archictures are highlighted and quantified by changing the latitude and endurance endurance requirements.   
 Both optimization models were solved by minimizing the max take off weight across different bands of latitudes. 
 Figure~\ref{f:latvsmtowtrade} shows this result evaluated at the 80th, 90th and 95th percentile wind speeds.  
-The gas powered model was solved x times and the solar-electric powered model was solved x times to produce Figure~\ref{f:latvsmtowtrade}.
-The gas powered optimization model contains 606 free variables and the solar-electric powered optmization model contains between 165 and 585 free variables depending on latitude band requirement. 
+The gas powered model was solved 63 times in 5.6178 seconds and the solar-electric powered model was solved 31 times in 2.5529 seconds to produce Figure~\ref{f:latvsmtowtrade}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -1386,13 +1395,14 @@ On the other hand, solar-electric powered aircraft design becomes infeasible at 
 
 While the solar-electric powered aircraft may be limited operationally by higher latitudes, it is not limited in endurance as is the gas powered aircraft.
 Solving the gas powered optimization model for different endurance requirements shows where the gas powered archicture becomes less feasible. 
-Figure~\ref{f:spanvsendurance} shows the endurance versus size analysis for a gas powered aircraft by minimizing max take off weight for an aircraft capable of flying at any latitude. 
+Figure~\ref{f:mtowvsendurance} shows the endurance versus size analysis for a gas powered aircraft by minimizing max take off weight for an aircraft capable of flying at any latitude. 
+Figure~\ref{f:mtowvsendurance} was generated using 29 separate optimization solutions that took a total of 2.403 seconds to solve.
 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=527,natheight=405]{mtowvsendurance.pdf}
     \caption{\textbf{Endurance and size trade study for gas powered architecture.}}
-	\label{f:spanvsendurance}
+	\label{f:mtowvsendurance}
 	\end{center}
 \end{figure}
 
@@ -1415,7 +1425,9 @@ The previous results are dependent on the assumed input values and parameters.
 Changing the input values can help show where the designs becomes infeasible. 
 Two input values that are especially important to the solar aircraft are the solar cell efficiency and battery specific energy. 
 By solving the model for different assumed solar cell efficiency and battery specific energy values a broader picture of the design space is achieved.   
-Figure~\ref{f:battsolarcontour} shows contours of latitude for a given solar cell efficiency and battery energy density.  Put another way, this plot shows how good the solar cells and batteries must be in order to reach a given latitude. 
+Figure~\ref{f:battsolarcontour} shows contours of latitude for a given solar cell efficiency and battery energy density.  
+Put another way, this plot shows how good the solar cells and batteries must be in order to reach a given latitude. 
+Figure~\ref{f:battsolarcontour} was produced using 157 separate optimiation solutions that took a total of 14.379 seconds to solve. 
 
 \begin{figure}[H]
 	\begin{center}
@@ -1448,7 +1460,7 @@ The infeasible regions and contour shapes would change for different assumed con
 \subsection{Changing Physical Modeling Assumptions}
 
 By altering the aircraft structural model it can be observed how air density trades for wing weight. 
-It might be assumed that because the wind speeds are lowest at 67,000 ft at 29 degrees latitude, that the aircraft will always fly at 67,000 ft.  
+It might be assumed that because the wind speeds are lowest at 20,400 m at 29 degrees latitude, that the aircraft will always fly at 20,400 m.  
 If it is assumed that the structural weight of the aircraft can be modeled as a fraction of the total weight 
 
 \begin{equation}
@@ -1516,88 +1528,125 @@ The rapid solve time of geometric programming is able to present these trade stu
 \bibliography{biblibrary}
 \bibliographystyle{aiaa}
 
-\section*{Appendix A}
+\section*{Appendix C}
 
-\subsection{Wind Speed Constraints}
+\subsection{Altitude and relevant atmosphereic quantities}
 
-The each wind speed constraint follows the following form
+The altitude also determines atmospheric properties such as air density and viscosity.  For the gas powered aircraft air density is calculated prior to solving the optimization using the altitude requirement and atmospheric equations specific to the troposphere,\cite{isaatm} 
+
+\begin{align}
+    \label{e:Talt}
+    T_{\text{atm}} = T_{\text{sl}} - Lh \\
+    \label{e:rhot}
+    \rho = \frac{T_{\text{sl}}T_{\text{atm}}^{\left( \frac{g}{R_{\text{spec}}L} -1 \right)}}{R T_{\text{sl}}^{\frac{g}{R_{\text{spec}}L}}}.
+\end{align}
+
+Air viscosity is also computed prior to solving and is assumed to vary according to Sutherland's law,\cite{fluiddyhandbook}
 
 \begin{equation}
-    \label{e:windspeedgen}
-    \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{\alpha} \geq c_1 \rho^{e_{1,1}}p_{\text{wind}}^{e_{1,2}} + c_2 \rho^{e_{2,1}}p_{\text{wind}}^{e_{2,2}} + c_3 \rho^{e_{3,1}}p_{\text{wind}}^{e_{3,2}} + c_4 \rho^{e_{4,1}}p_{\text{wind}}^{e_{4,2}}
+    \label{e:sutherland}
+    \mu = \mu_0 \frac{T_0 + C}{T+C} \left( \frac{T}{T_0} \right)^{\frac{3}{2}}
 \end{equation}
 
-Table~\ref{t:windvals} lists the values of the coefficients and exponents of Equation~\eqref{e:windspeedgen} for latitudes 20-60. Each generated constraint has a RMS error of less than 5\% valid for altitude ranges between 48,000 and 80,000 ft. 
+where $\mu_0 = 1.827\text{e}-5$ [Ns/m$^2$], $T_0 = 291.15$ [K], and $C = 120$ [K]. \\
 
-\tiny
-\begin{longtable}{lccccccccccccc} \\
-\label{t:windvals} \\
-    \caption{Wind Speed Function Coefficients and Exponents} \\
-    \toprule
-    \toprule
-    Latitude & $c_1$ & $e_{1,1}$ & $e_{1,2}$ & $c_2$ & $e_{2,1}$ & $e_{2,2}$ & $c_3$ & $e_{3,1}$ & $e_{3,2}$ & $c_4$ & $e_{4,1}$ & $e_{4,2}$ & $\alpha$ \\
-    \midrule
-20 & 9.77e-15 & -8.45 & 53.1 & 5.26e+04 & 9.98 & 6.26 & 1.97e+03 & 7.66 & 39.3 & 3.9e-14 & -7.26 & 10.6 & 5.53\\
-21 & 1.01e-13 & -7.88 & 47.9 & 6.66e-13 & -6.62 & 9.18 & 8.09e+04 & 9.61 & 5.48 & 1.36e+03 & 7.04 & 35.8 & 5.03\\
-22 & 1.12e+05 & 9.65 & 5.29 & 1.53e-13 & -7.75 & 47.6 & 7.58e-13 & -6.64 & 8.9 & 2.03e+03 & 7.11 & 35 & 5.06\\
-23 & 2.68e+03 & 7.11 & 34 & 1.07e-12 & -6.61 & 8.67 & 1.35e+05 & 9.6 & 5.09 & 4.2e-13 & -7.46 & 48.6 & 5.08\\
-24 & 4.81e+03 & 7.4 & 33.6 & 6.8e-13 & -7.25 & 48.3 & 1.95e+05 & 9.81 & 5.08 & 4.84e-13 & -6.87 & 8.91 & 5.31\\
-25 & 2.14e-12 & -6.86 & 48 & 6.28e+03 & 7.5 & 33.3 & 2.02e+05 & 9.8 & 5.12 & 3.1e-13 & -7.06 & 9.17 & 5.48\\
-26 & 7.48e+03 & 7.51 & 34.7 & 2.95e+05 & 9.9 & 5.26 & 3.13e-13 & -7.14 & 9.52 & 7.03e-12 & -6.51 & 51.4 & 5.59\\
-27 & 3.62e+05 & 10 & 5.44 & 7.09e-12 & -6.54 & 51.1 & 1.29e-13 & -7.44 & 9.71 & 8.93e+03 & 7.57 & 36.3 & 5.82\\
-28 & 7.9e-14 & -7.65 & 9.68 & 8.89e+03 & 7.5 & 36.9 & 3.28e+05 & 9.95 & 5.58 & 6.85e-12 & -6.64 & 49.3 & 5.96\\
-29 & 6.97e-14 & -7.79 & 9.85 & 2.3e+05 & 9.71 & 5.72 & 7.67e+03 & 7.34 & 36.4 & 1.15e-11 & -6.58 & 50.3 & 6.02\\
-30 & 4.2e-14 & -8.05 & 10.2 & 1.29e+05 & 9.38 & 6 & 5.8e+03 & 7.15 & 36.4 & 1.44e-11 & -6.62 & 52.2 & 6.12\\
-31 & 2.17e-12 & -7.2 & 57.6 & 9.1e+03 & 7.56 & 40.5 & 1.22e-15 & -9.09 & 11.8 & 1.26e+05 & 9.68 & 7.21 & 6.89\\
-32 & 6.21e+04 & 9.3 & 7.9 & 3.54e-12 & -7.12 & 58.1 & 5.23e-16 & -9.45 & 12.2 & 6e+03 & 7.32 & 42.5 & 7.07\\
-33 & 1.86e-16 & -9.86 & 12.8 & 2.81e+04 & 8.91 & 8.68 & 3.98e+03 & 7.13 & 44.5 & 8.01e-12 & -6.89 & 58.7 & 7.28\\
-34 & 9.95e+03 & 8.43 & 9.54 & 4.7e-17 & -10.4 & 13.5 & 2.66e+03 & 6.97 & 46.7 & 1.19e-11 & -6.79 & 61 & 7.55\\
-35 & 2.92e+03 & 7.59 & 9.37 & 1.58e-10 & -6.07 & 60.4 & 4.05e-16 & -9.88 & 13.2 & 1.05e+03 & 6.33 & 46.2 & 7.21\\
-36 & 456 & 5.77 & 45 & 3.4e-15 & -9.35 & 12.8 & 834 & 6.79 & 8.98 & 1.23e-09 & -5.52 & 58.8 & 6.92\\
-37 & 5.15e-14 & -8.63 & 12.1 & 225 & 5.94 & 8.34 & 8.45e-09 & -5.03 & 57.5 & 196 & 5.19 & 43.2 & 6.52\\
-38 & 84.8 & 4.63 & 41.6 & 4.69e-08 & -4.61 & 55.3 & 67.8 & 5.13 & 7.68 & 8.55e-13 & -7.87 & 11.2 & 6.1\\
-39 & 1.65e-11 & -7.05 & 10.1 & 35.7 & 4.06 & 40.1 & 22.4 & 4.33 & 6.95 & 2.55e-07 & -4.18 & 51.7 & 5.6\\
-40 & 16.7 & 3.57 & 38.4 & 2.62e-10 & -6.28 & 9.05 & 1.32e-06 & -3.75 & 48 & 8.73 & 3.63 & 6.25 & 5.11\\
-41 & 3.42e-09 & -5.56 & 7.84 & 3.93 & 2.99 & 5.53 & 8.86e-06 & -3.19 & 43.4 & 11.2 & 3.27 & 37.3 & 4.6\\
-42 & 2.06 & 2.42 & 4.8 & 4.04e-08 & -4.87 & 6.63 & 10.3 & 3.16 & 35.8 & 6.03e-05 & -2.61 & 39.2 & 4.07\\
-43 & 13.8 & 3.32 & 34.9 & 0.000428 & -2.01 & 36.7 & 1.27 & 1.93 & 4.09 & 4.21e-07 & -4.22 & 5.58 & 3.55\\
-44 & 0.929 & 1.54 & 3.39 & 19.9 & 3.54 & 34.2 & 3.77e-06 & -3.6 & 4.62 & 0.00191 & -1.54 & 34.3 & 3.03\\
-45 & 0.0061 & -1.16 & 32.6 & 2.75e-05 & -3.04 & 3.83 & 0.783 & 1.24 & 2.76 & 27.5 & 3.75 & 34.2 & 2.55\\
-46 & 35.2 & 3.97 & 32.9 & 0.000197 & -2.47 & 3.02 & 0.758 & 1.01 & 2.13 & 0.0176 & -0.791 & 30.5 & 2.04\\
-47 & 0.00143 & -1.89 & 2.2 & 42.2 & 4.28 & 28.5 & 0.816 & 0.811 & 1.47 & 0.046 & -0.43 & 28.9 & 1.49\\
-48 & 0.926 & 0.622 & 0.814 & 0.0108 & -1.29 & 1.34 & 0.106 & -0.0538 & 28.2 & 57.2 & 4.99 & 20 & 0.895\\
-49 & 56.5 & 5.67 & 11.3 & 0.128 & 0.183 & 27.4 & 0.95 & 0.455 & 0.349 & 0.0533 & -0.793 & 0.695 & 0.445\\
-50 & 0.869 & 0.355 & 0.148 & 24.1 & 5.47 & 7.62 & 0.0838 & 0.217 & 27.1 & 0.139 & -0.487 & 0.358 & 0.229\\
-51 & 4.88 & 4.99 & 5.72 & 0.657 & 0.238 & 0.0196 & 0.0293 & 0.214 & 27.7 & 0.345 & -0.21 & 0.116 & 0.0703\\
-52 & 0.00842 & 0.166 & 28 & 0.834 & 4.31 & 4.86 & 0.615 & -0.0754 & 0.0355 & 0.383 & 0.186 & -0.0168 & 0.0212\\
-53 & 0.307 & 0.168 & -0.0266 & 0.335 & 3.6 & 4.1 & 0.687 & -0.0538 & 0.0264 & 0.00564 & 0.12 & 27.7 & 0.0155\\
-54 & 0.00497 & 0.0916 & 27.5 & 0.223 & 3.09 & 3.42 & 0.54 & -0.067 & 0.0346 & 0.449 & 0.0992 & -0.0245 & 0.0144\\
-55 & 0.429 & -0.0809 & 0.0543 & 0.00527 & 0.0771 & 27.7 & 0.206 & 2.77 & 3.25 & 0.553 & 0.0722 & -0.0305 & 0.0158\\
-56 & 0.134 & 2.62 & 3.28 & 0.628 & 0.0434 & -0.0319 & 0.00348 & 0.0804 & 28 & 0.358 & -0.072 & 0.0644 & 0.0106\\
-57 & 0.00421 & 0.0943 & 28 & 0.0734 & -0.168 & 0.207 & 0.905 & 0.0123 & -0.013 & 0.155 & 2.47 & 3.06 & 0.0128\\
-58 & 0.00709 & 0.107 & 28.8 & 0.0366 & -0.258 & 0.474 & 0.253 & 2.33 & 2.98 & 0.921 & 0.00373 & -0.013 & 0.0225\\
-59 & 0.0242 & 0.892 & 28.4 & 0.000155 & -1.21 & 16.1 & 0.945 & -0.0147 & 0.0161 & 0.188 & 1.98 & 1.32 & 0.0233\\
-60 & 0.0173 & 0.691 & 28.1 & 0.948 & -0.0136 & 0.015 & 0.209 & 2.15 & 1.6 & 7.54e-05 & -1.41 & 14.3 & 0.0222 \\
-\bottomrule
-\end{longtable}
-\normalsize
+For the solar aircraft altitude is calculated based off of the optimized air density using the relations,\cite{isaatm} 
+
+\begin{align}
+    \label{e:tropopress}
+    p &= \rho R_{\text{spec}}T_{11} \\
+    \label{e:tropoalt}
+    h &= 11,000 \text{ [m] } + \frac{R_{\text{spec}}T_{11}}{g}\frac{p}{p_{11}}.
+\end{align}
+
+According to Sutherland's law\cite{fluiddyhandbook}, viscosity varies with temperature.  Because temperature is assumed constant 11,000-20,000 meters\cite{isaatm}, viscosity is also assumed to be constant, $\mu=\num{1.42d-5}$. \\
 
 \section*{Appendix B}
 
-\subsection{Discussion on the use of the \emph{JH01} airfoil}
+\subsection{Convex Fitted Functions}
 
-The \emph{sd7032} airfoil was redesigned to prevent drag creep by weakening the pressure spike associated with premature separation at higher Reynolds numbers.  
-Figure~\ref{f:jhcps} shows the pressure distributions generated in XFOIL of the \emph{JH01} airfoil at $C_L=0.0$ and $C_L=1.35$ with $Re=\num{3d5}$.
-The redesigned airfoil was named \emph{JH01}. We would like to thank Mark Drela for the redesign.
+Many constraints in this optimization study are convex equations that approximate data or other functions.  
+These equations include wind speed vs air density, airfoil drag polar, tail drag polar, BSFC to throttle mapping, and arctan equations.  
+Each of these equations was generated using the fitting techniques described by Hoburg et. al.\cite{fitting} 
+All fitted equations are a combination of \emph{max-affine} and \emph{softmax-affine} functions,
 
-\begin{figure}[H]
- \begin{subfigmatrix}{2}% number of columns
-     \subfigure[$C_L=0.0$\label{f:cpmin}]{\includegraphics[width=0.35\textwidth,natwidth=612,natheight=792]{cpmin.pdf}}
-     \subfigure[$C_L=1.35$\label{f:cpmax}]{\includegraphics[width=0.35\textwidth,natwidth=612,natheight=792]{cpmax.pdf}}
- \end{subfigmatrix}
- \caption{\textbf{Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number $Re=\num{3d5}$.}}
- \label{f:jhcps}
-\end{figure}
+\begin{align}
+    f_{\text{MA}} (\bm{x}) &= \max\limits_{k=1 \dots K} [b_k + \bm{x}_K^T\bm{x}] \\
+    f_{\text{SMA}} (\bm{x}) &= \frac{1}{\alpha} \log{\sum_{k=1}^K \exp{(\alpha(b_k + \bm{a}_k^T \bm{x}))}}.
+\end{align}
+
+The log-space RMS error, 
+
+\begin{equation}
+\text{RMS error} \equiv \sqrt{\frac{1}{m} \sum_{i=1}^m (f(\bm{x}_i) - y_i)^2},
+\end{equation}
+
+ is given throughout the paper for each equation, where $m$ is the number of data points. 
+
+Bounds are imposed inside the optimization to ensure that the optimizier does not find a solution that exceeds the range over which the data was fitted.  In the case of the wing and tail drag polar fitted equations, a post-solve process runs XFOIL and verifies that the optimized drag for a given lift coefficient and Reynolds number is within 5\% of the XFOIL computed drag.
+
+% The each wind speed constraint follows the following form
+% 
+% \begin{equation}
+%     \label{e:windspeedgen}
+%     \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{\alpha} \geq c_1 \rho^{e_{1,1}}p_{\text{wind}}^{e_{1,2}} + c_2 \rho^{e_{2,1}}p_{\text{wind}}^{e_{2,2}} + c_3 \rho^{e_{3,1}}p_{\text{wind}}^{e_{3,2}} + c_4 \rho^{e_{4,1}}p_{\text{wind}}^{e_{4,2}}
+% \end{equation}
+% 
+% Table~\ref{t:windvals} lists the values of the coefficients and exponents of Equation~\eqref{e:windspeedgen} for latitudes 20-60. Each generated constraint has a RMS error of less than 5\% valid for altitude ranges between 48,000 and 80,000 ft. 
+% 
+% \tiny
+% \begin{longtable}{lccccccccccccc} \\
+% \label{t:windvals} \\
+%     \caption{Wind Speed Function Coefficients and Exponents} \\
+%     \toprule
+%     \toprule
+%     Latitude & $c_1$ & $e_{1,1}$ & $e_{1,2}$ & $c_2$ & $e_{2,1}$ & $e_{2,2}$ & $c_3$ & $e_{3,1}$ & $e_{3,2}$ & $c_4$ & $e_{4,1}$ & $e_{4,2}$ & $\alpha$ \\
+%     \midrule
+% 20 & 9.77e-15 & -8.45 & 53.1 & 5.26e+04 & 9.98 & 6.26 & 1.97e+03 & 7.66 & 39.3 & 3.9e-14 & -7.26 & 10.6 & 5.53\\
+% 21 & 1.01e-13 & -7.88 & 47.9 & 6.66e-13 & -6.62 & 9.18 & 8.09e+04 & 9.61 & 5.48 & 1.36e+03 & 7.04 & 35.8 & 5.03\\
+% 22 & 1.12e+05 & 9.65 & 5.29 & 1.53e-13 & -7.75 & 47.6 & 7.58e-13 & -6.64 & 8.9 & 2.03e+03 & 7.11 & 35 & 5.06\\
+% 23 & 2.68e+03 & 7.11 & 34 & 1.07e-12 & -6.61 & 8.67 & 1.35e+05 & 9.6 & 5.09 & 4.2e-13 & -7.46 & 48.6 & 5.08\\
+% 24 & 4.81e+03 & 7.4 & 33.6 & 6.8e-13 & -7.25 & 48.3 & 1.95e+05 & 9.81 & 5.08 & 4.84e-13 & -6.87 & 8.91 & 5.31\\
+% 25 & 2.14e-12 & -6.86 & 48 & 6.28e+03 & 7.5 & 33.3 & 2.02e+05 & 9.8 & 5.12 & 3.1e-13 & -7.06 & 9.17 & 5.48\\
+% 26 & 7.48e+03 & 7.51 & 34.7 & 2.95e+05 & 9.9 & 5.26 & 3.13e-13 & -7.14 & 9.52 & 7.03e-12 & -6.51 & 51.4 & 5.59\\
+% 27 & 3.62e+05 & 10 & 5.44 & 7.09e-12 & -6.54 & 51.1 & 1.29e-13 & -7.44 & 9.71 & 8.93e+03 & 7.57 & 36.3 & 5.82\\
+% 28 & 7.9e-14 & -7.65 & 9.68 & 8.89e+03 & 7.5 & 36.9 & 3.28e+05 & 9.95 & 5.58 & 6.85e-12 & -6.64 & 49.3 & 5.96\\
+% 29 & 6.97e-14 & -7.79 & 9.85 & 2.3e+05 & 9.71 & 5.72 & 7.67e+03 & 7.34 & 36.4 & 1.15e-11 & -6.58 & 50.3 & 6.02\\
+% 30 & 4.2e-14 & -8.05 & 10.2 & 1.29e+05 & 9.38 & 6 & 5.8e+03 & 7.15 & 36.4 & 1.44e-11 & -6.62 & 52.2 & 6.12\\
+% 31 & 2.17e-12 & -7.2 & 57.6 & 9.1e+03 & 7.56 & 40.5 & 1.22e-15 & -9.09 & 11.8 & 1.26e+05 & 9.68 & 7.21 & 6.89\\
+% 32 & 6.21e+04 & 9.3 & 7.9 & 3.54e-12 & -7.12 & 58.1 & 5.23e-16 & -9.45 & 12.2 & 6e+03 & 7.32 & 42.5 & 7.07\\
+% 33 & 1.86e-16 & -9.86 & 12.8 & 2.81e+04 & 8.91 & 8.68 & 3.98e+03 & 7.13 & 44.5 & 8.01e-12 & -6.89 & 58.7 & 7.28\\
+% 34 & 9.95e+03 & 8.43 & 9.54 & 4.7e-17 & -10.4 & 13.5 & 2.66e+03 & 6.97 & 46.7 & 1.19e-11 & -6.79 & 61 & 7.55\\
+% 35 & 2.92e+03 & 7.59 & 9.37 & 1.58e-10 & -6.07 & 60.4 & 4.05e-16 & -9.88 & 13.2 & 1.05e+03 & 6.33 & 46.2 & 7.21\\
+% 36 & 456 & 5.77 & 45 & 3.4e-15 & -9.35 & 12.8 & 834 & 6.79 & 8.98 & 1.23e-09 & -5.52 & 58.8 & 6.92\\
+% 37 & 5.15e-14 & -8.63 & 12.1 & 225 & 5.94 & 8.34 & 8.45e-09 & -5.03 & 57.5 & 196 & 5.19 & 43.2 & 6.52\\
+% 38 & 84.8 & 4.63 & 41.6 & 4.69e-08 & -4.61 & 55.3 & 67.8 & 5.13 & 7.68 & 8.55e-13 & -7.87 & 11.2 & 6.1\\
+% 39 & 1.65e-11 & -7.05 & 10.1 & 35.7 & 4.06 & 40.1 & 22.4 & 4.33 & 6.95 & 2.55e-07 & -4.18 & 51.7 & 5.6\\
+% 40 & 16.7 & 3.57 & 38.4 & 2.62e-10 & -6.28 & 9.05 & 1.32e-06 & -3.75 & 48 & 8.73 & 3.63 & 6.25 & 5.11\\
+% 41 & 3.42e-09 & -5.56 & 7.84 & 3.93 & 2.99 & 5.53 & 8.86e-06 & -3.19 & 43.4 & 11.2 & 3.27 & 37.3 & 4.6\\
+% 42 & 2.06 & 2.42 & 4.8 & 4.04e-08 & -4.87 & 6.63 & 10.3 & 3.16 & 35.8 & 6.03e-05 & -2.61 & 39.2 & 4.07\\
+% 43 & 13.8 & 3.32 & 34.9 & 0.000428 & -2.01 & 36.7 & 1.27 & 1.93 & 4.09 & 4.21e-07 & -4.22 & 5.58 & 3.55\\
+% 44 & 0.929 & 1.54 & 3.39 & 19.9 & 3.54 & 34.2 & 3.77e-06 & -3.6 & 4.62 & 0.00191 & -1.54 & 34.3 & 3.03\\
+% 45 & 0.0061 & -1.16 & 32.6 & 2.75e-05 & -3.04 & 3.83 & 0.783 & 1.24 & 2.76 & 27.5 & 3.75 & 34.2 & 2.55\\
+% 46 & 35.2 & 3.97 & 32.9 & 0.000197 & -2.47 & 3.02 & 0.758 & 1.01 & 2.13 & 0.0176 & -0.791 & 30.5 & 2.04\\
+% 47 & 0.00143 & -1.89 & 2.2 & 42.2 & 4.28 & 28.5 & 0.816 & 0.811 & 1.47 & 0.046 & -0.43 & 28.9 & 1.49\\
+% 48 & 0.926 & 0.622 & 0.814 & 0.0108 & -1.29 & 1.34 & 0.106 & -0.0538 & 28.2 & 57.2 & 4.99 & 20 & 0.895\\
+% 49 & 56.5 & 5.67 & 11.3 & 0.128 & 0.183 & 27.4 & 0.95 & 0.455 & 0.349 & 0.0533 & -0.793 & 0.695 & 0.445\\
+% 50 & 0.869 & 0.355 & 0.148 & 24.1 & 5.47 & 7.62 & 0.0838 & 0.217 & 27.1 & 0.139 & -0.487 & 0.358 & 0.229\\
+% 51 & 4.88 & 4.99 & 5.72 & 0.657 & 0.238 & 0.0196 & 0.0293 & 0.214 & 27.7 & 0.345 & -0.21 & 0.116 & 0.0703\\
+% 52 & 0.00842 & 0.166 & 28 & 0.834 & 4.31 & 4.86 & 0.615 & -0.0754 & 0.0355 & 0.383 & 0.186 & -0.0168 & 0.0212\\
+% 53 & 0.307 & 0.168 & -0.0266 & 0.335 & 3.6 & 4.1 & 0.687 & -0.0538 & 0.0264 & 0.00564 & 0.12 & 27.7 & 0.0155\\
+% 54 & 0.00497 & 0.0916 & 27.5 & 0.223 & 3.09 & 3.42 & 0.54 & -0.067 & 0.0346 & 0.449 & 0.0992 & -0.0245 & 0.0144\\
+% 55 & 0.429 & -0.0809 & 0.0543 & 0.00527 & 0.0771 & 27.7 & 0.206 & 2.77 & 3.25 & 0.553 & 0.0722 & -0.0305 & 0.0158\\
+% 56 & 0.134 & 2.62 & 3.28 & 0.628 & 0.0434 & -0.0319 & 0.00348 & 0.0804 & 28 & 0.358 & -0.072 & 0.0644 & 0.0106\\
+% 57 & 0.00421 & 0.0943 & 28 & 0.0734 & -0.168 & 0.207 & 0.905 & 0.0123 & -0.013 & 0.155 & 2.47 & 3.06 & 0.0128\\
+% 58 & 0.00709 & 0.107 & 28.8 & 0.0366 & -0.258 & 0.474 & 0.253 & 2.33 & 2.98 & 0.921 & 0.00373 & -0.013 & 0.0225\\
+% 59 & 0.0242 & 0.892 & 28.4 & 0.000155 & -1.21 & 16.1 & 0.945 & -0.0147 & 0.0161 & 0.188 & 1.98 & 1.32 & 0.0233\\
+% 60 & 0.0173 & 0.691 & 28.1 & 0.948 & -0.0136 & 0.015 & 0.209 & 2.15 & 1.6 & 7.54e-05 & -1.41 & 14.3 & 0.0222 \\
+% \bottomrule
+% \end{longtable}
+% \normalsize
+
 
 % \section*{Appendix C}
 % 
@@ -1677,39 +1726,6 @@ The redesigned airfoil was named \emph{JH01}. We would like to thank Mark Drela 
 
 \section*{Appendix C}
 
-\subsection{Altitude and relevant atmosphereic quantities}
-
-The altitude also determines atmospheric properties such as air density and viscosity.  For the gas powered aircraft air density is calculated prior to solving the optimization using the altitude requirement and atmospheric equations specific to the troposphere,\cite{isaatm} 
-
-\begin{align}
-    \label{e:Talt}
-    T_{\text{atm}} = T_{\text{sl}} - Lh \\
-    \label{e:rhot}
-    \rho = \frac{T_{\text{sl}}T_{\text{atm}}^{\left( \frac{g}{R_{\text{spec}}L} -1 \right)}}{R T_{\text{sl}}^{\frac{g}{R_{\text{spec}}L}}}.
-\end{align}
-
-Air viscosity is also computed prior to solving and is assumed to vary according to Sutherland's law,\cite{fluiddyhandbook}
-
-\begin{equation}
-    \label{e:sutherland}
-    \mu = \mu_0 \frac{T_0 + C}{T+C} \left( \frac{T}{T_0} \right)^{\frac{3}{2}}
-\end{equation}
-
-where $\mu_0 = 1.827\text{e}-5$ [Ns/m$^2$], $T_0 = 291.15$ [K], and $C = 120$ [K]. \\
-
-For the solar aircraft altitude is calculated based off of the optimized air density using the relations,\cite{isaatm} 
-
-\begin{align}
-    \label{e:tropopress}
-    p &= \rho R_{\text{spec}}T_{11} \\
-    \label{e:tropoalt}
-    h &= 11,000 \text{ [m] } + \frac{R_{\text{spec}}T_{11}}{g}\frac{p}{p_{11}}.
-\end{align}
-
-According to Sutherland's law\cite{fluiddyhandbook}, viscosity varies with temperature.  Because temperature is assumed constant 11,000-20,000 meters\cite{isaatm}, viscosity is also assumed to be constant, $\mu=\num{1.42d-5}$. \\
-
-\section*{Appendix D}
-
 \subsection{Solar energy calculations}
 
 The total available solar energy per day is an integral of the available solar power during the course of the day,
@@ -1776,6 +1792,23 @@ The angle $\theta$, depends on the time of day $t$, latitude $\phi$, and declina
     \end{array} \]
 
     Using a trapezoidal integration of Equation~\eqref{e:solares}, the total available solar energy per unit area can be obtained for a given latitude and day of the year. Because only Equations~\eqref{e:solarreq}-\eqref{e:solarssolar} are GP compatible, the total solar energy per unit area per day, the length of the day and the length of the night are calculated from the latitude and the day of the year prior to an optimization solve.
+
+\section*{Appendix D}
+
+\subsection{Discussion on the use of the \emph{JH01} airfoil}
+
+The \emph{sd7032} airfoil was redesigned to prevent drag creep by weakening the pressure spike associated with premature separation at higher Reynolds numbers.  
+Figure~\ref{f:jhcps} shows the pressure distributions generated in XFOIL of the \emph{JH01} airfoil at $C_L=0.0$ and $C_L=1.35$ with $Re=\num{3d5}$.
+The redesigned airfoil was named \emph{JH01}. We would like to thank Mark Drela for the redesign.
+
+\begin{figure}[H]
+ \begin{subfigmatrix}{2}% number of columns
+     \subfigure[$C_L=0.0$\label{f:cpmin}]{\includegraphics[width=0.35\textwidth,natwidth=612,natheight=792]{cpmin.pdf}}
+     \subfigure[$C_L=1.35$\label{f:cpmax}]{\includegraphics[width=0.35\textwidth,natwidth=612,natheight=792]{cpmax.pdf}}
+ \end{subfigmatrix}
+ \caption{\textbf{Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number $Re=\num{3d5}$.}}
+ \label{f:jhcps}
+\end{figure}
 
 \end{document}
 

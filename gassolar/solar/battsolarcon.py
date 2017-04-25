@@ -10,6 +10,7 @@ N = 100
 plt.rcParams.update({'font.size':15})
 
 def find_sols(bsts):
+    runagain = False
     for s in bsts:
         if s.splits is None:
             continue
@@ -17,6 +18,10 @@ def find_sols(bsts):
             if sn in bsts:
                 continue
             bsts.append(sn)
+            runagain = True
+    if runagain:
+        return find_sols(bsts)
+    else:
         return bsts
 
 def plot_battsolarcon():
@@ -55,7 +60,7 @@ def plot_battsolarcon():
                                    solver="mosek")
                 bsts = find_sols([bst])
                 sols = np.hstack([b.sols for b in bsts])
-                stime = sum(np.unique([s["soltime"] for s in sols]))
+                time += sum(np.unique([s["soltime"] for s in sols]))
                 numsolves += bst.nsols
                 if lat % 4 == 0:
                     l = ax.plot(xmin_, bst.sample_at(xmin_)["cost"], "k",
