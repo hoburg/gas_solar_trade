@@ -96,6 +96,7 @@ def plot_fits(re, cnstr, x, y):
             i += 1
     ax.set_xlabel("$C_L$")
     ax.set_ylabel("$c_{d_p}$")
+    ax.legend(loc=2)
     ax.grid()
     return fig, ax
 
@@ -117,6 +118,6 @@ if __name__ == "__main__":
     F, A = plot_fits(replot, cn, X, Y)
     if len(sys.argv) > 1:
         path = sys.argv[1]
-        F.savefig(path + "jho1polarfit1.pdf", bbox_inches="tight")
+        F.savefig(path + "jho1polarfit1.eps", bbox_inches="tight")
     else:
-        F.savefig("jho1polarfit1.pdf", bbox_inches="tight")
+        F.savefig("jho1polarfit1.eps", bbox_inches="tight")

@@ -92,6 +92,7 @@ test_reports_nounits/
 # generated graphs
 *.pdf
 *.png
+*.eps
 
 # xfoil polars
 *.pol

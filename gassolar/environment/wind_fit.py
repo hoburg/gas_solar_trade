@@ -145,7 +145,7 @@ if __name__ == "__main__":
         if not GENERATE:
             if not yfit is None:
                 fig, ax = plot_fits(X, Y, yfit, l)
-                fig.savefig(path + "windfitl%d.pdf" % l, bbox_inches="tight")
+                fig.savefig(path + "windfitl%d.eps" % l, bbox_inches="tight")
                 plt.close()
 
 #     if GENERATE:

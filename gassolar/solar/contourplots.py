@@ -138,7 +138,7 @@ def plot_contours(path=None):
             ax.set_xlim([0.15, 0.4])
             ax.set_ylim([250, 400])
             if path:
-                fig.savefig(path + "bcontourl%da%d.pdf" % (lat, av),
+                fig.savefig(path + "bcontourl%da%d.eps" % (lat, av),
                             bbox_inches="tight")
             else:
                 fig.savefig("bcontourl%da%d.pdf" % (lat, av))

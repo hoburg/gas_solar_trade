@@ -112,7 +112,7 @@ if __name__ == "__main__":
     F, A = plot_fits(NACA, cn, X, Y)
     if len(sys.argv) > 1:
         path = sys.argv[1]
-        F.savefig(path + "taildragpolar.pdf", bbox_inches="tight")
+        F.savefig(path + "taildragpolar.eps", bbox_inches="tight")
     else:
-        F.savefig("taildragpolar.pdf", bbox_inches="tight")
+        F.savefig("taildragpolar.eps", bbox_inches="tight")
 
