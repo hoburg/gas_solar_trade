@@ -90,9 +90,10 @@ def plot_fits(re, cnstr, x, y):
     fig, ax = plt.subplots()
     i = 0
     for r, cl, cd, fi in zip(xre, xcl, cds, cdf):
-        if int(np.round(r)/1000) in re:
+        roundre = int(np.round(r)/1000)
+        if roundre in re:
             ax.plot(cl, cd, "o", mec=colors[i], mfc="none", mew=1.5)
-            ax.plot(cl, fi, c=colors[i], label="Re = %dk" % r, lw=2)
+            ax.plot(cl, fi, c=colors[i], label="Re = %dk" % roundre, lw=2)
             i += 1
     ax.set_xlabel("$C_L$")
     ax.set_ylabel("$c_{d_p}$")
