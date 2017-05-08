@@ -106,7 +106,7 @@ def plot_lats():
     labels = ["$\\pm$" + item.get_text() for item in ax.get_xticklabels()]
     labels = ["$\\pm$%d" % l for l in np.linspace(20, 40, len(labels))]
     ax.set_xticklabels(labels)
-    ax.legend(["Solar-electric Powered", "Gas Powered (7-day endurance)"], fontsize=15, loc=2)
+    ax.legend(["Solar-electric Powered", "Gas Powered"], fontsize=15, loc=2)
     return fig, ax
 
 if __name__ == "__main__":
