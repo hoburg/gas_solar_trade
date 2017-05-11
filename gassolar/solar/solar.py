@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import os
-from gassolar.environment.solar_irradiance import get_Eirr
+from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
 from gpkit import Model, Variable, SignomialsEnabled
 from gpkitmodels.GP.aircraft.wing.wing import WingAero, Wing
 from gpkitmodels.GP.aircraft.tail.empennage import Empennage
@@ -198,12 +198,15 @@ class FlightState(Model):
     percent: percentile wind speeds [%]
     day: day of the year [Jan 1st = 1]
     """
-    def setup(self, latitude=45, day=355):
+    def setup(self, latitude=45, day=355, month="dec"):
 
-        df = pd.read_csv(path + "windfits/windaltfit_lat%d.csv" % latitude)
+        df = pd.read_csv(path + "windfits" + month +
+                         "/windaltfit_lat%d.csv" % latitude)
+        print month
         # df = DF[DF["latitude"] == latitude]
-        dft = DFt[DFt["latitude"] == latitude]
-        dfd = DFd[DFd["latitude"] == latitude]
+        # dft = DFt[DFt["latitude"] == latitude]
+        # dfd = DFd[DFd["latitude"] == latitude]
+        dft, dfd = twi_fits(latitude, day, gen=True)
         esirr, td, tn, _ = get_Eirr(latitude, day)
 
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
@@ -249,10 +252,10 @@ def altitude(density):
 
 class FlightSegment(Model):
     "flight segment"
-    def setup(self, aircraft, etap=0.8, latitude=35, day=355):
+    def setup(self, aircraft, etap=0.8, latitude=35, day=355, month="dec"):
 
         self.aircraft = aircraft
-        self.fs = FlightState(latitude=latitude, day=day)
+        self.fs = FlightState(latitude=latitude, day=day, month=month)
         self.aircraftPerf = self.aircraft.flight_model(self.fs)
         self.slf = SteadyLevelFlight(self.fs, self.aircraft,
                                      self.aircraftPerf, etap)
@@ -280,10 +283,12 @@ class SteadyLevelFlight(Model):
 
 class Flight(Model):
     "define mission for aircraft"
-    def setup(self, aircraft, latitude, day):
+    def setup(self, aircraft, latitude, day, month):
 
-        flight = FlightSegment(aircraft, latitude=latitude, day=day)
-        loading = aircraft.loading(aircraft["W_{cent}"], aircraft["W_{wing}"], flight["V"], flight["C_L"])
+        flight = FlightSegment(aircraft, latitude=latitude, day=day,
+                               month=month)
+        loading = aircraft.loading(aircraft["W_{cent}"], aircraft["W_{wing}"],
+                                   flight["V"], flight["C_L"])
         for vk in loading.varkeys["N_{max}"]:
             if "ChordSparL" in vk.descr["models"]:
                 loading.substitutions.update({vk: 5})
@@ -294,12 +299,21 @@ class Flight(Model):
 
 class Mission(Model):
     "define mission for aircraft"
-    def setup(self, latitude=35, day=355):
+    def setup(self, latitude=35, day=355, month="dec"):
+
+        mos = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
+               "oct", "nov", "dec"]
 
         self.solar = Aircraft()
         mission = []
-        for l in range(20, latitude+1, 1):
-            mission.append(Flight(self.solar, l, day))
+        if day == 355:
+            for l in range(20, latitude+1, 1):
+                mission.append(Flight(self.solar, l, day, month))
+        else:
+            for l in range(20, latitude+1, 1):
+                mission.append(Flight(self.solar, l, day, month))
+                mission.append(Flight(self.solar, l, day,
+                                      mos[-mos.index(month)-2]))
 
         return self.solar, mission
 

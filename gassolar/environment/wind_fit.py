@@ -13,7 +13,7 @@ PERCT_NORM = 100.0
 WIND_NORM = 100.0
 RHO_NORM = 1.0
 
-def fit_setup(altitude=(40000, 80000), latitude=45):
+def fit_setup(altitude=(40000, 80000), latitude=45, day=355):
     """
     Function that sets up the fit for altitude versus density. Density in
     10^-1 kg/m^3
@@ -39,7 +39,7 @@ def fit_setup(altitude=(40000, 80000), latitude=45):
     wind = []
     ps = []
     for p in percentiles:
-        wind.append(np.array(get_windspeed(latitude, p, altitude, 355))
+        wind.append(np.array(get_windspeed(latitude, p, altitude, day))
                     / WIND_NORM)
         ps.append([p/PERCT_NORM]*len(altitude))
 
@@ -90,39 +90,28 @@ def plot_fits(xdata, ydata, yfit, latitude):
     ax.grid()
     return fig, ax
 
-if __name__ == "__main__":
+def make_fits(day, latrange, month, gen=False, path=""):
 
-    if len(sys.argv) > 1:
-        path = sys.argv[1]
-    else:
-        path = ""
-
-    if GENERATE:
-        latitude = range(20, 61, 1)
-    else:
-        latitude = [30]
-
-    data = []
-    np.random.seed(0)
-
-    for l in latitude:
+    for l in latrange:
         print "Fitting for %d latitude" % l
         altitudestart = range(40000, 50500, 500)
         for j, a in enumerate(altitudestart):
             print "Trying Altitude Range: %d-80000" % a
-            X, Y = fit_setup(altitude=(a, 80000), latitude=l)
-            tol = True
-            i = 0
-            rms = []
+            X, Y = fit_setup(altitude=(a, 80000), latitude=l, day=day)
             rms_best = 1
             cn_best = None
             df_best = None
             yfit = None
             for K in range(2, 6):
                 for ftype in ["MA", "SMA"]:
-                    cns, err = fit(X, Y, K, ftype)
-                    print "Lat %d; K = %d; ftype = %s; RMS = %.4f" % (
-                        l, K, ftype, err[0])
+                    try:
+                        cns, err = fit(X, Y, K, ftype)
+                        print "Lat %d; K = %d; ftype = %s; RMS = %.4f" % (
+                            l, K, ftype, err[0])
+                    except ValueError:
+                        print "Fit failed: Lat %d; K = %d; ftype = %s;" % (
+                            l, K, ftype)
+                        err = [0.9, 0.9]
                     if err[0] < rms_best:
                         df = cns.get_dataframe(X)
                         if "0.0" in df.values or "inf" in df.values:
@@ -135,20 +124,36 @@ if __name__ == "__main__":
                 continue
             elif rms_best < 0.05:
                 print "success"
-                if GENERATE:
-                    df_best.to_csv("windfits/windaltfit_lat%d.csv" % l)
+                if gen:
+                    df_best.to_csv("windfits" + month
+                                   + "/windaltfit_lat%d.csv" % l)
                 else:
                     yfit = cn_best.evaluate(X)
                 break
             else:
                 print "Lowest RMS: %.3f, trying new altitude range" % rms_best
-        if not GENERATE:
+        if not gen:
             if not yfit is None:
                 fig, ax = plot_fits(X, Y, yfit, l)
-                fig.savefig(path + "windfitl%d.eps" % l, bbox_inches="tight")
+                fig.savefig(path + "windfitl%d.pdf" % l, bbox_inches="tight")
                 plt.close()
 
-#     if GENERATE:
-#         df = pd.concat(data)
-#         df['latitude'] = pd.Series(np.arange(20,61,1), index=df.index)
-#         df.to_csv("windaltfitdataNS.csv")
+if __name__ == "__main__":
+
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+    else:
+        path = ""
+
+    np.random.seed(0)
+
+    mos = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
+           "oct", "nov", "dec"]
+    if GENERATE:
+        latitude = range(20, 61, 1)
+        for m in mos:
+            make_fits(21, latitude, month=m, gen=GENERATE, path=path)
+    else:
+        latitude = [30]
+        make_fits(355, latitude, month="dec", path=path)
+
