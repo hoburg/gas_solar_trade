@@ -207,7 +207,7 @@ The complexity of sizing these kinds of aircraft makes the trade offs between ga
 
 This paper presents a physics-based optimization model that uses geometric programming as a systematic and rapid approach to evaluate trade offs between the two architectures for a given mission.  Geometric programming, a form of convex optimization, is chosen as a means of evaluating the design space because of its rapid solve time and guaranteed convergence to a global optimum.\cite{gp}
 Models and equations representing the interaction of the various disciplines are expressed in a geometric programming form and are then combined to form an optimization model. 
-The optimization is solved multiple times for different design parameters and requirements to observe changes in aircraft size and weight. 
+The optimization can be solved in a fraction of a second and is used to the feasible limits of the solar-electric and gas powered, long-endurance aircraft. 
 
 The driving requirement that sizes solar-electric powered aircraft is the ability to operate at multiple locations and during all seasons.  
 To fly multiple days, solar-electric powered aircraft must carry enough solar cells and batteries to fly during the day while storing enough energy to fly through the night.\cite{solartech}
@@ -222,7 +222,7 @@ As gas-powered aircraft are endurance limited by the amount of fuel that they ca
 Because gas-powered aircraft are not affected by the solar flux, their station-keeping ability at different latitudes only depends on the local wind speed. 
 If a gas-powered aircraft can fly at the latitude with the worst wind speed, in can theoretically fly anywhere else in the world.  
 
-Using this geometric programming methodology, trade offs are observed between different aircraft configurations, power sources, and requirements.  
+Using this geometric programming methodology, trade offs between different aircraft configurations, power sources, and requirements can be calculated in seconds.  
 The results show that gas-powered aircraft can generally be built lighter and can fly faster and can therefore fly at higher latitudes and in higher percentile wind speeds.  
 Solar-powered aircraft have greater endurance but are limited operationally by their ability to reach higher speeds.  
 The presented optimization methodology can quantify the difference in weight and endurance between and gas and solar-electric powered aircraft for the same set of requirements. 
@@ -1327,34 +1327,35 @@ where $W$ is the weight of the aircraft during climb.
 
 \section{Results}
 
-The gas and solar-electric powered aircraft optimization models were solved by minimizing the take-off weight for the requirements listed in Table~\ref{t:mreqs}. 
-Key design parameters for both aircraft optimization models are listed in Table~\ref{t:gassolarparams}.
+The gas and solar-electric powered aircraft optimization models were solved by minimizing the take-off weight for the requirements listed in Table~\ref{t:mreqs} and the assumptions and key design parameters described herein. 
 The gas powered aircraft optimization model had 552 unknowns and was solved in 0.144 seconds for a max take-off weight of 84.0 lbs.  
 The solar-electric powered optimization model had 375 unknowns and was solved in 0.164 seconds for a max take-off weight of 194.7 lbs.
-According to the assumptions described in the previous section, the gas powered aircraft is better suited to meet this specific set of requirements. 
-This section explores how this result may vary for different requirements, input parameter values, and physics modeling assumptions. 
+Key design variables for both architectures are listed in Tables~\ref{t:svals} and~\ref{t:gvals} for various mission requirements. 
+The rest of this section explores how these result may vary for different requirements, input parameter values, and physics modeling assumptions. 
 
 \newpage
-\begin{longtable}{llll}
-\caption{Fixed Optimization Parameters} \\
-\toprule
-\toprule
-\multicolumn{2}{c}{Gas Powered} & \multicolumn{2}{c}{Solar Powered}\\
-\midrule
-$\eta_{\text{prop}}$         & 0.8  & $\eta_{\text{prop}}$         & 0.8 \\
-$\tau$                       & 0.115 & $\tau$                       & 0.115 \\
-$\lambda$                    & 0.5  & $\lambda$                    & 0.5 \\
-$\sigma_{\text{CFRP}}$ [MPa] & 1700 & $\sigma_{\text{CFRP}}$ [MPa] & 1700  \\
-$N_{\text{max}}$ - g-Loading & 5    & $N_{\text{max}}$ - g-Loading & 5 \\
-$N_{\text{max}}$ - gust load & 2    & $N_{\text{max}}$ - gust load & 2 \\
-$\text{BSFC}_{100\%}$ [kg/hr/kW] & 0.31 & $\eta_{\text{solar}}$      & 0.22 \\
-Lapse Rate [hp/1000 ft]      & 0.035 &  $h_{\text{batt}}$ [Whr/kg]   & 350 \\
-$\dot{h}_{\text{min}}$ [ft/min] & 100 & $\eta_{\text{motor}}$           & 0.95 \\ 
-$\rho_{\text{fuel}} $ [lbf/gallon] & 6.01 & $\eta_{\text{charge}}$          & 0.98 \\
-                             &     & $\eta_{\text{discharge}}$       & 0.98 \\
-\bottomrule
-\label{t:gassolarparams}
- \end{longtable}
+\input{svals.generated.tex}
+\input{gvals.generated.tex}
+% \begin{longtable}{llll}
+% \caption{Fixed Optimization Parameters} \\
+% \toprule
+% \toprule
+% \multicolumn{2}{c}{Gas Powered} & \multicolumn{2}{c}{Solar Powered}\\
+% \midrule
+% $\eta_{\text{prop}}$         & 0.8  & $\eta_{\text{prop}}$         & 0.8 \\
+% $\tau$                       & 0.115 & $\tau$                       & 0.115 \\
+% $\lambda$                    & 0.5  & $\lambda$                    & 0.5 \\
+% $\sigma_{\text{CFRP}}$ [MPa] & 1700 & $\sigma_{\text{CFRP}}$ [MPa] & 1700  \\
+% $N_{\text{max}}$ - g-Loading & 5    & $N_{\text{max}}$ - g-Loading & 5 \\
+% $N_{\text{max}}$ - gust load & 2    & $N_{\text{max}}$ - gust load & 2 \\
+% $\text{BSFC}_{100\%}$ [kg/hr/kW] & 0.31 & $\eta_{\text{solar}}$      & 0.22 \\
+% Lapse Rate [hp/1000 ft]      & 0.035 &  $h_{\text{batt}}$ [Whr/kg]   & 350 \\
+% $\dot{h}_{\text{min}}$ [ft/min] & 100 & $\eta_{\text{motor}}$           & 0.95 \\ 
+% $\rho_{\text{fuel}} $ [lbf/gallon] & 6.01 & $\eta_{\text{charge}}$          & 0.98 \\
+%                              &     & $\eta_{\text{discharge}}$       & 0.98 \\
+% \bottomrule
+% \label{t:gassolarparams}
+%  \end{longtable}
 
 \subsection{Changing Requirements}
 
@@ -1404,14 +1405,6 @@ Figure~\ref{f:mtowvsendurance} was generated using 29 separate optimization solu
 \newpage
 \subsection{Changing Parameter Values}
 
-The previous results are dependent on the assumed input values and parameters.  
-Changing parameter values can help show where the designs becomes infeasible. 
-As one example, two input values that are especially important to the solar aircraft are the solar cell efficiency and battery specific energy. 
-By solving the model for different assumed solar cell efficiency and battery specific energy values a broader picture of the design space is achieved.   
-Figure~\ref{f:battsolarcontour} shows contours of latitude for a given solar cell efficiency and battery energy density.  
-Put another way, this plot shows how good the solar cells and batteries must be in order to reach a given latitude. 
-Figure~\ref{f:battsolarcontour} was produced using 157 separate optimization solutions that took a total of 14.379 seconds to solve. 
-
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=527,natheight=405]{battsolarcontour.eps}
@@ -1419,6 +1412,15 @@ Figure~\ref{f:battsolarcontour} was produced using 157 separate optimization sol
 	\label{f:battsolarcontour}
 	\end{center}
 \end{figure}
+
+The previous results are dependent on the assumed input values and parameters.
+Changing parameter values can help show where the designs becomes infeasible. 
+As one example, two input values that are especially important to the solar aircraft are the solar cell efficiency and battery specific energy. 
+By solving the model for different assumed solar cell efficiency and battery specific energy values a broader picture of the design space is achieved.   
+Figure~\ref{f:battsolarcontour} shows contours of latitude for a given solar cell efficiency and battery energy density.  
+Put another way, this plot shows how good the solar cells and batteries must be in order to reach a given latitude. 
+Figure~\ref{f:battsolarcontour} was produced using 157 separate optimization solutions that took a total of 14.379 seconds to solve. 
+
 
 
 Figure~\ref{f:solarcontours} shows a matrix contour map of the solar-electric powered aircraft wing spans for multiple solar cell efficiencies, battery energy densities, latitudes, and percentile wind speeds.
@@ -1486,7 +1488,6 @@ From this information, the sensitivity of the optimal objective value to each fi
 While sensitivities are local and therefore only exact for small changes, they provide useful information about the relative importance of various design variables. 
 For example, if the objective function were $W_{\text{MTO}}$ and the sensitivity to battery specific energy were 0.5, then a 1\% increase in the solar cell efficiency would result in a 0.5\% increase in weight.  
 Tables~\ref{t:sens} and~\ref{t:gassens} show the variables with the highest sensitivities for the solar-electric and gas powered architectures respectively, where the objective was max take-off weight.
-Tables~\ref{t:svals} and ~\ref{t:gvals} list a few deisgn variables from both architectures for reference.
 
 For the solar-electric aircraft, it is interesting to note that the battery discharge efficiency sensitivity is higher than the battery charge efficiency sensitivity.
 This occurs because the discharge efficiency directly affects the required battery size, whereas the charge efficiency only does so indirectly. 
@@ -1498,23 +1499,18 @@ This occurs because the discharge efficiency directly affects the required batte
 % Therefore, the break-even point for investing in these technologies occurs when a given percentage improvement in battery specific energy costs 1.76 times as much to achieve as the same percentage improvement in solar cell efficiency. 
 
 \input{sens.generated.tex}
-
-\newpage
-
-\input{svals.generated.tex}
-
 \input{gassens.generated.tex}
 
-\input{gvals.generated.tex}
 
 \section{Conclusion}
 
-Using geometric programming as a means of evaluation of the design space, high level intuition and understanding about design trade studies for long-endurance aircraft and their driving requirements is achieved.  
-One high level discovery is the importance of wind speed.  
-If station keeping during any season or latitude is critical to the mission of a proposed aircraft, then that requirement is more likely to be met by a gas-powered architecture.
-However, if that constraint can be relaxed such that the aircraft only needs to station keep for 80\% of the time, then for certain latitudes, a solar powered aircraft could achieve greater endurance.
-An unsurprising discovery is the sensitivity of the solar-powered aircraft to the battery specific energy and solar cell efficiency.  Using higher energy density batteries can result in significant weight and performance savings.  
-The rapid solve time of geometric programming is able to present these trade studies and give intuition into design trades by quantifying the disparity in performance between the two options.
+Using geometric programming the feasibility limits and design space of solar-electric and gas powered aircraft is analyzed is second to a level of detail and speed not previously achieved in initial aircraft sizing and design. 
+Based on the assumptions included herein, the gas powered aircraft is more capable of meeting high latitude and station keeping requirements. 
+The solar-electric powered aircraft sizing does not converge at latitude requirements above 31 degrees latitude. 
+However, solar-electric powered aircraft can meet high endurance and altitude requirements.  
+The effect of key design parameters on the size of each architecture was also achieved.  
+Using higher energy density batteries can result in significant weight and performance savings for the solar-electric powered aircraft.  
+The rapid solve time of geometric programming allows detailed sizing and design analysis of long-endurance aircraft and the capability of solar-electric and gas powered aircraft to meet various requirements.
 
 
 % produces the bibliography section when processed by BibTeX
