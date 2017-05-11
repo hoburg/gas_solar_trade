@@ -100,7 +100,7 @@ if __name__ == "__main__":
         path = sys.argv[1]
         for num in nums:
             fig, ax = ld_plot(M, num)
-            fig.savefig(path + "polarmission%d.eps" % num, bbox_inches="tight")
+            fig.savefig(path + "polarmission%d.pdf" % num, bbox_inches="tight")
     else:
         for num in nums:
             M = Mission()

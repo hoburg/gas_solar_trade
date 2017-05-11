@@ -29,9 +29,8 @@
 
 \begin{abstract}
     Fueled by telecommunication needs and opportunities, there has been a recent push to develop aircraft that can provide long-endurance (days to weeks) persistent aerial coverage.
-    These aircraft present a complicated systems engineering problem because of the multifaceted interaction of various requirements, such as endurance, wind speeds, operational capability and coverage footprint.
-    In this paper, a comparison of solar-electric and gas powered, long-endurance aircraft is accomplished.
-    Geometric programming, a form of convex optimization, can reliably solve problems with thousands of variables in seconds and is used as an optimization tool to evaluate the design trade offs between architectures and requirements.
+    These aircraft present a complicated systems engineering problem because of the multifaceted interaction between aerodynamics, structural loads, environmental effects, and engine, battery, and other component performance.
+    Using geometric programming, models capturing the interaction between disciplines are used to analyze the feasible limits of solar-electric and gas powered, long-endurance aircraft in seconds to a level of detail and speed not previously achieved in initial aircraft sizing and design. 
     The results show that long-endurance, gas powered aircraft are generally more robust to higher wind speeds than solar-powered aircraft.  
     However, gas powered aircraft are limited in their endurance by the amount of fuel that they can carry. 
     While solar-electric powered aircraft can theoretically fly for months, they are operationally limited by reduced solar flux during the winter and wind speeds at higher latitudes.
@@ -427,17 +426,6 @@ The configuration is assumed to be static for this study.
 	\label{f:wbreak}
 	\end{center}
 \end{figure}
-
-% \begin{figure}[H]
-%  \begin{subfigmatrix}{2}% number of columns
-%      % \subfigure[Solar Weight Breakdown\label{f:solarwbreak}]{\includegraphics[width=1.0\textwidth,natwidth=144,natheight=320]{solarwbreak.pdf}}
-%      % \subfigure[Gas Weight Breakdown\label{f:gaswbreak}]{\includegraphics[width=1.0\textwidth,natwidth=178,natheight=320]{gaswbreak.pdf}}
-%      \subfigure[Solar Weight Breakdown\label{f:solarwbreak}]{\includegraphics[width=0.30\textwidth]{solarwbreak.pdf}}
-%      \subfigure[Gas Weight Breakdown\label{f:gaswbreak}]{\includegraphics[width=0.40\textwidth]{gaswbreak.pdf}}
-%  \end{subfigmatrix}
-%  \caption{\textbf{Representative weight breakdown of both aircraft optimization models.}}
-%  \label{f:wbreak}
-% \end{figure}
 
 \section{Aircraft Physical Models}
 
@@ -1342,7 +1330,7 @@ where $W$ is the weight of the aircraft during climb.
 The gas and solar-electric powered aircraft optimization models were solved by minimizing the take-off weight for the requirements listed in Table~\ref{t:mreqs}. 
 Key design parameters for both aircraft optimization models are listed in Table~\ref{t:gassolarparams}.
 The gas powered aircraft optimization model had 552 unknowns and was solved in 0.144 seconds for a max take-off weight of 84.0 lbs.  
-The solar-electric powered optimization model had 375 unknowns and was solved in 0.164 seconds for a max take-off weight of 320.5 lbs.
+The solar-electric powered optimization model had 375 unknowns and was solved in 0.164 seconds for a max take-off weight of 194.7 lbs.
 According to the assumptions described in the previous section, the gas powered aircraft is better suited to meet this specific set of requirements. 
 This section explores how this result may vary for different requirements, input parameter values, and physics modeling assumptions. 
 
@@ -1498,6 +1486,7 @@ From this information, the sensitivity of the optimal objective value to each fi
 While sensitivities are local and therefore only exact for small changes, they provide useful information about the relative importance of various design variables. 
 For example, if the objective function were $W_{\text{MTO}}$ and the sensitivity to battery specific energy were 0.5, then a 1\% increase in the solar cell efficiency would result in a 0.5\% increase in weight.  
 Tables~\ref{t:sens} and~\ref{t:gassens} show the variables with the highest sensitivities for the solar-electric and gas powered architectures respectively, where the objective was max take-off weight.
+Tables~\ref{t:svals} and ~\ref{t:gvals} list a few deisgn variables from both architectures for reference.
 
 For the solar-electric aircraft, it is interesting to note that the battery discharge efficiency sensitivity is higher than the battery charge efficiency sensitivity.
 This occurs because the discharge efficiency directly affects the required battery size, whereas the charge efficiency only does so indirectly. 
@@ -1512,7 +1501,11 @@ This occurs because the discharge efficiency directly affects the required batte
 
 \newpage
 
+\input{svals.generated.tex}
+
 \input{gassens.generated.tex}
+
+\input{gvals.generated.tex}
 
 \section{Conclusion}
 

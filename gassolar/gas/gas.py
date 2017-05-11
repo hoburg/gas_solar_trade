@@ -171,7 +171,7 @@ class Mission(Model):
             mtow >= climb1["W_{start}"][0],
             Wfueltot >= sum(fs["W_{fuel-fs}"] for fs in mission),
             mission[-1]["W_{end}"][-1] >= JHO["W_{zfw}"],
-            Wcent >= Wfueltot + sum(summing_vars(JHO.smeared_loads, "W")),
+            Wcent >= Wfueltot + JHO["W_{pay}"] + JHO["W_{avn}"] + sum(summing_vars(JHO.smeared_loads, "W")),
             LS == mtow/JHO.wing["S"]
             ]
 

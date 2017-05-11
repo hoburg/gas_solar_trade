@@ -90,6 +90,6 @@ if __name__ == "__main__":
     fig, ax = plot_battsolarcon()
     if len(sys.argv) > 1:
         path = sys.argv[1]
-        fig.savefig(path + "battsolarcontour.eps", bbox_inches="tight")
+        fig.savefig(path + "battsolarcontour.pdf", bbox_inches="tight")
     else:
         fig.savefig("battsolarcontour.pdf", bbox_inches="tight")

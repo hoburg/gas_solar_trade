@@ -278,6 +278,20 @@ class SteadyLevelFlight(Model):
 
         return constraints
 
+class Flight(Model):
+    "define mission for aircraft"
+    def setup(self, aircraft, latitude, day):
+
+        flight = FlightSegment(aircraft, latitude=latitude, day=day)
+        loading = aircraft.loading(aircraft["W_{cent}"], aircraft["W_{wing}"], flight["V"], flight["C_L"])
+        for vk in loading.varkeys["N_{max}"]:
+            if "ChordSparL" in vk.descr["models"]:
+                loading.substitutions.update({vk: 5})
+            if "GustL" in vk.descr["models"]:
+                loading.substitutions.update({vk: 2})
+
+        return flight, loading
+
 class Mission(Model):
     "define mission for aircraft"
     def setup(self, latitude=35, day=355):
@@ -285,15 +299,9 @@ class Mission(Model):
         self.solar = Aircraft()
         mission = []
         for l in range(20, latitude+1, 1):
-            mission.append(FlightSegment(self.solar, latitude=l, day=day))
-        loading = self.solar.loading(self.solar["W_{cent}"], self.solar["W_{wing}"], mission[-1]["V"], mission[-1]["C_L"])
-        for vk in loading.varkeys["N_{max}"]:
-            if "ChordSparL" in vk.descr["models"]:
-                loading.substitutions.update({vk: 5})
-            if "GustL" in vk.descr["models"]:
-                loading.substitutions.update({vk: 2})
+            mission.append(Flight(self.solar, l, day))
 
-        return self.solar, mission, loading
+        return self.solar, mission
 
 def test():
     M = Mission(latitude=25)
