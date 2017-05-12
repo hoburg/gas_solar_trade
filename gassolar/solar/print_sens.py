@@ -1,5 +1,5 @@
 "print sensitivities"
-from gassolar.solar.solar import Mission
+from gassolar.solar.solar import Mission, altitude
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
@@ -42,6 +42,9 @@ def sol_table(sols, models, varnames, filename, solar, latns=[],
                         val = val.magnitude
                     else:
                         units = ""
+                    if vnm == "\\rho":
+                        val = altitude(val)*0.3048
+                        units = "[m]"
                 else:
                     val = s(vnm).magnitude
                     units = " [" + unitstr(s(vnm)) + "]"
@@ -164,8 +167,8 @@ if __name__ == "__main__":
     varnsw = ["e", "t_{min}_Mission, Aircraft, Wing, WingSkin", "\\rho_{CFRP}", "\\eta_{discharge}", "\\eta_{charge}", "h_{batt}", "\\eta_Mission, Aircraft, SolarCells", "\\rho_{solar}", "\\eta_{prop}", "\\sigma_{CFRP}"]
     figw, axw = plot_sens(Ms[2], sols[2], varnsw)
 
-    dvarns = ["W_{total}", "b_Mission, Aircraft, Wing", "AR_Mission, Aircraft, Wing", "W_Mission, Aircraft, Wing", "W_Mission, Aircraft, Battery", "W_Mission, Aircraft, SolarCells", "C_L", "C_D"]
-    dlatns = ["MTOW", "$b$", "$A$", "$W_{\\mathrm{wing}}$", "$W_{\\mathrm{batt}}$", "$W_{\\mathrm{solar}}$", "$C_L$", "$C_D$"]
+    dvarns = ["W_{total}", "b_Mission, Aircraft, Wing", "AR_Mission, Aircraft, Wing", "W_Mission, Aircraft, Wing", "W_Mission, Aircraft, Battery", "W_Mission, Aircraft, SolarCells", "C_L", "C_D", "\\rho"]
+    dlatns = ["MTOW", "$b$", "$A$", "$W_{\\mathrm{wing}}$", "$W_{\\mathrm{batt}}$", "$W_{\\mathrm{solar}}$", "$C_L$", "$C_D$", "$h$"]
 
     if len(sys.argv) > 1:
         path = sys.argv[1]
