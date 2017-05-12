@@ -17,7 +17,7 @@ def windalt_plot(latitude, sol1=None, sol2=None):
                            for p in range(75, 100, 5) + [99]])]).T
 
     # df = DF[DF["latitude"] == latitude]
-    df = pd.read_csv(path + "windfits/windaltfit_lat%d.csv" % latitude)
+    df = pd.read_csv(path + "windfitsdec/windaltfit_lat%d.csv" % latitude)
     ftype = df["ftype"].iloc[0]
     K = df["K"].iloc[0]
     if ftype == "SMA":
