@@ -1,7 +1,7 @@
 " Simple Solar-Electric Powered Aircraft Model "
 import pandas as pd
 import numpy as np
-import os
+import os, sys
 from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
 from gpkit import Model, Variable, SignomialsEnabled
 from gpkitmodels.GP.aircraft.wing.wing import WingAero, Wing
@@ -202,11 +202,12 @@ class FlightState(Model):
 
         df = pd.read_csv(path + "windfits" + month +
                          "/windaltfit_lat%d.csv" % latitude)
-        print month
         # df = DF[DF["latitude"] == latitude]
         # dft = DFt[DFt["latitude"] == latitude]
         # dfd = DFd[DFd["latitude"] == latitude]
+        sys.stdout = open(os.devnull, 'w')
         dft, dfd = twi_fits(latitude, day, gen=True)
+        sys.stdout = sys.__stdout__
         esirr, td, tn, _ = get_Eirr(latitude, day)
 
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
