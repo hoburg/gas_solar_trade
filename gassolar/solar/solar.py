@@ -37,7 +37,8 @@ class Aircraft(Model):
 
         self.empennage.substitutions["V_h"] = 0.45
         self.empennage.substitutions["V_v"] = 0.04
-        self.empennage.substitutions["m_h"] = 5.514
+        self.empennage.substitutions["AR_h"] = 5
+        self.empennage.substitutions["m_h"] = 0.1
 
         constraints = [
             Wtotal >= (Wpay + sum(summing_vars(self.components, "W"))),
@@ -298,14 +299,15 @@ class Flight(Model):
 
         return flight, loading
 
-class Mission(Model):
+
+class Operations(Model):
     "define mission for aircraft"
-    def setup(self, latitude=35, day=355, month="dec"):
+    def setup(self, aircraft, latitude=35, day=355, month="dec"):
 
         mos = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
                "oct", "nov", "dec"]
 
-        self.solar = Aircraft()
+        self.solar = aircraft
         mission = []
         if day == 355:
             for l in range(20, latitude+1, 1):
@@ -317,6 +319,15 @@ class Mission(Model):
                                       mos[-mos.index(month)-2]))
 
         return self.solar, mission
+
+class Mission(Model):
+    " build aircraft "
+    def setup(self, latitude=35, day=355, month="dec"):
+
+        aircraft = Aircraft()
+        ops = Operations(aircraft, latitude=latitude, day=day, month=month)
+
+        return ops
 
 def test():
     M = Mission(latitude=25)
