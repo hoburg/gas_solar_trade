@@ -8,7 +8,7 @@ import numpy as np
 from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
 from gpkit import Model, Variable
 from gpkitmodels.GP.aircraft.wing.wing import Wing as WingGP
-from gpkitmodels.SP.aircraft.wing.wing import Wing as WingSP
+# from gpkitmodels.SP.aircraft.wing.wing import Wing as WingSP
 from gpkitmodels.GP.aircraft.tail.empennage import Empennage
 from gpkitmodels.GP.aircraft.tail.tail_boom import TailBoomState
 from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
@@ -27,10 +27,10 @@ class Aircraft(Model):
 
         self.sp = sp
         self.solarcells = SolarCells()
-        if sp:
-            self.wing = WingSP(hollow=True)
-        else:
-            self.wing = WingGP(hollow=True)
+        # if sp:
+        #     self.wing = WingSP(hollow=True)
+        # else:
+        self.wing = WingGP(hollow=True)
         self.battery = Battery()
         self.empennage = Empennage()
         self.motor = Motor()

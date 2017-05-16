@@ -66,9 +66,9 @@ if __name__ == "__main__":
 
     if GENERATE:
         df = season()
-        df.to_csv("season.csv")
+        df.to_csv("season.generated.csv")
     else:
-        df = pd.read_csv("season.csv")
+        df = pd.read_csv("season.generated.csv")
         del df["Unnamed: 0"]
 
     fig, ax = plot_season(df)
