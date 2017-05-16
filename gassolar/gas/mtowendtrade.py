@@ -28,17 +28,17 @@ def mtow_plot(model):
                 model.substitutions.update({vk: wind})
 
         model.substitutions.update({"MTOW": 1000})
-        model.cost = 1/model["t_Mission, Loiter"]
+        model.cost = 1/model["t_Mission/Loiter"]
         sol = model.solve("mosek")
         time += sol["soltime"]
         nsolves += 1
-        upper = sol("t_Mission, Loiter").magnitude
+        upper = sol("t_Mission/Loiter").magnitude
         xmin_ = x[x < upper + 0.03]
         xs.append(xmin_)
 
         del model.substitutions["MTOW"]
         model.cost = model["MTOW"]
-        bst = autosweep_1d(model, tol, model["t_Mission, Loiter"],
+        bst = autosweep_1d(model, tol, model["t_Mission/Loiter"],
                            [1, xmin_[-1]], solver="mosek")
         bsts = find_sols([bst])
         sols = np.hstack([b.sols for b in bsts])

@@ -34,7 +34,7 @@ def plot_contours(path=None):
                 M.substitutions.update({vk: 0.75})
             for vk in M.varkeys["p_{wind}"]:
                 M.substitutions.update({vk: av/100.0})
-            del M.substitutions["\\eta_Mission, Aircraft, SolarCells"]
+            del M.substitutions["\\eta_Mission/Aircraft/SolarCells"]
             del M.substitutions["h_{batt}"]
             M.cost = M["h_{batt}"]
             lines = []
@@ -42,8 +42,8 @@ def plot_contours(path=None):
             for b in bs:
                 etamax = 0.4
                 etamin = 0.15
-                M.substitutions.update({"b_Mission, Aircraft, Wing": b})
-                M.substitutions.update({"\\eta_Mission, Aircraft, SolarCells":
+                M.substitutions.update({"b_Mission/Aircraft/Wing": b})
+                M.substitutions.update({"\\eta_Mission/Aircraft/SolarCells":
                                         etamax})
                 sol = M.solve("mosek")
                 stime += sol["soltime"]
@@ -51,18 +51,18 @@ def plot_contours(path=None):
                 del M.substitutions["\\eta_Mission, Aircraft, SolarCells"]
                 if sol("h_{batt}").magnitude < hmin:
                     M.substitutions.update({"h_{batt}": hmin})
-                    M.cost = M["\\eta_Mission, Aircraft, SolarCells"]
+                    M.cost = M["\\eta_Mission/Aircraft/SolarCells"]
                     sol = M.solve("mosek")
                     stime += sol["soltime"]
                     numsolves += sol["soltime"]
-                    etamax = sol("\\eta_Mission, Aircraft, SolarCells")
+                    etamax = sol("\\eta_Mission/Aircraft/SolarCells")
 
                 M.substitutions.update({"h_{batt}": hmax})
-                M.cost = M["\\eta_Mission, Aircraft, SolarCells"]
+                M.cost = M["\\eta_Mission/Aircraft/SolarCells"]
                 sol = M.solve("mosek")
                 stime += sol["soltime"]
                 numsolves += 1
-                etamin = sol("\\eta_Mission, Aircraft, SolarCells")
+                etamin = sol("\\eta_Mission/Aircraft/SolarCells")
 
                 if etamin > etamax:
                     continue
@@ -72,7 +72,7 @@ def plot_contours(path=None):
                 xmin_ = np.linspace(etamin, etamax, 100)
                 tol = 0.01
                 bst = autosweep_1d(M, tol,
-                                   M["\\eta_Mission, Aircraft, SolarCells"],
+                                   M["\\eta_Mission/Aircraft/SolarCells"],
                                    [etamin, etamax], solver="mosek")
                 bsts = find_sols([bst])
                 sols = np.hstack([bs.sols for bs in bsts])
@@ -90,29 +90,29 @@ def plot_contours(path=None):
                             zorder=100)
 
             # parato fontier
-            del M.substitutions["b_Mission, Aircraft, Wing"]
-            M.substitutions.update({"\\eta_Mission, Aircraft, SolarCells":
+            del M.substitutions["b_Mission/Aircraft/Wing"]
+            M.substitutions.update({"\\eta_Mission/Aircraft/SolarCells":
                                     etamax})
             M.cost = M["h_{batt}"]
             sol = M.solve("mosek")
             etamax = 0.4
             stime += sol["soltime"]
             numsolves += 1
-            del M.substitutions["\\eta_Mission, Aircraft, SolarCells"]
+            del M.substitutions["\\eta_Mission/Aircraft/SolarCells"]
             if sol("h_{batt}").magnitude < hmin:
                 M.substitutions.update({"h_{batt}": hmin})
-                M.cost = M["\\eta_Mission, Aircraft, SolarCells"]
+                M.cost = M["\\eta_Mission/Aircraft/SolarCells"]
                 sol = M.solve("mosek")
                 stime += sol["soltime"]
                 numsolves += sol["soltime"]
-                etamax = sol("\\eta_Mission, Aircraft, SolarCells")
+                etamax = sol("\\eta_Mission/Aircraft/SolarCells")
 
             M.substitutions.update({"h_{batt}": hmax})
-            M.cost = M["\\eta_Mission, Aircraft, SolarCells"]
+            M.cost = M["\\eta_Mission/Aircraft/SolarCells"]
             sol = M.solve("mosek")
             stime += sol["soltime"]
             numsolves += 1
-            etamin = sol("\\eta_Mission, Aircraft, SolarCells")
+            etamin = sol("\\eta_Mission/Aircraft/SolarCells")
 
             if etamin > etamax:
                 break
@@ -120,7 +120,7 @@ def plot_contours(path=None):
             M.cost = M["h_{batt}"]
             xmin_ = np.linspace(etamin, etamax, 100)
             tol = 0.01
-            bst = autosweep_1d(M, tol, M["\\eta_Mission, Aircraft, SolarCells"],
+            bst = autosweep_1d(M, tol, M["\\eta_Mission/Aircraft/SolarCells"],
                                [etamin, etamax], solver="mosek")
             bsts = find_sols([bst])
             sols = np.hstack([b.sols for b in bsts])

@@ -190,11 +190,11 @@ class Mission(Model):
 
 def test():
     M = Mission()
-    M.cost = 1/M["t_Mission, Loiter"]
+    M.cost = 1/M["t_Mission/Loiter"]
     M.solve()
 
 if __name__ == "__main__":
     M = Mission()
-    M.substitutions.update({"t_Mission, Loiter": 6})
+    M.substitutions.update({"t_Mission/Loiter": 6})
     M.cost = M["MTOW"]
     sol = M.solve("mosek")

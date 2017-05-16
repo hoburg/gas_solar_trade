@@ -151,7 +151,7 @@ if __name__ == "__main__":
             sol = M.solve("mosek")
             sols.append(sol)
 
-    varns =  ["p_{wind}", "\\eta_Mission, Aircraft, SolarCells",
+    varns =  ["p_{wind}", "\\eta_Mission/Aircraft, SolarCells",
               "\\eta_{charge}", "\\eta_{discharge}", "\\rho_{solar}",
               "t_{night}", "(E/S)_{irr}", "h_{batt}", "W_{pay}",
               "\\eta_{prop}"]
@@ -163,11 +163,10 @@ if __name__ == "__main__":
               "$\\eta_{\\mathrm{prop}}$"]
 
     fig, ax = plot_sens(M, sols[3], varns)
-
-    varnsw = ["e", "t_{min}_Mission, Aircraft, Wing, WingSkin", "\\rho_{CFRP}", "\\eta_{discharge}", "\\eta_{charge}", "h_{batt}", "\\eta_Mission, Aircraft, SolarCells", "\\rho_{solar}", "\\eta_{prop}", "\\sigma_{CFRP}"]
+    varnsw = ["e", "t_{min}_Mission/Aircraft/Wing/WingSkin", "\\rho_{CFRP}", "\\eta_{discharge}", "\\eta_{charge}", "h_{batt}", "\\eta_Mission/Aircraft/SolarCells", "\\rho_{solar}", "\\eta_{prop}", "\\sigma_{CFRP}"]
     figw, axw = plot_sens(Ms[2], sols[2], varnsw)
 
-    dvarns = ["W_{total}", "b_Mission, Aircraft, Wing", "AR_Mission, Aircraft, Wing", "W_Mission, Aircraft, Wing", "W_Mission, Aircraft, Battery", "W_Mission, Aircraft, SolarCells", "C_L", "C_D", "\\rho"]
+    dvarns = ["W_{total}", "b_Mission/Aircraft/Wing", "AR_Mission/Aircraft/Wing", "W_Mission/Aircraft/Wing", "W_Mission/Aircraft/Battery", "W_Mission/Aircraft/SolarCells", "C_L", "C_D", "\\rho"]
     dlatns = ["MTOW", "$b$", "$A$", "$W_{\\mathrm{wing}}$", "$W_{\\mathrm{batt}}$", "$W_{\\mathrm{solar}}$", "$C_L$", "$C_D$", "$h$"]
 
     if len(sys.argv) > 1:
@@ -181,4 +180,3 @@ if __name__ == "__main__":
         sol_table(sols, Ms, dvarns, solar=True, filename="svals.generated.tex", latns=dlatns, title="Solar-Electric Powered Aircraft Design Variables", label="svals")
         fig.savefig("solarsensbar.pdf", bbox_inches="tight")
         figw.savefig("solarsensbarw.pdf", bbox_inches="tight")
-
