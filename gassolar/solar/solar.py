@@ -1,10 +1,14 @@
 " Simple Solar-Electric Powered Aircraft Model "
+#pylint: disable=attribute-defined-outside-init, invalid-name, unused-variable
+#pylint: disable=too-many-locals
+import os
+import sys
 import pandas as pd
 import numpy as np
-import os, sys
 from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
-from gpkit import Model, Variable, SignomialsEnabled
-from gpkitmodels.GP.aircraft.wing.wing import WingAero, Wing
+from gpkit import Model, Variable
+from gpkitmodels.GP.aircraft.wing.wing import Wing as WingGP
+from gpkitmodels.SP.aircraft.wing.wing import Wing as WingSP
 from gpkitmodels.GP.aircraft.tail.empennage import Empennage
 from gpkitmodels.GP.aircraft.tail.tail_boom import TailBoomState
 from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
@@ -19,10 +23,14 @@ DFd = pd.read_csv(path + "solar_dayfit.csv")
 
 class Aircraft(Model):
     "vehicle"
-    def setup(self):
+    def setup(self, sp=False):
 
+        self.sp = sp
         self.solarcells = SolarCells()
-        self.wing = Wing(hollow=True)
+        if sp:
+            self.wing = WingSP(hollow=True)
+        else:
+            self.wing = WingGP(hollow=True)
         self.battery = Battery()
         self.empennage = Empennage()
         self.motor = Motor()
@@ -35,10 +43,12 @@ class Aircraft(Model):
         Wwing = Variable("W_{wing}", "lbf", "wing weight")
         Wcent = Variable("W_{cent}", "lbf", "center weight")
 
-        self.empennage.substitutions["V_h"] = 0.45
         self.empennage.substitutions["V_v"] = 0.04
-        self.empennage.substitutions["AR_h"] = 5
-        self.empennage.substitutions["m_h"] = 0.1
+
+        if not sp:
+            self.empennage.substitutions["V_h"] = 0.45
+            self.empennage.substitutions["AR_h"] = 5
+            self.empennage.substitutions["m_h"] = 0.1
 
         constraints = [
             Wtotal >= (Wpay + sum(summing_vars(self.components, "W"))),
@@ -57,20 +67,22 @@ class Aircraft(Model):
                 self.empennage.verticaltail["S"]
                 * self.empennage.verticaltail["l_v"]/self.wing["S"]
                 / self.wing["b"]),
-            # self.wing["C_{L_{max}}"]/self.wing["m_w"] <= (
-            #     self.empennage.horizontaltail["C_{L_{max}}"]
-            #     / self.empennage.horizontaltail["m_h"]),
-            self.empennage.horizontaltail["C_{L_{max}}"] == 1.5,
-            self.wing["\\tau"]*self.wing["c_{root}"] >= self.empennage.tailboom["d_0"]
+            self.empennage.tailboom["d_0"] <= (
+                self.wing["\\tau"]*self.wing["c_{root}"])
             ]
 
         return constraints, self.components
 
     def flight_model(self, state):
+        " what happens during flight "
         return AircraftPerf(self, state)
 
     def loading(self, Wcent, Wwing, V, CL):
-        return AircraftLoading(self, Wcent, Wwing, V, CL)
+        " loading for all components "
+        if self.sp:
+            return AircraftLoadingSP(self, Wcent, Wwing, V, CL)
+        else:
+            return AircraftLoading(self, Wcent, Wwing, V, CL)
 
 class Motor(Model):
     "the thing that provides power"
@@ -95,10 +107,19 @@ class AircraftLoading(Model):
         loading = [aircraft.wing.loading(Wcent, Wwing, V, CL)]
         loading.append(aircraft.empennage.loading())
 
-        # tbstate = TailBoomState()
-        # loading.append(TailBoomFlexibility(aircraft.empennage.horizontaltail,
-        #                                    aircraft.empennage.tailboom,
-        #                                    aircraft.wing, tbstate))
+        return loading
+
+class AircraftLoadingSP(Model):
+    "aircraft loading cases"
+    def setup(self, aircraft, Wcent, Wwing, V, CL):
+
+        loading = [aircraft.wing.loading(Wcent, Wwing, V, CL)]
+        loading.append(aircraft.empennage.loading())
+
+        tbstate = TailBoomState()
+        loading.append(TailBoomFlexibility(aircraft.empennage.horizontaltail,
+                                           aircraft.empennage.tailboom,
+                                           aircraft.wing, tbstate))
 
         return loading
 
@@ -244,6 +265,7 @@ class FlightState(Model):
         return constraints
 
 def altitude(density):
+    " find air density "
     g = 9.80665 # m/s^2
     R = 287.04 # m^2/K/s^2
     T11 = 216.65 # K
@@ -300,14 +322,14 @@ class Flight(Model):
         return flight, loading
 
 
-class Operations(Model):
+class Mission(Model):
     "define mission for aircraft"
-    def setup(self, aircraft, latitude=35, day=355, month="dec"):
+    def setup(self, latitude=35, day=355, month="dec", sp=False):
 
         mos = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
                "oct", "nov", "dec"]
 
-        self.solar = aircraft
+        self.solar = Aircraft(sp=sp)
         mission = []
         if day == 355:
             for l in range(20, latitude+1, 1):
@@ -320,19 +342,11 @@ class Operations(Model):
 
         return self.solar, mission
 
-class Mission(Model):
-    " build aircraft "
-    def setup(self, latitude=35, day=355, month="dec"):
-
-        aircraft = Aircraft()
-        ops = Operations(aircraft, latitude=latitude, day=day, month=month)
-
-        return ops
-
 def test():
-    M = Mission(latitude=25)
-    M.cost = M["W_{total}"]
-    M.solve()
+    " test model for continuous integration "
+    m = Mission(latitude=25)
+    m.cost = m["W_{total}"]
+    m.solve()
 
 if __name__ == "__main__":
     M = Mission(latitude=25)
@@ -341,4 +355,4 @@ if __name__ == "__main__":
     mn = [max(M[sv].descr["modelnums"]) for sv in sol("(E/S)_{irr}") if
           abs(sol["sensitivities"]["constants"][sv]) > 0.01][0]
     # sol = M.localsolve("mosek")
-    h = altitude(np.hstack([sol(sv).magnitude for sv in sol("\\rho")]))
+    H = altitude(np.hstack([sol(sv).magnitude for sv in sol("\\rho")]))

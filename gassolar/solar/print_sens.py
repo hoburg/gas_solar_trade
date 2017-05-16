@@ -15,7 +15,7 @@ def sol_table(sols, models, varnames, filename, solar, latns=[],
         f.write("\\toprule\n")
         f.write("\\label{t:%s}\n" % label)
         if solar:
-            f.write("\\multirow{2}{*}{Variable} & 25th Latitude & 30th Latitude & 25th Latitude & 30th Latitude \\\\\n")
+            f.write("\\multirow{2}{*}{Variable} & 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude & 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude \\\\\n")
             f.write("& 85th Percentile Winds & 85th Percentile Winds & 90th Percentile Winds & 90th Percentile Winds \\\\\n")
         else:
             f.write("Variable & 5 Day Endurance & 7 Day Endurance & 9 Day Endurance\\\\\n")
@@ -80,7 +80,7 @@ def sens_table(sols, models, varnames, filename, solar, latns=[],
         f.write("\\toprule\n")
         f.write("\\label{t:%s}\n" % label)
         if solar:
-            f.write("\\multirow{2}{*}{Variable} & 25th Latitude & 30th Latitude & 25th Latitude & 30th Latitude \\\\\n")
+            f.write("\\multirow{2}{*}{Variable} & 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude & 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude \\\\\n")
             f.write("& 85th Percentile Winds & 85th Percentile Winds & 90th Percentile Winds & 90th Percentile Winds \\\\\n")
         else:
             f.write("Variable & 5 Day Endurance & 7 Day Endurance & 9 Day Endurance\\\\\n")
