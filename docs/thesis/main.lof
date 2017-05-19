@@ -1,0 +1,54 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2-1}{\ignorespaces \textbf {Winds peak at the winter solstice in Southern and Northern Hemispheres.\cite {wind}}}}{22}{figure.2.1}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {+30$^{\circ }$ latitude }}}{22}{figure.2.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {-30$^{\circ }$ latitude }}}{22}{figure.2.1}
+\contentsline {figure}{\numberline {2-2}{\ignorespaces \textbf {Aircraft must fly above $h_{\text {min}}$ to meet altitude requirement. Bands represent 80th, 90th and 95th percentiles.\cite {wind}}}}{24}{figure.2.2}
+\contentsline {figure}{\numberline {2-3}{\ignorespaces \textbf {Wind speeds by latitude. Bands represent 80th, 90th and 95th percentile winds.\cite {wind} }}}{24}{figure.2.3}
+\contentsline {figure}{\numberline {2-4}{\ignorespaces \textbf {Wind speed analysis at 60,000 ft over Boston, Massachusetts during December, 2015.}}}{25}{figure.2.4}
+\contentsline {figure}{\numberline {2-5}{\ignorespaces \textbf {Wind speed analysis at 60,000 ft over Rome, Italy during December, 2015.}}}{25}{figure.2.5}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3-1}{\ignorespaces \textbf {Process of constructing and solving a GP optimization problem. }}}{28}{figure.3.1}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Autocorrelation of Boston wind speeds}}}{28}{figure.3.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Boston wind speed data}}}{28}{figure.3.1}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Autocorrelation of Rome wind speeds}}}{28}{figure.3.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Rome wind speed data}}}{28}{figure.3.1}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4-1}{\ignorespaces \textbf {Blue and red are specific to the solar-electric and gas architectures respectively. Black are shared characteristics.}}}{30}{figure.4.1}
+\contentsline {figure}{\numberline {4-2}{\ignorespaces \textbf {Representative weight breakdown of both aircraft optimization models.}}}{31}{figure.4.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5-1}{\ignorespaces \textbf {Posynomial fit (solid lines) to XFOIL data (circles). (Log-space RMS error\nobreakspace {}=\nobreakspace {}0.00489.)}}}{35}{figure.5.1}
+\contentsline {figure}{\numberline {5-2}{\ignorespaces \textbf {Visual comparison of fitted equation to the arctan function. (Log space RMS error $=0.039$ for $V_{\text {gust}}/V \in [0, 0.7]$)}}}{38}{figure.5.2}
+\contentsline {figure}{\numberline {5-3}{\ignorespaces \textbf {Cross sectional view of a cap spar.}}}{40}{figure.5.3}
+\contentsline {figure}{\numberline {5-4}{\ignorespaces \textbf {Posynomial fit (solid lines) to XFOIL data (circles). (Log-space RMS error = 0.040)}}}{45}{figure.5.4}
+\contentsline {figure}{\numberline {5-5}{\ignorespaces \textbf {Posynomial approximation to wind speed data\cite {wind} (circles) at 30$^{\circ }$ latitude. (Log-space RMS error = 0.047.)}}}{46}{figure.5.5}
+\contentsline {figure}{\numberline {5-6}{\ignorespaces \textbf {Solar power on Dec 21st at 30$^{\circ }$ North. 24-hour operationality achieved when red area exceeds blue, magenta and green areas. }}}{47}{figure.5.6}
+\contentsline {figure}{\numberline {5-7}{\ignorespaces \textbf {Monomial approximations for $(E/S)_{\text {day}}$ and $(E/S)_{\text {twilight}}$. (Log-space RMS error = 0.007 and 0.0180)}}}{48}{figure.5.7}
+\contentsline {figure}{\numberline {5-8}{\ignorespaces \textbf {Power law fit to University of North Dakota engine weight data\cite {gasengine}. (Log-space RMS error = 0.34)}}}{53}{figure.5.8}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Monomial Approxmiation for $(E/S)_{\text {day}}$}}}{53}{figure.5.8}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Monomial Approximation for $(E/S)_{\text {twilight}}$}}}{53}{figure.5.8}
+\contentsline {figure}{\numberline {5-9}{\ignorespaces \textbf {Representative engine performance fit based on RCV Engine Ltd data. (Log-space RMS error = 0.007) }}}{54}{figure.5.9}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6-1}{\ignorespaces \textbf {Gas architecture feasible for all latitudes. Next integer latitude for each solar-electric curve is infeasible.}}}{59}{figure.6.1}
+\contentsline {figure}{\numberline {6-2}{\ignorespaces \textbf {Endurance and size trade study for gas powered architecture.}}}{60}{figure.6.2}
+\contentsline {figure}{\numberline {6-3}{\ignorespaces \textbf {Flexible season requirements allow for smaller aircraft and increased latitude.}}}{61}{figure.6.3}
+\contentsline {figure}{\numberline {6-4}{\ignorespaces \textbf {Contours of latitude. Reaching higher latitudes requires better solar cells and batteries.}}}{62}{figure.6.4}
+\contentsline {figure}{\numberline {6-5}{\ignorespaces \textbf {Maxtrix of minimum wing span solar-electric aircraft designs. Values of assumed constants are given throughout the text.}}}{63}{figure.6.5}
+\contentsline {figure}{\numberline {6-6}{\ignorespaces \textbf {Comparison of simplified and detailed structural models highlights trade between wing weight and air density.}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.80$}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.85$}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.90$}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.80$}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.85$}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.90$}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(g)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.80$}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(h)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.85$}}}{64}{figure.6.6}
+\contentsline {subfigure}{\numberline {(i)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.90$}}}{64}{figure.6.6}
+\contentsline {figure}{\numberline {6-7}{\ignorespaces \textbf {Wind speed constraint moves lift to drag ratio off maximum $(C_L^{1.5}/C_D)$ point (plus signs). Solid lines are drag polars.}}}{65}{figure.6.7}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {A-1}{\ignorespaces \textbf {Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number $Re=\num {3d5}$.}}}{69}{figure.A.1}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {$C_L=0.0$}}}{69}{figure.A.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {$C_L=1.35$}}}{69}{figure.A.1}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
