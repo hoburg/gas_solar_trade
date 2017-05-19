@@ -5,6 +5,8 @@ import numpy as np
 import sys
 from gpkit.small_scripts import unitstr
 
+#pylint: disable=invalid-name
+
 def sol_table(sols, models, varnames, filename, solar, latns=[],
               title="Design Variables", label="vals"):
 
@@ -163,20 +165,39 @@ if __name__ == "__main__":
               "$\\eta_{\\mathrm{prop}}$"]
 
     fig, ax = plot_sens(M, sols[3], varns)
-    varnsw = ["e", "t_{min}_Mission/Aircraft/Wing/WingSkin", "\\rho_{CFRP}", "\\eta_{discharge}", "\\eta_{charge}", "h_{batt}", "\\eta_Mission/Aircraft/SolarCells", "\\rho_{solar}", "\\eta_{prop}", "\\sigma_{CFRP}"]
+    varnsw = ["e", "t_{min}_Mission/Aircraft/Wing/WingSkin", "\\rho_{CFRP}",
+              "\\eta_{discharge}", "\\eta_{charge}", "h_{batt}",
+              "\\eta_Mission/Aircraft/SolarCells", "\\rho_{solar}",
+              "\\eta_{prop}", "\\sigma_{CFRP}"]
     figw, axw = plot_sens(Ms[2], sols[2], varnsw)
 
-    dvarns = ["W_{total}", "b_Mission/Aircraft/Wing", "AR_Mission/Aircraft/Wing", "W_Mission/Aircraft/Wing", "W_Mission/Aircraft/Battery", "W_Mission/Aircraft/SolarCells", "C_L", "C_D", "\\rho"]
-    dlatns = ["MTOW", "$b$", "$A$", "$W_{\\mathrm{wing}}$", "$W_{\\mathrm{batt}}$", "$W_{\\mathrm{solar}}$", "$C_L$", "$C_D$", "$h$"]
+    dvarns = ["W_{total}", "b_Mission/Aircraft/Wing",
+              "AR_Mission/Aircraft/Wing", "W_Mission/Aircraft/Wing",
+              "W_Mission/Aircraft/Battery", "W_Mission/Aircraft/SolarCells",
+              "C_L", "C_D", "\\rho"]
+    dlatns = ["MTOW", "$b$", "$A$", "$W_{\\mathrm{wing}}$",
+              "$W_{\\mathrm{batt}}$", "$W_{\\mathrm{solar}}$", "$C_L$", "$C_D$",
+              "$h$"]
 
     if len(sys.argv) > 1:
         path = sys.argv[1]
-        sens_table(sols, Ms, varns, solar=True, filename=path.replace("figs/", "") + "sens.generated.tex", latns=latns, title="Solar-Electric Powered Aircraft Sensitivities")
-        sol_table(sols, Ms, dvarns, solar=True, filename=path.replace("figs/", "") + "svals.generated.tex", latns=dlatns, title="Solar-Electric Powered Aircraft Design Variables", label="svals")
+        sens_table(sols, Ms, varns, solar=True,
+                   filename=path.replace("figs/", "") + "sens.generated.tex",
+                   latns=latns,
+                   title="Solar-Electric Powered Aircraft Sensitivities")
+        sol_table(sols, Ms, dvarns, solar=True,
+                  filename=path.replace("figs/", "") + "svals.generated.tex",
+                  latns=dlatns,
+                  title="Solar-Electric Powered Aircraft Design Variables",
+                  label="svals")
         fig.savefig(path + "solarsensbar.pdf", bbox_inches="tight")
         figw.savefig(path + "solarsensbarw.pdf", bbox_inches="tight")
     else:
-        sens_table(sols, Ms, varns, solar=True, filename="sens.generated.tex", latns=latns)
-        sol_table(sols, Ms, dvarns, solar=True, filename="svals.generated.tex", latns=dlatns, title="Solar-Electric Powered Aircraft Design Variables", label="svals")
+        sens_table(sols, Ms, varns, solar=True, filename="sens.generated.tex",
+                   latns=latns)
+        sol_table(sols, Ms, dvarns, solar=True, filename="svals.generated.tex",
+                  latns=dlatns,
+                  title="Solar-Electric Powered Aircraft Design Variables",
+                  label="svals")
         fig.savefig("solarsensbar.pdf", bbox_inches="tight")
         figw.savefig("solarsensbarw.pdf", bbox_inches="tight")
