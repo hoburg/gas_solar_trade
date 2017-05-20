@@ -1,13 +1,12 @@
-"print sensitivities"
-from gassolar.solar.solar import Mission, altitude
+from solar import Mission, altitude
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
 from gpkit.small_scripts import unitstr
 
-#pylint: disable=invalid-name
+#pylint: disable=invalid-name, anomalous-backslash-in-string
 
-def sol_table(sols, models, varnames, filename, solar, latns=[],
+def sol_table(sols, models, varnames, filename, ttype, latns=[],
               title="Design Variables", label="vals"):
 
     with open(filename, "w") as f:
@@ -16,11 +15,24 @@ def sol_table(sols, models, varnames, filename, solar, latns=[],
         f.write("\\toprule\n")
         f.write("\\toprule\n")
         f.write("\\label{t:%s}\n" % label)
-        if solar:
-            f.write("\\multirow{2}{*}{Variable} & 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude & 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude \\\\\n")
-            f.write("& 85th Percentile Winds & 85th Percentile Winds & 90th Percentile Winds & 90th Percentile Winds \\\\\n")
+        if ttype == "solar":
+            f.write("\\multirow{2}{*}{Variable} & 25$^{\circ}$ Latitude & "
+                    "30$^{\circ}$ Latitude & 25$^{\circ}$ Latitude & "
+                    "30$^{\circ}$ Latitude \\\\\n")
+            f.write("& 85th Percentile Winds & 85th Percentile Winds & 90th "
+                    "Percentile Winds & 90th Percentile Winds \\\\\n")
+        elif ttype == "tbflex":
+            f.write("\\multirow{2}{*}{Variable} & "
+                    "\\multicol{2}{c}{Without Tail Boom Flex} & "
+                    "\\multicol{2}{c}{With Tail Boom Flex} \\\\\n")
+            f.write("& 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude & "
+                    "25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude \\\\\n")
+        elif ttype == "gas":
+            f.write("Variable & 5 Day Endurance & 7 Day Endurance & 9 Day "
+                    "Endurance\\\\\n")
         else:
-            f.write("Variable & 5 Day Endurance & 7 Day Endurance & 9 Day Endurance\\\\\n")
+            raise ValueError("Invalid ttype. Valid inputs are "
+                             "[solar, tbflex, gas]")
         f.write("\\midrule\n")
 
         for vnm, ltnm in zip(varnames, latns):
@@ -30,13 +42,14 @@ def sol_table(sols, models, varnames, filename, solar, latns=[],
                     val = s(vnm)
                     units = ""
                 elif not hasattr(s(vnm), "magnitude"):
-                    if solar:
+                    if ttype == "solar":
                         mn = [max(m[sv].descr["modelnums"]) for sv in
-                              s("(E/S)_{irr}") if
-                              abs(s["sensitivities"]["constants"][sv])>0.01][0]
+                              s("(E/S)_{irr}") if abs(
+                                  s["sensitivities"]["constants"][sv])
+                              > 0.01][0]
                         val = [s(vk) for vk in m.varkeys[vnm] if
                                max(vk.modelnums) == mn][0]
-                    else:
+                    elif ttype == "gas":
                         val = [s(sv) for sv in s(vnm) if "Loiter"
                                in sv.models][0][1]
                     if hasattr(val, "magnitude"):
@@ -153,16 +166,16 @@ if __name__ == "__main__":
             sol = M.solve("mosek")
             sols.append(sol)
 
-    varns =  ["p_{wind}", "\\eta_Mission/Aircraft, SolarCells",
-              "\\eta_{charge}", "\\eta_{discharge}", "\\rho_{solar}",
-              "t_{night}", "(E/S)_{irr}", "h_{batt}", "W_{pay}",
-              "\\eta_{prop}"]
-    latns =  ["$p_{\\mathrm{wind}}$", "$\\eta_{\\mathrm{solar}}$",
-              "$\\eta_{\\mathrm{charge}}$", "$\\eta_{\\mathrm{discharge}}$",
-              "$\\rho_{\\mathrm{solar}}$",
-              "$t_{\\mathrm{night}}$", "$(E/S)_{\\mathrm{irr}}$",
-              "$h_{\\mathrm{batt}}$", "$W_{\\mathrm{pay}}$",
-              "$\\eta_{\\mathrm{prop}}$"]
+    varns = ["p_{wind}", "\\eta_Mission/Aircraft/SolarCells",
+             "\\eta_{charge}", "\\eta_{discharge}", "\\rho_{solar}",
+             "t_{night}", "(E/S)_{irr}", "h_{batt}", "W_{pay}",
+             "\\eta_{prop}"]
+    latns = ["$p_{\\mathrm{wind}}$", "$\\eta_{\\mathrm{solar}}$",
+             "$\\eta_{\\mathrm{charge}}$", "$\\eta_{\\mathrm{discharge}}$",
+             "$\\rho_{\\mathrm{solar}}$",
+             "$t_{\\mathrm{night}}$", "$(E/S)_{\\mathrm{irr}}$",
+             "$h_{\\mathrm{batt}}$", "$W_{\\mathrm{pay}}$",
+             "$\\eta_{\\mathrm{prop}}$"]
 
     fig, ax = plot_sens(M, sols[3], varns)
     varnsw = ["e", "t_{min}_Mission/Aircraft/Wing/WingSkin", "\\rho_{CFRP}",
@@ -179,13 +192,29 @@ if __name__ == "__main__":
               "$W_{\\mathrm{batt}}$", "$W_{\\mathrm{solar}}$", "$C_L$", "$C_D$",
               "$h$"]
 
+    tbfvar = ["W_{total}", "b_Mission/Aircraft/Wing", "d_0", "l_h", "V_h"]
+    tbflat = ["MTOW", "$b$", "$d_0$", "l_{\\mathrm{h}}", "V_{\\mathrm{h}}"]
+
+    tbsols = []
+    tbMs = []
+    for sp in [False, True]:
+        for l in [25, 29]:
+            M = Mission(latitude=l, sp=sp)
+            tbMs.append(M)
+            if sp:
+                sol = M.localsolve("mosek")
+            else:
+                sol = M.solve("mosek")
+            tbsols.append(sol)
+
+
     if len(sys.argv) > 1:
         path = sys.argv[1]
         sens_table(sols, Ms, varns, solar=True,
                    filename=path.replace("figs/", "") + "sens.generated.tex",
                    latns=latns,
                    title="Solar-Electric Powered Aircraft Sensitivities")
-        sol_table(sols, Ms, dvarns, solar=True,
+        sol_table(sols, Ms, dvarns, ttype="solar",
                   filename=path.replace("figs/", "") + "svals.generated.tex",
                   latns=dlatns,
                   title="Solar-Electric Powered Aircraft Design Variables",
@@ -195,9 +224,10 @@ if __name__ == "__main__":
     else:
         sens_table(sols, Ms, varns, solar=True, filename="sens.generated.tex",
                    latns=latns)
-        sol_table(sols, Ms, dvarns, solar=True, filename="svals.generated.tex",
-                  latns=dlatns,
+        sol_table(sols, Ms, dvarns, ttype="solar",
+                  filename="svals.generated.tex", latns=dlatns,
                   title="Solar-Electric Powered Aircraft Design Variables",
                   label="svals")
+        sol_table(tbsols, tbMs, tbfvar, ttype="tbflex", filename="tbftable.generated.tex", latns=tbflat, title="Tail Boom Flexibility with Solar Model", label="tbftable")
         fig.savefig("solarsensbar.pdf", bbox_inches="tight")
         figw.savefig("solarsensbarw.pdf", bbox_inches="tight")
