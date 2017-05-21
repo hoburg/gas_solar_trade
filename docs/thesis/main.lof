@@ -47,8 +47,9 @@
 \contentsline {figure}{\numberline {6-7}{\ignorespaces \textbf {Wind speed constraint moves lift to drag ratio off maximum $(C_L^{1.5}/C_D)$ point (plus signs). Solid lines are drag polars.}}}{65}{figure.6.7}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {A-1}{\ignorespaces \textbf {Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number $Re=\num {3d5}$.}}}{69}{figure.A.1}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {$C_L=0.0$}}}{69}{figure.A.1}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {$C_L=1.35$}}}{69}{figure.A.1}
+\contentsline {figure}{\numberline {A-1}{\ignorespaces \textbf {Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number $Re=\num {3d5}$.}}}{71}{figure.A.1}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {$C_L=0.0$}}}{71}{figure.A.1}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {$C_L=1.35$}}}{71}{figure.A.1}
+\addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

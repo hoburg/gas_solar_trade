@@ -23,10 +23,16 @@ def sol_table(sols, models, varnames, filename, ttype, latns=[],
                     "Percentile Winds & 90th Percentile Winds \\\\\n")
         elif ttype == "tbflex":
             f.write("\\multirow{2}{*}{Variable} & "
-                    "\\multicol{2}{c}{Without Tail Boom Flex} & "
-                    "\\multicol{2}{c}{With Tail Boom Flex} \\\\\n")
+                    "\\multicolumn{2}{c}{Without Tail Boom Flex} & "
+                    "\\multicolumn{2}{c}{With Tail Boom Flex} \\\\\n")
             f.write("& 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude & "
                     "25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude \\\\\n")
+        elif ttype == "tbflexg":
+            f.write("\\multirow{2}{*}{Variable} & "
+                    "\\multicolumn{2}{c}{Without Tail Boom Flex} & "
+                    "\\multicolumn{2}{c}{With Tail Boom Flex} \\\\\n")
+            f.write("& 7 Day Endurance & 9 Day Endurance "
+                    "& 7 Day Endurance & 9 Day Endurance \\\\\n")
         elif ttype == "gas":
             f.write("Variable & 5 Day Endurance & 7 Day Endurance & 9 Day "
                     "Endurance\\\\\n")
@@ -192,14 +198,19 @@ if __name__ == "__main__":
               "$W_{\\mathrm{batt}}$", "$W_{\\mathrm{solar}}$", "$C_L$", "$C_D$",
               "$h$"]
 
-    tbfvar = ["W_{total}", "b_Mission/Aircraft/Wing", "d_0", "l_h", "V_h"]
-    tbflat = ["MTOW", "$b$", "$d_0$", "l_{\\mathrm{h}}", "V_{\\mathrm{h}}"]
+    tbfvar = ["W_{total}", "b_Mission/Aircraft/Wing",
+              "W_Mission/Aircraft/Empennage/HorizontalTail",
+              "W_Mission/Aircraft/Empennage/TailBoom", "d_0", "l_h",
+              "S_Mission/Aircraft/Empennage/HorizontalTail", "V_h"]
+    tbflat = ["MTOW", "$b$", "$W_{\\mathrm{h}}$", "$W_{\\mathrm{boom}}$",
+              "$d_0$", "$l_{\\mathrm{h}}$", "$S_h$", "$V_{\\mathrm{h}}$"]
 
     tbsols = []
     tbMs = []
     for sp in [False, True]:
         for l in [25, 29]:
             M = Mission(latitude=l, sp=sp)
+            M.cost = M["W_{total}"]
             tbMs.append(M)
             if sp:
                 sol = M.localsolve("mosek")
@@ -219,6 +230,10 @@ if __name__ == "__main__":
                   latns=dlatns,
                   title="Solar-Electric Powered Aircraft Design Variables",
                   label="svals")
+        sol_table(tbsols, tbMs, tbfvar, ttype="tbflex",
+                  filename=path.replace("figs/", "") + "tbftable.generated.tex",
+                  latns=tbflat, title="Tail Boom Flexibility with Solar Model",
+                  label="tbftable")
         fig.savefig(path + "solarsensbar.pdf", bbox_inches="tight")
         figw.savefig(path + "solarsensbarw.pdf", bbox_inches="tight")
     else:

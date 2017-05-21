@@ -128,6 +128,8 @@ The infeasible regions and contour shapes would change for different assumed con
 
 \section{Changing Physical Modeling Assumptions}
 
+\subsection{Representing Structural Weight as Fraction of Total}
+
 Insight into the design space can also be gained by changing the physical modeling assumptions.
 For example, by altering the aircraft structural model it can be observed how air density trades for wing weight. 
 It might be assumed that because the wind speeds are lowest at 20,400 m at 29 degrees latitude, that the aircraft will always fly at 20,400 m.  
@@ -157,12 +159,47 @@ Therefore, by adding a structural model the optimization seeks a smaller wing to
 	\end{center}
 \end{figure}
 
+\subsection{Lift to Drag Ratio Shift Due to Wind Speed Constraint}
+
 Another interesting result is the operating lift to drag ratio for the gas powered aircraft.  
 The optimum lift to drag ratio to maximize endurance for gas powered aircraft is at the maximum $C_L^{1.5}/C_D$.\cite{br2}  
 However, while station keeping, the aircraft will maintain a constant velocity during high wind speeds.  
 At a constant velocity or constant Reynolds number the lift to drag ratio will not be at the maximum $C_L^{1.5}/C_D$.  
 If it is assumed that wind speeds are negligible or that station-keeping is not important then velocity will be optimized such that the lift to drag ratio is at the maximum $C_L^{1.5}/C_D$ as shown in Figure~\ref{f:polarmission}.
 
+
+\subsection{Tail Boom Flexibility}
+
+By changing using higher fidelity physical models, more accurate results of the sizing analysis can be achieved.  
+For example, sizing the horizontal tail using a volume coefficient does not account for the fexibility of the tail boom. 
+A flexible tail boom will cause a slight delay in the responsiveness to pitch control inputs, effectively lowering the control authority of the horizontal tail. 
+However, using a minimum static margin $\text{SM}_{\text{min}} = 0.35$ and minimum desirable c.g. travel range,
+
+\begin{equation}
+    \label{e:deltacg}
+    \Delta x_{cg} = (x_{cg})_{\text{aft}} - (x_{cg})_{\text{fwd}} = 0.2,
+\end{equation}
+
+a single constraint, whose derivation is explained in Appendix~\ref{app:tbflex}, minimizes the horizontal tail volume coefficient $V_{\text{w}}$, while meeting the minimum static margin and minimum c.g. travel range,
+
+\begin{equation}
+    \label{e:smcorr}
+    \text{SM}_{\text{min}} + \frac{\Delta x_{cg}}{c} - \frac{C_{M_{	ext{w}}}}{C_{L_{\text{max}}}} \leq V_{\text{w}} \mathcal{F}_{NE}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) + V_{\text{w}} \frac{-(C_{L_{\text{h}}})_{\text{min}}}{C_{L_{\text{max}}}} \\
+\end{equation}
+
+Because this equation is not GP-compatible a signomial program is used to solve the optimization model for both the solar-electric and gas powered models.\cite{sp}
+The flexibility factor,
+
+\begin{equation}
+     \mathcal{F} = 1 + m_{\text{h}} \frac{qS_{\text{h}}l_{\text{h}}^2}{EI_0}(1-\frac{1}{2}k) 
+\end{equation}
+
+is a measure of how the pitch control authority is degraded by the flexibility of the tail boom. 
+Thus, it is expected that the horizontal tail volume coefficient will increase from an increased horizontal tail surface area and tail boom length. 
+Tables~\ref{t:tbftable} and~\ref{t:tbfgtable} confirm the increased size of the horizontal tail and tail boom when the tail boom flexibility model is activiated. 
+
+\input{../tbftable.generated.tex}
+\input{../tbfgtable.generated.tex}
 
 \section{Sensitivities}
 
