@@ -19,8 +19,9 @@ def sol_table(sols, models, varnames, filename, ttype, latns=[],
             f.write("\\multirow{2}{*}{Variable} & 25$^{\circ}$ Latitude & "
                     "30$^{\circ}$ Latitude & 25$^{\circ}$ Latitude & "
                     "30$^{\circ}$ Latitude \\\\\n")
-            f.write("& 85th Percentile Winds & 85th Percentile Winds & 90th "
-                    "Percentile Winds & 90th Percentile Winds \\\\\n")
+            f.write("& $p_{\\mathrm{wind}}=0.85$& $p_{\\mathrm{wind}}=0.85$ & "
+                    "$p_{\\mathrm{wind}}=0.90$ & "
+                    "$p_{\\mathrm{wind}}=0.90$ \\\\\n")
         elif ttype == "tbflex":
             f.write("\\multirow{2}{*}{Variable} & "
                     "\\multicolumn{2}{c}{Without Tail Boom Flex} & "
@@ -28,11 +29,9 @@ def sol_table(sols, models, varnames, filename, ttype, latns=[],
             f.write("& 25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude & "
                     "25$^{\circ}$ Latitude & 30$^{\circ}$ Latitude \\\\\n")
         elif ttype == "tbflexg":
-            f.write("\\multirow{2}{*}{Variable} & "
-                    "\\multicolumn{2}{c}{Without Tail Boom Flex} & "
-                    "\\multicolumn{2}{c}{With Tail Boom Flex} \\\\\n")
-            f.write("& 7 Day Endurance & 9 Day Endurance "
-                    "& 7 Day Endurance & 9 Day Endurance \\\\\n")
+            f.write("\\multirow{2}{*}{Variable} & Without Tail Boom Flex & "
+                    "With Tail Boom Flex \\\\\n")
+            f.write("& 9 Day Endurance & 9 Day Endurance \\\\\n")
         elif ttype == "gas":
             f.write("Variable & 5 Day Endurance & 7 Day Endurance & 9 Day "
                     "Endurance\\\\\n")
@@ -65,7 +64,7 @@ def sol_table(sols, models, varnames, filename, ttype, latns=[],
                         units = ""
                     if vnm == "\\rho":
                         val = altitude(val)*0.3048
-                        units = "[m]"
+                        units = " [m]"
                 else:
                     val = s(vnm).magnitude
                     units = " [" + unitstr(s(vnm)) + "]"

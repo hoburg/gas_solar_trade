@@ -34,19 +34,19 @@ Using state of the art, standard interior-point algorithms, GPs with 1,000 varia
 
 \section{Geometric Program Utilization}
 
-To evaluate the gas and solar-electric powered design space, the requirements, architecture type, physical models, and assumed parameter values are expressed as constraints on the GP.\cite{hoburgthesis} 
-Essentially, the gas and solar-electric powered geometric programs are long lists of constraints in a GP-form that can be rapidly solved using interior point methods.  
+To evaluate the gas and solar-electric powered aircraft design space, the requirements, architecture type, physical models, and assumed parameter values are expressed as constraints on the GP.\cite{hoburgthesis} 
+Essentially, the gas and solar-electric powered geometric programs are long lists of constraints in a GP-form that can be solved using interior point methods.  
 Figure~\ref{f:flowchart} shows how the optimization problem is constructed and solved. 
 The following sections explain in detail the configuration, physical modeling, and input value assumptions and their resulting constraint equations that were used in both the gas and solar-electric powered optimization models.
 
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width=0.8\textwidth,natwidth=568,natheight=154]{flowchart.eps}
-    \caption{\textbf{Process of constructing and solving a GP optimization problem. }}
+	\includegraphics[width=1.0\textwidth,natwidth=568,natheight=154]{flowchart.eps}
+    \caption{Process of constructing and solving a GP optimization problem.}
 	\label{f:flowchart}
 	\end{center}
 \end{figure}
 
 A python package for defining and manipulating geometric programs, GPkit\cite{gpkitdocs}, is used to create the models described in this paper.  
-A commercial solver, mosek\cite{mosek}, is used to solve the GP. 
-Both the gas and solar-electric powered GP optimization models are available for download and use. \cite{gassolartrade} \\
+A commercial solver, mosek,\cite{mosek} is used to solve the GP. 
+Both the gas and solar-electric powered GP optimization models are available for download and use.\cite{gassolartrade} 

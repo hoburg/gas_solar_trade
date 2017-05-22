@@ -47,16 +47,15 @@ if __name__ == "__main__":
     tbsols = []
     tbMs = []
     for sp in [False, True]:
-        for t in [7, 9]:
-            M = Mission(sp=sp)
-            M.cost = M["MTOW"]
-            M.substitutions.update({"t_Mission/Loiter": t})
-            tbMs.append(M)
-            if sp:
-                sol = M.localsolve("mosek")
-            else:
-                sol = M.solve("mosek")
-            tbsols.append(sol)
+        M = Mission(sp=sp)
+        M.cost = M["MTOW"]
+        M.substitutions.update({"t_Mission/Loiter": 9})
+        tbMs.append(M)
+        if sp:
+            sol = M.localsolve("mosek")
+        else:
+            sol = M.solve("mosek")
+        tbsols.append(sol)
 
     if len(sys.argv) > 1:
         path = sys.argv[1]

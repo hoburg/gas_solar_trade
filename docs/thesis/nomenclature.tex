@@ -4,39 +4,48 @@
 \begin{tabbing}
   XXXXXXX \= \kill% this line sets tab stop
 $A$ \> wing aspect ratio \\
-$\bar{A}$ \> non-dimensional cross sectional area \\
+$\bar{A}$ \> non-dimensional wing cross sectional area \\
+$A_{\text{h}}$ \> horizontal tail aspect ratio \\
 $b$ \> wing span \\ % [ft] \\
 BSFC \> brake specific fuel consumption \\ %[kg/kW/hr] \\
 $\text{BSFC}_{100\%}$ \> BSFC at full throttle \\ %[kg/kW/hr] \\
 $c$ \> wing chord \\ %[m] \\
+$\bar{c}$ \> non-dimensional chord \\
 $C_D$ \> aircraft drag coefficient \\
 $C_{d_0}$ \> non-wing drag coefficient \\
-% $c_{d_{\text{h}}}$ \> horizontal tail profile drag coefficient \\
+$c_{d_{\text{h}}}$ \> horizontal tail profile drag coefficient \\
 $c_{d_p}$ \> wing profile drag coefficient \\
-% $c_{d_{\text{v}}}$ \> vertical tail profile drag coefficient \\
+$c_{d_{\text{v}}}$ \> vertical tail profile drag coefficient \\
 $C_f$ \> skin friction coefficient \\
 $C_L$ \> lift coefficient \\
+$(C_{L_{\text{h}}})_{\text{min}}$ \> most-negative allowable horizontal tail lift coefficient \\
+$(C_{L_{\text{h}}})_{\delta}$ \> horizontal tail lift coefficient with elevator\\
 $c_{l_{\alpha}}$ \> lift slope coefficient \\
 $C_{L_{\text{max}}}$ \> maximum lift coefficient \\
+$C_{M_{w}}$ \> wing moment coefficient \\
 $d$ \> tail boom diameter \\ %[m] \\
 $D_{\text{boom}}$ \> tail boom drag \\% [N] \\
+$D_{\text{h}}$ \> horizontal tail drag \\% [N] \\
+$D_{\text{v}}$ \> vertical tail drag \\% [N] \\
 $\Delta W$ \> wing section weight \\ %[N] \\
 $\Delta y$ \> wing section length \\ %[m] \\
 DOY \> day of the year \\
-$e$ \> span efficiency factor \\
+$e$ \> span efficiency \\
 $E$ \> Young's Modulus \\ %[Pa] \\
 $E_{\text{batt}}$ \> energy stored in battery \\ %[J] \\
 $E_{\text{sun}}$ \> total solar energy available \\ %[Whr] \\
 $(E/S)_{\text{twilight}}$ \> twilight solar energy \\ %[Whr/m$^2$] \\
 $(E/S)_{\text{day}}$ \> daily required solar energy \\ % [Whr/m$^2$] \\
 $(E/S)_{\text{sun}}$ \> available solar energy \\ % [Whr/m$^2$] \\
+$\mathcal{F}_{NE}$ \> tail boom flexibility factor \\
 $f_{\text{solar}}$ \> planform area fraction covered in solar cells \\
 $f_{\text{structural}}$ \> fractional structural weight\\
 $g$ \> gravitational constant \\ % [m/s$^2$] \\
 $h$ \> flight altitude \\ % [ft] \\
-$\dot{h}_{\text{min}}$ \> minimum climb rate \\ % [ft] \\
 $h_{\text{batt}}$ \> battery specific energy \\ % [Whr/kg] \\
 $h_{\text{cap}}$ \> spar cap separation \\ % [m] \\
+$\dot{h}_{\text{min}}$ \> minimum climb rate \\ % [ft] \\
+$h_{\text{min}}$ \> minimum flight altitude \\
 $I$ \> cap spar moment of inertia \\ % [m$^4$] \\
 $I_0$ \> tail boom root moment of inertia \\ % [m$^4$] \\
 $k$ \> tail boom taper index \\
@@ -46,13 +55,18 @@ $L_\text{h}$ \> horizontal tail lift \\ % [N] \\
 $l_\text{fuse}$ \> fuselage length \\ % [m] \\
 $l_\text{h}$ \> horizontal tail moment arm \\ % [m] \\
 $l_\text{v}$ \> vertical tail moment arm \\ % [m] \\
+$l_\text{w}$ \> wing lift\\ % [m] \\
 $m$ \> tail boom mass \\ % [kg] \\
 $m'$ \> local wing mass \\ % [kg/m] \\
+$\mathcal{M}$ \> wing bending moment \\ % [Nm] \\
+$M_{cg}$ \> moment about center of mass \\
 % $m_{\text{fac-wing}}$ \> margin factor\\
 $m_{\text{fac}}$ \> weight margin factor \\
-$m_{\text{motor}}$ \> electric motor mass \\
 $\dot{m}_{\text{fuel}}$ \> fuel flow rate \\ % [kg/s] \\
-$\mathcal{M}$ \> wing bending moment \\ % [Nm] \\
+$m_{\text{h}}$ \> horizontal tail span effectiveness \\
+$m_{\text{motor}}$ \> electric motor mass \\
+$m_w$ \> wing span effectiveness \\
+$M_{\text{w}}$ \> moment about wing \\
 $n$ \> number of wing segments \\
 $N$ \> number of flight segments \\
 $N_{\text{max}}$ \> safety load factor\\
@@ -76,14 +90,15 @@ $q$ \> distributed wing loading \\ % [N/m] \\
 $\bar{q}$ \> normalized distributed wing loading \\
 $Re$ \> aircraft Reynolds number \\
 $Re_{\text{boom}}$ \> tail boom Reynolds number \\
-% $Re_{\text{h}}$ \> horizontal tail Reynolds number \\
-% $Re_{\text{v}}$ \> vertical tail Reynolds number \\
+$Re_{\text{h}}$ \> horizontal tail Reynolds number \\
+$Re_{\text{v}}$ \> vertical tail Reynolds number \\
 $S$ \> wing planform area \\ % [m$^2$]\\
 $\mathcal{S}$ \> shear force \\ % [N] \\
 $S_{\text{fuse}}$ \> fuselage wetted surface area \\ % [m$^2$]\\
 $S_{\text{h}}$ \> horizontal tail planform area \\ % [m$^2$]\\
 $S_{\text{solar}}$ \> solar cell area \\ % [m$^2$]\\
 $S_{\text{v}}$ \> vertical tail planform area \\ % [m$^2$]\\
+$\text{SM}_{\text{min}}$ \> minimum allowable static margin \\
 $t$ \> flight time \\ % [days] \\
 $t_0$ \> tail boom root wall thickness \\ % [m] \\
 $t_{\text{cap}}$ \> spar cap thickness \\ % [m] \\
@@ -117,6 +132,7 @@ $W_{\text{fuselage}}$ \> fuselage weight \\ % [N] \\
 $W_{\text{h}}$ \> horizontal tail weight \\ % [N] \\
 $W_{\text{initial}}$ \> start of flight segment aircraft weight \\ % [N] \\
 $w_{\text{max}}$ \> maximum deflection limit \\ % [m] \\
+$W_{\text{motor}}$\> motor weight \\ % [N] \\
 $W_{\text{MTO}}$\> max take-off weight \\ % [N] \\
 $W_{\text{payload}}$ \> payload weight \\ % [N] \\
 $W_{\text{skin}}$ \> wing skin weight \\ % [N] \\
@@ -125,16 +141,23 @@ $W_{\text{spar}}$ \> wing spar weight \\ % [N] \\
 $W_{\text{structural}}$ \> structural weight \\ % [N] \\
 $W_{\text{v}}$ \> vertical tail weight \\ % [N] \\
 $W_{\text{wing}}$ \> wing weight \\ % [N] \\
+$x_{ac}$ \> aerodynamic center \\
+$(x_{cg})_{\text{aft}}$ \> aft most c.g. position \\
+$(x_{cg})_{\text{fwd}}$ \> forward most c.g. position \\
 $y$ \> distance from wing root along span \\ % [m] \\
 $z_{\text{bre}}$ \> Breguet Range helper variable \\
 $\alpha$ \> angle of attack \\
 $\alpha_{\text{gust}}$ \> local angle of attack from gust velocities \\ % [rad] \\
 $\Delta$ \> solar declination angle \\
+$\Delta_{cg}$ \> c.g. travel range \\
+$\delta_e$ \> elevator input \\
+$\epsilon$ \> downwash angle \\
 $\eta_{\text{charge}}$ \> battery charging efficiency \\
 $\eta_{\text{discharge}}$ \> battery discharging efficiency \\
 $\eta_{\text{motor}}$ \> electric motor efficiency \\
 $\eta_{\text{prop}}$ \> propulsive efficiency \\
 $\eta_{\text{solar}}$ \> solar cell efficiency \\
+$\lambda$ \> wing taper ratio \\
 % $\mu$ \> air viscosity \\ % [kg/m/s] \\
 % $\mu_0$ \> reference air viscosity \\ % [kg/m/s] \\
 $\phi$ \> latitude \\

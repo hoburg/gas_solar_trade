@@ -2,7 +2,7 @@
 \chapter{Results}
 
 The gas and solar-electric powered aircraft optimization models were solved by minimizing the take-off weight for the requirements listed in Table~\ref{t:mreqs} and the assumptions and key design parameters described herein. 
-The solar-electric powered optimization model had 375 unknowns and was solved in 0.164 seconds for a max take-off weight of 194.7 lbs.
+The solar-electric powered optimization model had 375 unknowns and was solved in 0.164 seconds for a max take-off weight of 192 lbs.
 The gas powered aircraft optimization model had 552 unknowns and was solved in 0.144 seconds for a max take-off weight of 72.3 lbs.  
 Important design parameters are listed in Table~\ref{t:gassolarparams}.
 Key design variables for both architectures are listed in Tables~\ref{t:svals} and~\ref{t:gvals} for various mission requirements. 
@@ -47,8 +47,8 @@ The gas powered model was solved 63 times in 5.6178 seconds total and the solar-
 
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth,natwidth=528,natheight=405]{mtowvslat.pdf}
-    \caption{\textbf{Gas architecture feasible for all latitudes. Next integer latitude for each solar-electric curve is infeasible.}}
+	\includegraphics[width=0.7\textwidth,natwidth=528,natheight=405]{mtowvslat.pdf}
+    \caption{Gas architecture feasible for all latitudes. Next integer latitude for each solar-electric curve is infeasible.}
     \label{f:latvsmtowtrade}
 	\end{center}
 \end{figure}
@@ -65,15 +65,15 @@ Figure~\ref{f:mtowvsendurance} was generated using 29 separate optimization solu
 
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width=0.6\textwidth,natwidth=527,natheight=405]{mtowvsendurance.pdf}
-    \caption{\textbf{Endurance and size trade study for gas powered architecture.}}
+	\includegraphics[width=0.7\textwidth,natwidth=527,natheight=405]{mtowvsendurance.pdf}
+    \caption{Endurance and size trade study for gas powered architecture.}
 	\label{f:mtowvsendurance}
 	\end{center}
 \end{figure}
 
 \subsection{Season Requirement Analysis}
 
-The season requirement for the solar-electric powered aicraft if met, allows for year round coverage.  
+The season requirement for the solar-electric powered aircraft if met, allows for year round coverage.  
 However, there may be applications that require flying for only 10 months of the year or even half the year.  
 Figure~\ref{f:season} shows which latitudes are feasible for different season requirements and what the aircraft weight would be. 
 Interestingly, flying for only 10 months of the year does not increase the ability to reach higher latitudes.  
@@ -82,7 +82,7 @@ However, there is considerable benefit to only flying for 6 months of the year.
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=527,natheight=405]{season.pdf}
-    \caption{\textbf{Flexible season requirements allow for smaller aircraft and increased latitude.}}
+    \caption{Flexible season requirements allow for smaller aircraft and increased latitude.}
 	\label{f:season}
 	\end{center}
 \end{figure}
@@ -100,7 +100,7 @@ Figure~\ref{f:battsolarcontour} was produced using 157 separate optimization sol
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=527,natheight=405]{battsolarcontour.pdf}
-    \caption{\textbf{Contours of latitude. Reaching higher latitudes requires better solar cells and batteries.}}
+    \caption{Contours of latitude. Reaching higher latitudes requires better solar cells and batteries.}
 	\label{f:battsolarcontour}
 	\end{center}
 \end{figure}
@@ -122,13 +122,13 @@ The infeasible regions and contour shapes would change for different assumed con
   \subfigure[25th Latitude, $p_{\text{wind}}=0.85$]{\includegraphics[natwidth=542,natheight=414]{bcontourl25a85.pdf}}
   \subfigure[25th Latitude, $p_{\text{wind}}=0.90$]{\includegraphics[natwidth=542,natheight=414]{bcontourl25a90.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Maxtrix of minimum wing span solar-electric aircraft designs. Values of assumed constants are given throughout the text.}}
+ \caption{Maxtrix of minimum wing span solar-electric aircraft designs. Values of assumed constants are given throughout the text.}
  \label{f:solarcontours}
 \end{figure}
 
 \section{Changing Physical Modeling Assumptions}
 
-\subsection{Representing Structural Weight as Fraction of Total}
+\subsection{Fractional Structural Weight}
 
 Insight into the design space can also be gained by changing the physical modeling assumptions.
 For example, by altering the aircraft structural model it can be observed how air density trades for wing weight. 
@@ -139,27 +139,19 @@ If it is assumed that the structural weight of the aircraft can be modeled as a 
     W_{\text{structural}} \geq W_{\text{MTO}} f_{\text{structural}}
 \end{equation}
 
-where $f_{\text{structural}} = 0.35$, then the optimized flight altitude is almost exactly 67,000 ft as shown in Figure~\ref{f:altoper}.  
-However, if the structural weight is represented by the more detailed model as explained in Section V, larger wings have a weight penalty and the optimization trades air density for wing weight.
+where $f_{\text{structural}} = 0.35$, then the optimized flight altitude is almost exactly 20,400 m as shown in Figure~\ref{f:altoper}.  
+However, if the structural weight is represented by the more detailed model as explained in Chapter~\ref{chap:phy}, larger wings have a weight penalty and the optimization trades air density for wing weight.
 Therefore, by adding a structural model the optimization seeks a smaller wing to save weight and operates at a lower altitude to increase density. 
 
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=519,natheight=405]{windaltoper2.pdf}
- \caption{\textbf{Comparison of simplified and detailed structural models highlights trade between wing weight and air density.}}
+ \caption{Comparison of simplified and detailed structural models highlights trade between wing weight and air density.}
  \label{f:altoper}
 	\end{center}
 \end{figure}
 
-\begin{figure}[h!]
-	\begin{center}
-	\includegraphics[width=0.6\textwidth,natwidth=555,natheight=415]{polarmission2.pdf}
-    \caption{\textbf{Wind speed constraint moves lift to drag ratio off maximum $(C_L^{1.5}/C_D)$ point (plus signs). Solid lines are drag polars.}}
- \label{f:polarmission}
-	\end{center}
-\end{figure}
-
-\subsection{Lift to Drag Ratio Shift Due to Wind Speed Constraint}
+\subsection{Wind Speed Effect on Lift to Drag Ratio}
 
 Another interesting result is the operating lift to drag ratio for the gas powered aircraft.  
 The optimum lift to drag ratio to maximize endurance for gas powered aircraft is at the maximum $C_L^{1.5}/C_D$.\cite{br2}  
@@ -167,11 +159,18 @@ However, while station keeping, the aircraft will maintain a constant velocity d
 At a constant velocity or constant Reynolds number the lift to drag ratio will not be at the maximum $C_L^{1.5}/C_D$.  
 If it is assumed that wind speeds are negligible or that station-keeping is not important then velocity will be optimized such that the lift to drag ratio is at the maximum $C_L^{1.5}/C_D$ as shown in Figure~\ref{f:polarmission}.
 
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=0.6\textwidth,natwidth=555,natheight=415]{polarmission2.pdf}
+    \caption{Wind speed constraint moves lift to drag ratio off maximum $(C_L^{1.5}/C_D)$ point (plus signs). Solid lines are drag polars.}
+ \label{f:polarmission}
+	\end{center}
+\end{figure}
 
 \subsection{Tail Boom Flexibility}
 
-By changing using higher fidelity physical models, more accurate results of the sizing analysis can be achieved.  
-For example, sizing the horizontal tail using a volume coefficient does not account for the fexibility of the tail boom. 
+By using higher fidelity physical models, more accurate sizing results can be achieved.  
+For example, sizing the horizontal tail using a volume coefficient does not account for the flexibility of the tail boom. 
 A flexible tail boom will cause a slight delay in the responsiveness to pitch control inputs, effectively lowering the control authority of the horizontal tail. 
 However, using a minimum static margin $\text{SM}_{\text{min}} = 0.35$ and minimum desirable c.g. travel range,
 
@@ -184,22 +183,34 @@ a single constraint, whose derivation is explained in Appendix~\ref{app:tbflex},
 
 \begin{equation}
     \label{e:smcorr}
-    \text{SM}_{\text{min}} + \frac{\Delta x_{cg}}{c} - \frac{C_{M_{	ext{w}}}}{C_{L_{\text{max}}}} \leq V_{\text{w}} \mathcal{F}_{NE}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) + V_{\text{w}} \frac{-(C_{L_{\text{h}}})_{\text{min}}}{C_{L_{\text{max}}}} \\
+    \text{SM}_{\text{min}} + \frac{\Delta x_{cg}}{c} - \frac{C_{M_{text{w}}}}{C_{L_{\text{max}}}} \leq V_{\text{w}} \mathcal{F}_{NE}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) + V_{\text{w}} \frac{-(C_{L_{\text{h}}})_{\text{min}}}{C_{L_{\text{max}}}} \\
 \end{equation}
 
-Because this equation is not GP-compatible a signomial program is used to solve the optimization model for both the solar-electric and gas powered models.\cite{sp}\cite{gp}
+where $(C_{L_{\text{h}}})_{\text{min}}$ is the most-negative allowable horizontal tail lift value and $C_{M_w}$ is the wing moment coefficient.
+The wing span effectiveness $m_w$, horizontal tail span effectiveness $m_{\text{h}}$, and slope of the downwash angle to and angle of attack $d\epsilon/d\alpha$ are constrained by,
+
+\begin{align}
+    \label{e:mw}
+    m_w &\leq \frac{2\pi}{1 + 2/A} \\
+    m_\text{h} &\geq \frac{2}{1 + 2/A_{\text{h}}} \\
+    \frac{d\epsilon}{d\alpha} &\geq \frac{m_w}{4\pi} \frac{c}{l_\text{h}}.
+\end{align}
+
+Because this Equations~\eqref{e:smcorr} and~\eqref{e:mw} are not GP-compatible a signomial program is used to solve the optimization model for both the solar-electric and gas powered models.\cite{sp}\cite{gp}
 The flexibility factor,
 
 \begin{equation}
-     \mathcal{F} = 1 + m_{\text{h}} \frac{qS_{\text{h}}l_{\text{h}}^2}{EI_0}(1-\frac{1}{2}k) 
+    \mathcal{F}_{NE} \geq 1 + m_{\text{h}} \frac{qS_{\text{h}}l_{\text{h}}^2}{EI_0}(1-\frac{1}{2}k) 
 \end{equation}
 
-is a measure of how the pitch control authority is degraded by the flexibility of the tail boom. 
+is a measure of how the pitch control authority is degraded by the flexibility of the tail boom, where a value of one corresponds to an infinitely stiff tail boom. 
 Thus, it is expected that the horizontal tail volume coefficient will increase from an increased horizontal tail surface area and tail boom length. 
-Tables~\ref{t:tbftable} and~\ref{t:tbfgtable} confirm the increased size of the horizontal tail and tail boom when the tail boom flexibility model is activiated. 
+Tables~\ref{t:tbftable} and~\ref{t:tbfgtable} confirm the increased size of the horizontal tail and tail boom when the tail boom flexibility model is activated. 
 Because tail boom flexibility is strictly worse for aircraft weight because it requires more horizontal tail surface area or more tail boom length it is surprising to see that for the 30$^{\circ}$ latitude case the horizontal tail weight actually decreases on the solar aircraft.  
 Adding the additional constraints to account for the tail boom flexibility allows for the horizontal tail aspect ratio to be optimized, whereas before it was a required input. 
 The high aspect ratio of the horizontal tails means low interior foam weight even though the surface area is bigger. 
+
+\newpage
 
 \input{../tbftable.generated.tex}
 \input{../tbfgtable.generated.tex}
@@ -221,8 +232,8 @@ The sensitivity to the battery specific energy is -2.27 and the sensitivity to s
 The ratio of their magnitudes is 1.76.  
 Therefore, the break-even point for investing in these technologies occurs when a given percentage improvement in battery specific energy costs 1.76 times as much to achieve as the same percentage improvement in solar cell efficiency. 
 
-\footnotesize
-\input{../sens.generated.tex}
+\newpage
 
+\input{../sens.generated.tex}
 \input{../gassens.generated.tex}
 

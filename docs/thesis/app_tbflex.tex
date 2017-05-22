@@ -1,4 +1,4 @@
-\chapter{Tail Boom Flexibility Forumlation}
+\chapter{Tail boom flexibility formulation}
 
 I would like to thank Mark Drela for the formulation of the tail boom flexibility model.
 The derivation of Equation~\eqref{e:smcorr} begins with the moment about the aircraft's center of mass
@@ -15,7 +15,7 @@ It is assumed that the tail boom's effective root location is at the wing's aero
 Using moment and lift approximations
 
 \begin{align}
-    C_{m_{\text{w}}} &= constant \\
+    C_{m_{\text{w}}} &= \text{constant} \\
     C_{L_W} &= C_{L_{W_0}} + m_{\text{w}} \alpha \\
     \label{e:eq10}
     C_{L_{\text{h}}} &= C_{L_{h_0}} + m_{\text{h}} \left[\left( 1 - \frac{d\epsilon}{d\alpha}\right) - \theta \right] + C_{L_{h_{\delta}}}\delta_e \\
@@ -42,17 +42,18 @@ This can be further simplified by defining a tail boom flexibility factor $\math
     \mathcal{F} &= 1 + m_{\text{h}} \frac{qS_{\text{h}}l_{\text{h}}^2}{EI_0}(1-\frac{1}{2}k) 
 \end{align}
 
-Using the wing lift coefficient and the recast tail lift coefficient, the pitching moment is equation and derivative are given as follows.
+Using the wing lift coefficient and the recast tail lift coefficient, the pitching moment is equation and derivative are given as,
 
 \begin{align}
-    C_m &= C_{m_{\text{w}}} + \frac{x_{cg} - x_{ac}}{c} (C_{L_{W_0}} + m_{\text{w}} \alpha) - V_{\text{w}} \left[ \mathcal{F}^{-1} m_{\text{h}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) \alpha + \mathcal{F}^{-1} C_{L_{h_{\delta}}}(\delta_e - \delta_{e_0})\right] \\
-    \frac{dC_m}{d\alpha} & = \frac{x_{cg} - x_{ac}}{c} m_{\text{w}}  - V_{\text{w}} \mathcal{F}^{-1} m_{\text{h}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) 
+    C_m = C_{m_{\text{w}}} &+ \frac{x_{cg} - x_{ac}}{c} (C_{L_{W_0}} + m_{\text{w}} \alpha) \nonumber\\ 
+    &- V_{\text{w}} \left[ \mathcal{F}^{-1} m_{\text{h}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) \alpha + \mathcal{F}^{-1} C_{L_{h_{\delta}}}(\delta_e - \delta_{e_0})\right] \\
+    \frac{dC_m}{d\alpha} & = \frac{x_{cg} - x_{ac}}{c} m_{\text{w}}  - V_{\text{w}} \mathcal{F}^{-1} m_{\text{h}} \left( 1 - \frac{d\epsilon}{d\alpha}\right).
 \end{align}
 
-Now by dividing by $dC_{L_W}/d\alpha = m_{\text{h}}$, which defines the static margin
+Dividing by $dC_{L_W}/d\alpha = m_{\text{h}}$, 
 
 \begin{equation}
-    -\frac{dC_m/d\alpha}{dC_{L_W}/d\alpha} = \text{SM} = V_{\text{w}} \mathcal{F}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) - \frac{x_{cg} - x_{ac}}{c}
+    -\frac{dC_m/d\alpha}{dC_{L_W}/d\alpha} = \text{SM} = V_{\text{w}} \mathcal{F}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) - \frac{x_{cg} - x_{ac}}{c}.
 \end{equation}
 
 The case for meeting the minimum static margin requirement is at the never-exceed dynamic pressure $q_{NE}$ and when the c.g is at its aft-most position.
@@ -64,13 +65,13 @@ The case for meeting the minimum static margin requirement is at the never-excee
 Dividing Equation~\eqref{e:eq6} by $C_{L_W}$, gives a requirement on the tail lift coefficient required to achieve a pitch trim condition $C_m=1$
 
 \begin{equation}
-    0 = \frac{C_{m_{\text{w}}}}{C_{L_W}} + \frac{x_{cg} - x_{ac}}{c} - V_{\text{w}} \frac{C_{L_{\text{h}}}}{C_{L_W}}
+    0 = \frac{C_{m_{\text{w}}}}{C_{L_W}} + \frac{x_{cg} - x_{ac}}{c} - V_{\text{w}} \frac{C_{L_{\text{h}}}}{C_{L_W}}.
 \end{equation}
 
 The pitch authority requirement is that at the forward-most c.g. position and maximum lift with the tail lift coefficient equal to the most-negative allowable value $(C_{L_{\text{h}}})_{\text{min}}$. Combining the static margin and pitch authority requirement results in the horizontal tail sizing equation 
 
-\begin{align}
-    \text{SM}_{\text{min}} + \frac{\Delta x_{cg}}{c} - \frac{C_{M_{\text{w}}}}{C_{L_{\text{max}}}} &\leq V_{\text{w}} \mathcal{F}_{NE}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) + V_{\text{w}} \frac{-(C_{L_{\text{h}}})_{\text{min}}}{C_{L_{\text{max}}}} \\
-\end{align}
+\begin{equation}
+    \text{SM}_{\text{min}} + \frac{\Delta x_{cg}}{c} - \frac{C_{M_{\text{w}}}}{C_{L_{\text{max}}}} \leq V_{\text{w}} \mathcal{F}_{NE}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) + V_{\text{w}} \frac{-(C_{L_{\text{h}}})_{\text{min}}}{C_{L_{\text{max}}}}.
+\end{equation}
 
 where $\Delta x_{cg} = (x_{cg})_{\text{aft}} - (x_{cg})_{\text{fwd}}$.

@@ -1,5 +1,6 @@
 
 \chapter{Aircraft Physical Models}
+\label{chap:phy}
 
 To evaluate the size and performance of both gas and solar-electric powered aircraft, underlying physics models are used.  
 Environmental, aircraft performance, and structural models are used in the optimization model to capture the effects of the requirements on the size and design of the aircraft.
@@ -43,7 +44,7 @@ The aircraft aerodynamics is modeled as a drag build up of the non-wing drag, wi
 where the span efficiency factor is assumed to be constant, $e=0.9$. 
 The non-wing drag coefficient $C_{d_0}$, is estimated as a drag build up from the fuselage, tail boom, and horizontal and vertical surfaces discussed later.
     
-To estimate the wing profile drag, a posynomial fit is made of the drag polar of the selected \emph{JH01} airfoil, Equation~\ref{aerodragprof} (See Appendix \ref{app:jho} for a discussion of the airfoil choice). 
+To estimate the wing profile drag, a posynomial fit is made of the drag polar of the selected \emph{JH01} airfoil, Equation~\ref{e:aerodragprof} (See Appendix \ref{app:jho} for a discussion of the airfoil choice). 
 Drag polars were produced using XFOIL\cite{xfoil} at various Reynolds and the data was then fit to a posynomial equation. (See Appendix \ref{app:fits})
     The XFOIL drag polar data is compared to the posynomial fit in Figure~\ref{f:JH01polar}.
 
@@ -57,7 +58,7 @@ Drag polars were produced using XFOIL\cite{xfoil} at various Reynolds and the da
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=536,natheight=405]{jho1polarfit1.eps}
-    \caption{\textbf{Posynomial fit (solid lines) to XFOIL data (circles).  (Log-space RMS error~=~0.00489.)}}
+    \caption{Posynomial fit (solid lines) to XFOIL data (circles).  (Log-space RMS error~=~0.00489.)}
 	\label{f:JH01polar}
 	\end{center}
 \end{figure}
@@ -101,7 +102,17 @@ where the taper ratio is an input, $\lambda=0.5$.  Thus, the pre-computed distri
     \bar{q}(y) \equiv \frac{q(y)b}{N_{\text{max}}W_{\text{cent}}} = \frac{2}{1+\lambda} \left( 1 + (\lambda - 1) \frac{2y}{b} \right),
 \end{equation}
 
-is inputted into a standard beam model to predict the bending moments and deflections. The center weight $W_{\text{cent}}$ for the gas powered aircraft is
+is inputted into a standard beam model to predict the bending moments and deflections. A diagram depicting this loading case is shown in Figure~\ref{f:gbending}.
+
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=0.9\textwidth]{gbending.pdf}
+    \caption{Standard g-bending loading case.  Loading scales with local chord.}
+	\label{f:gbending}
+	\end{center}
+\end{figure}
+
+The center weight $W_{\text{cent}}$ for the gas powered aircraft is
 
 \begin{equation}
     W_{\text{cent}} \geq W_{\text{fuel}} + W_{\text{fuselage}} + W_{\text{engine}} + W_{\text{payload}} + W_{\text{emp}}.
@@ -124,7 +135,19 @@ To account for this flexibility and size a structural wing spar that will ensure
     \bar{q}(y) = \frac{q(y)b}{W_{\text{cent}}N_{\text{max}}} &\geq \bar{c}(y) \left[1 + \frac{c_{l_{\alpha}}}{C_L} \alpha_{\text{gust}} (y) \left(1 + \frac{W_{\text{wing}}}{W_{\text{cent}}} \right) \right]
 \end{align}
 
-where $\bar{c}(y)$ is pre-computed prior to the optimization solve for a taper ratio $\lambda = 0.5$. The safety load factor is $N_{\text{max}}=2$ for the gust loading case. The weight of the wing for the gas powered aircraft is assumed to be the weight of the spar cap plus the weight of the skin 
+where $\bar{c}(y)$ is pre-computed prior to the optimization solve for a taper ratio $\lambda = 0.5$.
+The safety load factor is $N_{\text{max}}=2$ for the gust loading case. 
+A diagram depicting this loading case is shown in Figure~\ref{f:gust-loading}
+
+\begin{figure}[h!]
+	\begin{center}
+	\includegraphics[width=0.9\textwidth]{gustloaddiagram.pdf}
+    \caption{Gust loading case assumes a 1-cos distribution along the span.}
+	\label{f:gust-loading}
+	\end{center}
+\end{figure}
+
+ The weight of the wing for the gas powered aircraft is assumed to be the weight of the spar cap plus the weight of the skin 
 
 \begin{equation}
     W_{\text{wing}} \geq W_{\text{spar}} + W_{\text{skin}}.
@@ -147,9 +170,9 @@ Because the $\arctan$ function is not GP compatible, a monomial approximation wa
 
 \begin{figure}[h!]
 	\begin{center}
-	\includegraphics[width=0.9\textwidth,natwidth=547,natheight=74]{arctanfit.pdf}
-    \caption{\textbf{Visual comparison of fitted equation to the arctan function.  (Log space RMS error $=0.039$ for $V_{\text{gust}}/V \in [0, 0.7]$)}}
-	\label{f:capspar}
+	\includegraphics[width=0.6\textwidth,natwidth=547,natheight=74]{arctanfit.pdf}
+    \caption{Visual comparison of fitted equation to the arctan function.  (Log space RMS error = 0.039 for $V_{\text{gust}}/V \in [0, 0.7]$)}
+	\label{f:arctan}
 	\end{center}
 \end{figure}
 
@@ -164,7 +187,7 @@ where the reference velocity is an assumed conservative value\cite{acgust}, $V_{
 
 \subsubsection{Discretized Beam Model}
 
-Using a standard Bernoulli-Euler discretized beam model with $n=5$ nodes\cite{bending}, the shear forces, and moments can be expressed in a GP-compatible form using the distributed loads $q(y)$, as an input with zero forces and moments at the wing tip,
+Using a standard Bernoulli-Euler discretized beam model with $n=5$ nodes\cite{bending}, the shear forces, and moments can be expressed using the distributed loads $q(y)$, as an input with zero forces and moments at the wing tip,
 
 \begin{align}
     \label{e:shear}
@@ -203,7 +226,7 @@ Equations~\eqref{e:shear}-\eqref{e:defboundary} are GP-compatible if expressed a
     w_{i} &\geq w_{i+1} + \frac{1}{2} (\Theta_i + \Theta_{i-1}) \Delta y .
 \end{align}
 
-where the Young's Modulus of carbon fiber is $E = 20$ [MPa]. Boundary conditions are zero shear forces and moments at the wing tips and zero angle and deflection at the wing root.\cite{bending} \\
+where the Young's Modulus of carbon fiber is $E = 20$ [MPa].\\
 
 \subsubsection{Cap Spar for Bending Loads} 
 A cap spar is considered for the solar-electric and gas powered aircraft.  A cap spar has two carbon fiber caps separated by a foam core as seen in Figure~\ref{f:capspar}. A thin shear web is wrapped around the caps and foam to prevent shearing and buckling.
@@ -211,7 +234,7 @@ A cap spar is considered for the solar-electric and gas powered aircraft.  A cap
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.9\textwidth,natwidth=547,natheight=74]{capsparcross.eps}
-    \caption{\textbf{Cross sectional view of a cap spar.}}
+    \caption{Cross sectional view of a cap spar.}
 	\label{f:capspar}
 	\end{center}
 \end{figure}
@@ -258,6 +281,7 @@ The wing spar at each section root must be strong enough to withstand the bendin
     w_n &\leq w_{\text{max}}
 \end{align}
 
+\newpage
 where the ultimate tensile strength for unidirectional carbon fiber is $\sigma_{\text{cfrp}} = 1700$ [MPa].\cite{cfprop}
 The tip deflection is constrained to be less than 20\% of the half span, $\frac{w_{\text{max}}}{b/2} = 0.2$.
 
@@ -281,7 +305,7 @@ It is assumed that the wing skin is made of carbon fiber.  The weight of the win
     W_{\text{skin}} \geq 2 \rho_{A_{\text{cfrp}}} S g.
 \end{equation}
 
-where $\rho_{A_{\text{cfrp}}} = 0.049$ [g/cm$^2$], or approximately the area density of one ply of carbon fiber.\cite{cfply} The wing skin is asssumed not to contribute to the bending stiffness. 
+where $\rho_{A_{\text{cfrp}}} = 0.049$ [g/cm$^2$], or approximately the area density of one ply of carbon fiber.\cite{cfply} The wing skin is assumed not to contribute to the bending stiffness. 
 
 Additional wing weight $W_{\text{fadd}}$, accounts for additional structural weight (ribs, rear spar, actuators, etc.),
 
@@ -320,33 +344,6 @@ The horizontal tail is sized to satisfy a horizontal tail volume coefficient con
     V_{\text{h}} = \frac{S_{\text{h}}l_{\text{h}}}{Sc}
 \end{equation}
 
-% meet a minimum static margin $\text{SM}_{\text{min}} = 0.35$ and minimum desirable c.g. travel range,
-% 
-% \begin{equation}
-%     \label{e:deltacg}
-%     \Delta x_{cg} = (x_{cg})_{\text{aft}} - (x_{cg})_{\text{fwd}} = 0.2
-% \end{equation}
-% 
-% A single constraint, whose derivation is explained in Appendix C, minimizes the horizontal tail volume coefficient $V_{\text{w}}$, while meeting the minimum static margin and minimum c.g. travel range,
-% 
-% \begin{align}
-%     \label{e:smcorr}
-%     \text{SM}_{\text{min}} + \frac{\Delta x_{cg}}{c} - \frac{C_{M_{	ext{w}}}}{C_{L_{\text{max}}}} &\leq V_{\text{w}} \mathcal{F}_{NE}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) + V_{\text{w}} \frac{-(C_{L_{\text{h}}})_{\text{min}}}{C_{L_{\text{max}}}} \\
-%     \label{e:htv}
-%     V_{\text{w}} &= \frac{S_{\text{h}}}{S} \frac{l_{\text{h}}}{c}
-% \end{align}
-% 
-% Because this equation is not posynomial, it was reformulated as conservative monomial approximation
-% 
-% \begin{align}
-%     1 &\geq z_{\text{SM}_1} \left(\frac{m_{\text{w}} \mathcal{F}_{NE}}{m_{\text{h}} V_{\text{w}}})\right) + \frac{d\epsilon}{d\alpha} \\
-%     z_{\text{SM}_2} &\leq V_{\text{w}}\frac{(C_{L_{\text{h}}})_{\text{min}}}{C_{L_{\text{max}}}} \\
-%     \label{e:smcorrmon}
-%     z_{\text{SM}_1}^{0.48} z_{\text{SM}_1}^{0.52} &\geq \text{SM}_{\text{min}} + \frac{\Delta x_{cg}}{c} - \frac{C_{M_{	ext{w}}}}{C_{L_{\text{max}}}}
-% \end{align}
-% 
-% where the values, 0.48 and 0.52, are chosen as an approximate percentage that each term is of the right hand side of Equation~\eqref{e:smcorrmon}. 
-
 The vertical tail is sized to meet a conservative tail volume coefficient $V_{\text{v}}= 0.04$,\cite{aircraftrules}
 
 \begin{equation}
@@ -383,18 +380,19 @@ The drag of the horizontal and vertical tails is computed using a multiple monom
     c_{d_{\text{(v,h)}}} &\geq 5.45 Re_{\text{(v,h)}}^{-0.48} \tau_{\text{(v,h)}}^{0.25} \\
     c_{d_{\text{(v,h)}}} &\geq 16.3 Re_{\text{(v,h)}}^{-0.54} \tau_{\text{(v,h)}}^{0.47} \\
     c_{d_{\text{(v,h)}}} &\geq 9.51 Re_{\text{(v,h)}}^{-0.48} \tau_{\text{(v,h)}}^{0.47} \\
+    \label{e:taildragend}
     c_{d_{\text{(v,h)}}} &\geq 218.7 Re_{\text{(v,h)}}^{-0.60} \tau_{\text{(v,h)}}^{1.31} \\
     Re_{\text{(v,h)}} &= \frac{\rho V S_{\text{(v,h)}}/b_{\text{(v,h)}}}{\mu}
 \end{align}
 
 where the selected airfoil is the NACA 0008 for both the horizontal and vertical tails (i.e. $\tau_{\text{(v,h)}} = 0.08$). 
 The XFOIL data was generated for a zero angle of attack, based upon steady level flight where neither surface is generating lift.  
-A comparison of the XFOIL data and Equation~\eqref{e:taildrag} is shown in Figure~\ref{f:taildragpolar}.
+A comparison of the XFOIL data and Equations~\eqref{e:taildrag}-\eqref{e:taildragend} is shown in Figure~\ref{f:taildragpolar}.
 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=538,natheight=405]{taildragpolar.pdf}
-    \caption{\textbf{Posynomial fit (solid lines) to XFOIL data (circles). (Log-space RMS error = 0.040)}}
+    \caption{Posynomial fit (solid lines) to XFOIL data (circles). (Log-space RMS error = 0.040)}
 	\label{f:taildragpolar}
 	\end{center}
 \end{figure}
@@ -412,12 +410,12 @@ This approach assumes that the solar-electric powered aircraft will not be confi
 Because wind speeds do not increase monotonically with latitude, it is possible that the design for a given latitude is constrained by winds at a latitude inside the required latitude band. 
 To handle this, a multipoint set of latitude constraints is imposed. 
 The wind speed data used to generate these equations includes December wind speeds from the Northern Hemisphere and June wind speeds from the Southern Hemisphere for the years 2005-2015.
-In total, 41 wind speed constraints were generated to represent $\pm$20-60 degrees each with a log space RMS error of less than 5\%. (See Appendix \ref{app:fits}) The wind constraint at 30 degrees lattitude is shown in Figure~\ref{f:windfitl30}
+In total, 41 wind speed constraints were generated to represent $\pm$20-60 degrees each with a log space RMS error of less than 5\%. (See Appendix \ref{app:fits}) The wind constraint at 30 degrees latitude is shown in Figure~\ref{f:windfitl30}
 
 \begin{figure}[H]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=511,natheight=405]{windfitl30.pdf}
-    \caption{\textbf{Posynomial approximation to wind speed data\cite{wind} (circles) at 30$^{\circ}$ latitude. (Log-space RMS error = 0.047.)}}
+    \caption{Posynomial approximation to wind speed data\cite{wind} (circles) at 30$^{\circ}$ latitude. (Log-space RMS error = 0.047.)}
 	\label{f:windfitl30}
 	\end{center}
 \end{figure}
@@ -429,6 +427,7 @@ Therefore, the altitude for gas-powered aircraft is determined as the minimum al
 For this sizing study, the altitude requirement for the gas powered aircraft is $h_{\text{min}}=4,500$ m, corresponding to a 100 km diameter footprint with a 5 degree lookup angle. 
 
 \subsection{Solar-Electric Power}
+\label{sec:solarenergy}
 
 At a given time of year DOY, and latitude $\phi$, there exists an available solar irradiated energy $(E/S)_{\text{sun}}$ per unit area during one day,
 
@@ -453,7 +452,7 @@ Equations~\eqref{e:solarreq} and~\eqref{e:solarbatt} are graphically represented
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.7\textwidth,natwidth=572,natheight=405]{lat30.pdf}
-    \caption{\textbf{Solar power on Dec 21st at 30$^{\circ}$ North. 24-hour operationality achieved when red area exceeds blue, magenta and green areas. }}
+    \caption{Solar power on Dec 21st at 30$^{\circ}$ North. 24-hour operationality achieved when red area exceeds blue, magenta and green areas. }
 	\label{f:lat30}
 	\end{center}
 \end{figure}
@@ -476,7 +475,7 @@ Figure~\ref{f:energyapprox} shows sample monomial approximations of the twilight
      \subfigure[Monomial Approxmiation for $(E/S)_{\text{day}}$\label{f:Benergy}]{\includegraphics[natwidth=576,natheight=432]{Benergy.pdf}}
      \subfigure[Monomial Approximation for $(E/S)_{\text{twilight}}$\label{f:Cenergy}]{\includegraphics[natwidth=575,natheight=432]{Cenergy.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Monomial approximations for $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$. (Log-space RMS error = 0.007 and 0.0180)}}
+ \caption{Monomial approximations for $(E/S)_{\text{day}}$ and $(E/S)_{\text{twilight}}$. (Log-space RMS error = 0.007 and 0.0180)}
  \label{f:energyapprox}
 \end{figure}
 
@@ -567,7 +566,7 @@ One way to obtain a constant power to weight ratio is a constant velocity and co
 \end{align}
 
     Equations~\eqref{e:brzbre} and~\eqref{e:brtaylor} are monomial and posynomial respectively and therefore GP compatible. For long-endurance aircraft, missions can last days, causing the power to weight ratio $(P_{\text{shaft}}/W)$ to vary significantly during the course of the flight.  
-    Equations~\eqref{e:brzbre},~\eqref{e:brtaylor}, and~\eqref{e:slfweight} can be discretized to account for this,
+    Equations~\eqref{e:slfweight}~,\eqref{e:brzbre}, and~\eqref{e:brtaylor} can be discretized to account for this,
 
 \begin{align}
     \label{e:slfweightd}
@@ -582,7 +581,7 @@ One way to obtain a constant power to weight ratio is a constant velocity and co
 
 \subsection{Elliptical Fuselage}
 
-For the gas powered aircraft it is assumed that the fuel is carried in an elliptically shaped fuselage.  The fuselage will increase the overall weight and drag of the aircraft.  The solar-electric powered aircraft is assumed to carry the batteries in the wings will therefore have a small fuselage whose effects will be ignored.  
+For the gas powered aircraft it is assumed that the fuel is carried in an elliptically shaped fuselage.  The fuselage will increase the overall weight and drag of the aircraft.  The solar-electric powered aircraft is assumed to carry the batteries in the wings and will therefore have a small fuselage whose effects will be ignored.  
 
 The driving constraint for the size of the fuselage is to ensure that all of the fuel required for the mission can fit inside the fuselage, 
 
@@ -642,12 +641,12 @@ Equation~\eqref{e:powerlaw} is compared to the data in Figure~\ref{f:powervsweig
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=524,natheight=405]{powervsweightfit.eps}
-    \caption{\textbf{Power law fit to University of North Dakota engine weight data\cite{gasengine}. (Log-space RMS error = 0.34)}}
+    \caption{Power law fit to University of North Dakota engine weight data\cite{gasengine}. (Log-space RMS error = 0.34)}
 	\label{f:powervsweightfit}
 	\end{center}
 \end{figure}
 
-\subsection{Gas Powered Engine Performance}
+\subsection{Engine Performance}
 
 Two characteristics of gas engines affect the performance of long-endurance aircraft.  
 The first is brake specific fuel consumption, $\text{BSFC}$; a lower $\text{BSFC}$ will result in increased endurance.  
@@ -658,13 +657,14 @@ RCV Engines Ltd provided manufacturing data that was used to generate representa
 It is assumed that engines of a similar size will perform similarly to the DF70 engine.  
 This engine performance model is only valid for internal combustion engines.
 
-To capture throttling effects as aircraft weight decreases, a GP-compatible curve was generated from the DF70 data to relate $\text{BSFC}$ and shaft power. (Figure~\ref{f:powertobsfc})
+To capture throttling effects as aircraft weight decreases, a GP-compatible curve was generated from the DF70 data to relate $\text{BSFC}$ and shaft power. 
+A comparison of the GP approximation, Equation~\eqref{e:rpmtobsfc}, and the DF70 engine data is shown in Figure~\ref{f:powertobsfc}.
 Using this approximation the required shaft power determines the $\text{BSFC}$.
 A comparison of the DF70 data provided by RCV Engine Ltd in Figure~\ref{f:powertobsfc} to the $\text{BSFC}$ to power curves in Goering\cite{bsfcperf} verify that this performance curve is representative of engines of similar sizes. 
 
 \begin{align}
-    \label{e:rpmtobsfc}
     \left( \frac{\text{BSFC}}{\text{BSFC}_{100\%}} \right)^{18.5563} &\geq \num{8.66321d-3}\left( \frac{P_{\text{shaft}}}{P_{\text{max}}}\right)^{-7.70161} \nonumber \\
+    \label{e:rpmtobsfc}
                 &+ 1.38628\left( \frac{P_{\text{shaft}}}{P_{\text{max}}} \right)^{1.12921} 
 \end{align}
 
@@ -673,7 +673,7 @@ where $\text{BSFC}_{100\%} = 0.3162$ [kg/kW/hr].\cite{rcvengines}
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=530,natheight=414]{powertobsfcfit.eps}
-    \caption{\textbf{Representative engine performance fit based on RCV Engine Ltd data.  (Log-space RMS error = 0.007) }}
+    \caption{Representative engine performance fit based on RCV Engine Ltd data.  (Log-space RMS error = 0.007) }
 	\label{f:powertobsfc}
 	\end{center}
 \end{figure}

@@ -47,7 +47,7 @@ To achieve this design constraint the aircraft must be able to fly with limited 
      \subfigure[+30$^{\circ}$ latitude \label{f:windvsmonthN30}]{\includegraphics[natwidth=560,natheight=420]{windvsmonthN30.pdf}}
      \subfigure[-30$^{\circ}$ latitude \label{f:windvsmonthS30}]{\includegraphics[natwidth=560,natheight=420]{windvsmonthS30.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Winds peak at the winter solstice in Southern and Northern Hemispheres.\cite{wind}}}
+ \caption{Winds peak at the winter solstice in Northern and Southern Hemispheres.\cite{wind}}
  \label{f:windvsmonth}
 \end{figure}
 
@@ -71,7 +71,7 @@ Solar-electric powered aircraft, which do not have naturally aspirated engines, 
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=538,natheight=405]{altvswindhmin.pdf}
-    \caption{\textbf{Aircraft must fly above $h_{\text{min}}$ to meet altitude requirement. Bands represent 80th, 90th and 95th percentiles.\cite{wind}}}
+    \caption{Aircraft must fly above $h_{\text{min}}$ to meet altitude requirement. Bands represent 80th, 90th and 95th percentiles.\cite{wind}}
 	\label{f:altvswindhmin}
 	\end{center}
 \end{figure}
@@ -87,34 +87,34 @@ Figure~\ref{f:latvswind} shows how the wind speed varies with latitude in the No
 \begin{figure}[h!]
 	\begin{center}
 	\includegraphics[width=0.6\textwidth,natwidth=576,natheight=432]{latvswindN.pdf}
-    \caption{\textbf{Wind speeds by latitude.  Bands represent 80th, 90th and 95th percentile winds.\cite{wind} }}
+    \caption{Wind speeds by latitude.  Bands represent 80th, 90th and 95th percentile winds.\cite{wind}}
 	\label{f:latvswind}
 	\end{center}
 \end{figure}
 
-Latitude additionally affects the solar-electric powered aircraft because at higher latitudes there is less daylight and therefore less solar energy during the winter months. This is further discussed in Section V.B.
+Latitude additionally affects the solar-electric powered aircraft because at higher latitudes there is less daylight and therefore less solar energy during the winter months. This is further discussed in Section~\ref{sec:solarenergy}.
 
 \section{Percentile Wind Speed}
 
 For the purposes of this design study, a percentile wind speed corresponds to that percentile of wind speed data across all longitudes in December months spanning the years 2005-2015.  
 To understand what a given percentile wind speed implies operationally an autocorrelation analysis was done for multiple cites at varying latitudes at 60,000 during December. 
-Wind speeds at 60,000 ft over Boston and Rome during December of 2015 are shown in Figures~\ref{f:bostonwinds} and~\ref{f:romewinds}. 
+Figures~\ref{f:bostonwinds} and~\ref{f:romewinds} show the autocorrelation analysis, or the similarity of the next data point to the previous data points, for wind speeds at 60,000 ft over Boston and Rome during December of 2015. 
 
-\begin{figure}[H]
+\begin{figure}[h!]
  \begin{subfigmatrix}{2}% number of columns
      \subfigure[Autocorrelation of Boston wind speeds\label{f:bostonwindatuo}]{\includegraphics[natwidth=560,natheight=420]{Boston_dec_2015auto.pdf}}
      \subfigure[Boston wind speed data\label{f:bostonwind}]{\includegraphics[natwidth=560,natheight=420]{Boston_dec_2015.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Wind speed analysis at 60,000 ft over Boston, Massachusetts during December, 2015.}}
+ \caption{Wind speed analysis at 60,000 ft over Boston, Massachusetts during December, 2015.}
  \label{f:bostonwinds}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h!]
  \begin{subfigmatrix}{2}% number of columns
      \subfigure[Autocorrelation of Rome wind speeds\label{f:romewindatuo}]{\includegraphics[natwidth=560,natheight=420]{Rome_dec_2015auto.pdf}}
      \subfigure[Rome wind speed data\label{f:romewind}]{\includegraphics[natwidth=560,natheight=420]{Rome_dec_2015.pdf}}
  \end{subfigmatrix}
- \caption{\textbf{Wind speed analysis at 60,000 ft over Rome, Italy during December, 2015.}}
+ \caption{Wind speed analysis at 60,000 ft over Rome, Italy during December, 2015.}
  \label{f:romewinds}
 \end{figure}
 
