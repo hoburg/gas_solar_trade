@@ -47,7 +47,7 @@ class Aircraft(Model):
 
         if not sp:
             self.empennage.substitutions["V_h"] = 0.45
-            self.empennage.substitutions["AR_h"] = 5
+            self.empennage.substitutions["AR_h"] = 5.0
             self.empennage.substitutions["m_h"] = 0.1
 
         constraints = [

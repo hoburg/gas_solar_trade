@@ -34,17 +34,17 @@
 \contentsline {figure}{\numberline {6-3}{\ignorespaces \textbf {Flexible season requirements allow for smaller aircraft and increased latitude.}}}{61}{figure.6.3}
 \contentsline {figure}{\numberline {6-4}{\ignorespaces \textbf {Contours of latitude. Reaching higher latitudes requires better solar cells and batteries.}}}{62}{figure.6.4}
 \contentsline {figure}{\numberline {6-5}{\ignorespaces \textbf {Maxtrix of minimum wing span solar-electric aircraft designs. Values of assumed constants are given throughout the text.}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.80$}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.85$}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.90$}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.80$}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.85$}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.90$}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(g)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.80$}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(h)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.85$}}}{63}{figure.6.5}
+\contentsline {subfigure}{\numberline {(i)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.90$}}}{63}{figure.6.5}
 \contentsline {figure}{\numberline {6-6}{\ignorespaces \textbf {Comparison of simplified and detailed structural models highlights trade between wing weight and air density.}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.80$}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.85$}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {35th Latitude, $p_{\text {wind}}=0.90$}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.80$}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.85$}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {30th Latitude, $p_{\text {wind}}=0.90$}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(g)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.80$}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(h)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.85$}}}{64}{figure.6.6}
-\contentsline {subfigure}{\numberline {(i)}{\ignorespaces {25th Latitude, $p_{\text {wind}}=0.90$}}}{64}{figure.6.6}
-\contentsline {figure}{\numberline {6-7}{\ignorespaces \textbf {Wind speed constraint moves lift to drag ratio off maximum $(C_L^{1.5}/C_D)$ point (plus signs). Solid lines are drag polars.}}}{65}{figure.6.7}
+\contentsline {figure}{\numberline {6-7}{\ignorespaces \textbf {Wind speed constraint moves lift to drag ratio off maximum $(C_L^{1.5}/C_D)$ point (plus signs). Solid lines are drag polars.}}}{64}{figure.6.7}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {A-1}{\ignorespaces \textbf {Pressure coefficient plots at the minimum and maximum expected $C_L$ at Reynolds number $Re=\num {3d5}$.}}}{71}{figure.A.1}

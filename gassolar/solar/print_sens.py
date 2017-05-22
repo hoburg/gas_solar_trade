@@ -69,6 +69,9 @@ def sol_table(sols, models, varnames, filename, ttype, latns=[],
                 else:
                     val = s(vnm).magnitude
                     units = " [" + unitstr(s(vnm)) + "]"
+                if "**" in units:
+                    sp = units.split("**")
+                    units = sp[0] + "$^{" + sp[-1].replace("]", "") + "}$]"
                 vals.append(val)
             row = ltnm + units + "&" + " & ".join(["%.3g" % x for x in vals])
             f.write(row + "\\\\\n")
@@ -201,9 +204,10 @@ if __name__ == "__main__":
     tbfvar = ["W_{total}", "b_Mission/Aircraft/Wing",
               "W_Mission/Aircraft/Empennage/HorizontalTail",
               "W_Mission/Aircraft/Empennage/TailBoom", "d_0", "l_h",
-              "S_Mission/Aircraft/Empennage/HorizontalTail", "V_h"]
+              "S_Mission/Aircraft/Empennage/HorizontalTail", "AR_h", "V_h"]
     tbflat = ["MTOW", "$b$", "$W_{\\mathrm{h}}$", "$W_{\\mathrm{boom}}$",
-              "$d_0$", "$l_{\\mathrm{h}}$", "$S_h$", "$V_{\\mathrm{h}}$"]
+              "$d_0$", "$l_{\\mathrm{h}}$", "$S_h$", "$A_{\\mathrm{h}}$",
+              "$V_{\\mathrm{h}}$"]
 
     tbsols = []
     tbMs = []

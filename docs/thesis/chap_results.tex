@@ -1,12 +1,12 @@
 
 \chapter{Results}
 
-The gas and solar-electric powered aircraft optimization models were solved by minimizing the take-off weight for the requirements listed in Table~\ref{t:mreqs}. 
-Key design parameters for both aircraft optimization models are listed in Table~\ref{t:gassolarparams}.
-The gas powered aircraft optimization model had 552 unknowns and was solved in 0.144 seconds for a max take-off weight of 84.0 lbs.  
+The gas and solar-electric powered aircraft optimization models were solved by minimizing the take-off weight for the requirements listed in Table~\ref{t:mreqs} and the assumptions and key design parameters described herein. 
 The solar-electric powered optimization model had 375 unknowns and was solved in 0.164 seconds for a max take-off weight of 194.7 lbs.
-Highlighted design variables for both architectures are listed in Tables~\ref{t:svals} and~\ref{t:gvals} for various mission requirements.
-The rest of this chapter explores how these results may vary for different requirements, input parameter values, and physics modeling assumptions. 
+The gas powered aircraft optimization model had 552 unknowns and was solved in 0.144 seconds for a max take-off weight of 72.3 lbs.  
+Important design parameters are listed in Table~\ref{t:gassolarparams}.
+Key design variables for both architectures are listed in Tables~\ref{t:svals} and~\ref{t:gvals} for various mission requirements. 
+The rest of this section explores how these result may vary for different requirements, input parameter values, and physics modeling assumptions. 
 
 \footnotesize
 \begin{longtable}{llll}
@@ -110,7 +110,7 @@ Figure~\ref{f:solarcontours} shows a matrix contour map of the solar-electric po
 Each point in Figure~\ref{f:solarcontours} is a unique design for minimum wing span. 
 The infeasible regions and contour shapes would change for different assumed constant values. 
 
- \begin{figure}[H]
+ \begin{figure}[h!]
  \begin{subfigmatrix}{3}% number of columns
   \subfigure[35th Latitude, $p_{\text{wind}}=0.80$]{\includegraphics[natwidth=542,natheight=414]{bcontourl35a80.pdf}}
   \subfigure[35th Latitude, $p_{\text{wind}}=0.85$]{\includegraphics[natwidth=542,natheight=414]{bcontourl35a85.pdf}}
@@ -187,7 +187,7 @@ a single constraint, whose derivation is explained in Appendix~\ref{app:tbflex},
     \text{SM}_{\text{min}} + \frac{\Delta x_{cg}}{c} - \frac{C_{M_{	ext{w}}}}{C_{L_{\text{max}}}} \leq V_{\text{w}} \mathcal{F}_{NE}^{-1} \frac{m_{\text{h}}}{m_{\text{w}}} \left( 1 - \frac{d\epsilon}{d\alpha}\right) + V_{\text{w}} \frac{-(C_{L_{\text{h}}})_{\text{min}}}{C_{L_{\text{max}}}} \\
 \end{equation}
 
-Because this equation is not GP-compatible a signomial program is used to solve the optimization model for both the solar-electric and gas powered models.\cite{sp}
+Because this equation is not GP-compatible a signomial program is used to solve the optimization model for both the solar-electric and gas powered models.\cite{sp}\cite{gp}
 The flexibility factor,
 
 \begin{equation}
@@ -197,6 +197,9 @@ The flexibility factor,
 is a measure of how the pitch control authority is degraded by the flexibility of the tail boom. 
 Thus, it is expected that the horizontal tail volume coefficient will increase from an increased horizontal tail surface area and tail boom length. 
 Tables~\ref{t:tbftable} and~\ref{t:tbfgtable} confirm the increased size of the horizontal tail and tail boom when the tail boom flexibility model is activiated. 
+Because tail boom flexibility is strictly worse for aircraft weight because it requires more horizontal tail surface area or more tail boom length it is surprising to see that for the 30$^{\circ}$ latitude case the horizontal tail weight actually decreases on the solar aircraft.  
+Adding the additional constraints to account for the tail boom flexibility allows for the horizontal tail aspect ratio to be optimized, whereas before it was a required input. 
+The high aspect ratio of the horizontal tails means low interior foam weight even though the surface area is bigger. 
 
 \input{../tbftable.generated.tex}
 \input{../tbfgtable.generated.tex}
