@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
 from gpkit import Model, Variable
+from gpkit.tests.helpers import StdoutCaptured
 from gpkitmodels.GP.aircraft.wing.wing import Wing as WingGP
 from gpkitmodels.SP.aircraft.wing.wing import Wing as WingSP
 from gpkitmodels.GP.aircraft.tail.empennage import Empennage
@@ -227,9 +228,8 @@ class FlightState(Model):
         # df = DF[DF["latitude"] == latitude]
         # dft = DFt[DFt["latitude"] == latitude]
         # dfd = DFd[DFd["latitude"] == latitude]
-        sys.stdout = open(os.devnull, 'w')
-        dft, dfd = twi_fits(latitude, day, gen=True)
-        sys.stdout = sys.__stdout__
+        with StdoutCaptured(None):
+            dft, dfd = twi_fits(latitude, day, gen=True)
         esirr, td, tn, _ = get_Eirr(latitude, day)
 
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
