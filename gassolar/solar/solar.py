@@ -324,16 +324,17 @@ class Mission(Model):
     def setup(self, latitude=35, day=355, sp=False):
 
         self.solar = Aircraft(sp=sp)
+        lats = range(1, latitude+1, 1)
         mission = []
         if day == 355:
-            for l in range(20, latitude+1, 1):
+            for l in lats:
                 mission.append(Flight(self.solar, l, day))
         elif day == 172:
-            for l in range(20, latitude+1, 1):
+            for l in lats:
                 mission.append(Flight(self.solar, l, day))
         else:
             assert day < 172
-            for l in range(20, latitude+1, 1):
+            for l in lats:
                 mission.append(Flight(self.solar, l, day))
                 mission.append(Flight(self.solar, l, 355 - 10 - day))
 
