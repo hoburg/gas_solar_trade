@@ -148,16 +148,14 @@ if __name__ == "__main__":
     np.random.seed(0)
     GENERATE = True
 
-    # mos = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
-    mos = ["apr", "may", "jun", "jul", "aug", "sep",
+    mos = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
            "oct", "nov", "dec"]
-    # days = [21, 52, 80, 111, 141, 172, 202, 233, 264, 294, 325, 355]
-    days = [111, 141, 172, 202, 233, 264, 294, 325, 355]
+    days = [21, 52, 80, 111, 141, 172, 202, 233, 264, 294, 325, 355]
     if GENERATE:
         latitude = range(1, 90, 1)
         for d, m in zip(days, mos):
-            make_fits(d, latitude, month=m, gen=GENERATE, path=path, plot=True)
+            make_fits(d, latitude, month=m, gen=GENERATE, path=path)
     else:
-        latitude = [30]
+        latitude = [25]
         make_fits(355, latitude, month="dec", path=path)
 
