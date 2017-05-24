@@ -2,10 +2,10 @@
 #pylint: disable=attribute-defined-outside-init, invalid-name, unused-variable
 #pylint: disable=too-many-locals
 import os
-import sys
 import pandas as pd
 import numpy as np
 from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
+from gassolar.environment.wind_speeds import get_month
 from gpkit import Model, Variable
 from gpkit.tests.helpers import StdoutCaptured
 from gpkitmodels.GP.aircraft.wing.wing import Wing as WingGP
@@ -221,13 +221,11 @@ class FlightState(Model):
     percent: percentile wind speeds [%]
     day: day of the year [Jan 1st = 1]
     """
-    def setup(self, latitude=45, day=355, month="dec"):
+    def setup(self, latitude=45, day=355):
 
+        month = get_month(day)
         df = pd.read_csv(path + "windfits" + month +
                          "/windaltfit_lat%d.csv" % latitude)
-        # df = DF[DF["latitude"] == latitude]
-        # dft = DFt[DFt["latitude"] == latitude]
-        # dfd = DFd[DFd["latitude"] == latitude]
         with StdoutCaptured(None):
             dft, dfd = twi_fits(latitude, day, gen=True)
         esirr, td, tn, _ = get_Eirr(latitude, day)
@@ -276,10 +274,10 @@ def altitude(density):
 
 class FlightSegment(Model):
     "flight segment"
-    def setup(self, aircraft, etap=0.8, latitude=35, day=355, month="dec"):
+    def setup(self, aircraft, etap=0.8, latitude=35, day=355):
 
         self.aircraft = aircraft
-        self.fs = FlightState(latitude=latitude, day=day, month=month)
+        self.fs = FlightState(latitude=latitude, day=day)
         self.aircraftPerf = self.aircraft.flight_model(self.fs)
         self.slf = SteadyLevelFlight(self.fs, self.aircraft,
                                      self.aircraftPerf, etap)
@@ -307,10 +305,9 @@ class SteadyLevelFlight(Model):
 
 class Flight(Model):
     "define mission for aircraft"
-    def setup(self, aircraft, latitude, day, month):
+    def setup(self, aircraft, latitude, day):
 
-        flight = FlightSegment(aircraft, latitude=latitude, day=day,
-                               month=month)
+        flight = FlightSegment(aircraft, latitude=latitude, day=day)
         loading = aircraft.loading(aircraft["W_{cent}"], aircraft["W_{wing}"],
                                    flight["V"], flight["C_L"])
         for vk in loading.varkeys["N_{max}"]:
@@ -324,21 +321,21 @@ class Flight(Model):
 
 class Mission(Model):
     "define mission for aircraft"
-    def setup(self, latitude=35, day=355, month="dec", sp=False):
-
-        mos = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep",
-               "oct", "nov", "dec"]
+    def setup(self, latitude=35, day=355, sp=False):
 
         self.solar = Aircraft(sp=sp)
         mission = []
         if day == 355:
             for l in range(20, latitude+1, 1):
-                mission.append(Flight(self.solar, l, day, month))
-        else:
+                mission.append(Flight(self.solar, l, day))
+        elif day == 172:
             for l in range(20, latitude+1, 1):
-                mission.append(Flight(self.solar, l, day, month))
-                mission.append(Flight(self.solar, l, day,
-                                      mos[-mos.index(month)-2]))
+                mission.append(Flight(self.solar, l, day))
+        else:
+            assert day < 172
+            for l in range(20, latitude+1, 1):
+                mission.append(Flight(self.solar, l, day))
+                mission.append(Flight(self.solar, l, 355 - 10 - day))
 
         return self.solar, mission
 
@@ -354,5 +351,4 @@ if __name__ == "__main__":
     sol = M.solve("mosek")
     mn = [max(M[sv].descr["modelnums"]) for sv in sol("(E/S)_{irr}") if
           abs(sol["sensitivities"]["constants"][sv]) > 0.01][0]
-    # sol = M.localsolve("mosek")
     H = altitude(np.hstack([sol(sv).magnitude for sv in sol("\\rho")]))
