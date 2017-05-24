@@ -344,6 +344,9 @@ def test():
     m = Mission(latitude=25)
     m.cost = m["W_{total}"]
     m.solve()
+    m = Mission(latitude=25, sp=True)
+    m.cost = m["W_{total}"]
+    m.localsolve()
 
 if __name__ == "__main__":
     M = Mission(latitude=25)
