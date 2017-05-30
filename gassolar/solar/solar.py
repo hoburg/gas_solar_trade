@@ -331,7 +331,7 @@ class Mission(Model):
                     continue
                 if any(s > 1e-5 for s in np.hstack([abs(sens[sub])])):
                     const = True
-                    continue
+                    break
             if const:
                 print "%d is a constraining latitude" % f.latitude
                 result["latitude"].append(f.latitude)
@@ -360,6 +360,3 @@ if __name__ == "__main__":
     M = Mission(latitude=25)
     M.cost = M["W_{total}"]
     sol = M.solve("mosek")
-    # mn = [max(M[sv].descr["modelnums"]) for sv in sol("(E/S)_{irr}") if
-    #       abs(sol["sensitivities"]["constants"][sv]) > 0.01][0]
-    # H = altitude(np.hstack([sol(sv).magnitude for sv in sol("\\rho")]))
