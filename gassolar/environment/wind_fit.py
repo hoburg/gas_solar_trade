@@ -112,7 +112,7 @@ def make_fits(day, latrange, month, gen=False, path="", plot=False):
                             l, K, ftype)
                         err = 0.9
                     if err < rms_best:
-                        df = cns.get_dataframe(X)
+                        df = cns.get_dataframe()
                         if "0.0" in df.values or "inf" in df.values:
                             continue
                         rms_best = err
@@ -125,7 +125,7 @@ def make_fits(day, latrange, month, gen=False, path="", plot=False):
                 print "success"
                 if gen:
                     df_best.to_csv("windfits" + month
-                                   + "/windaltfit_lat%d.csv" % l)
+                                   + "/windaltfit_lat%d.csv" % l, index=False)
                 if plot:
                     yfit = cn_best.evaluate(X)
                 break

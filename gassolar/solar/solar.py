@@ -16,6 +16,7 @@ from gpkitmodels.GP.aircraft.tail.tail_boom import TailBoomState
 from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
 from gpkitmodels.tools.summing_constraintset import summing_vars
 from gpkitmodels.tools.fit_constraintset import FitCS
+from gpfit.fit_constraintset import FitCS as FCS
 
 basepath = os.path.abspath(__file__).replace(os.path.basename(__file__), "")
 path = basepath.replace(os.sep+"solar"+os.sep, os.sep+"environment"+os.sep)
@@ -202,7 +203,8 @@ class FlightState(Model):
 
         month = get_month(day)
         df = pd.read_csv(path + "windfits" + month +
-                         "/windaltfit_lat%d.csv" % latitude)
+                         "/windaltfit_lat%d.csv" % latitude).to_dict(
+                             orient="records")[0]
         with StdoutCaptured(None):
             dft, dfd = twi_fits(latitude, day, gen=True)
         esirr, _, tn, _ = get_Eirr(latitude, day)
@@ -231,9 +233,9 @@ class FlightState(Model):
 
         constraints = [
             V/mfac >= Vwind,
-            FitCS(df, Vwind/Vwindref, [rho/rhoref, pct]),
-            FitCS(dfd, ESday/ESvar, [PSmin/PSvar]),
-            FitCS(dft, ESc/ESvar, [PSmin/PSvar]),
+            FCS(df, Vwind/Vwindref, [rho/rhoref, pct]),
+            FCS(dfd, ESday/ESvar, [PSmin/PSvar]),
+            FCS(dft, ESc/ESvar, [PSmin/PSvar]),
             ]
 
         return constraints
