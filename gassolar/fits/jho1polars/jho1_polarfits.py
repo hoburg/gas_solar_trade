@@ -8,7 +8,7 @@ from gpkitmodels.GP.aircraft.wing.wing import Wing
 import inspect
 import os
 
-GENERATE = False
+GENERATE = True
 plt.rcParams.update({'font.size':15})
 
 def text_to_df(filename):

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 plt.rcParams.update({'font.size':15})
-GENERATE = False
+GENERATE = True
 
 def arctanfit():
     u = np.linspace(1e-15, 0.7, 100)

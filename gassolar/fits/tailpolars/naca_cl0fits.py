@@ -8,7 +8,7 @@ from gpfit.fit import fit
 import os
 plt.rcParams.update({'font.size':15})
 
-GENERATE = False
+GENERATE = True
 REFAC = 1e6
 NACAFAC = 100.0
 
