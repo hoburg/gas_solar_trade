@@ -15,7 +15,6 @@ from gpkitmodels.GP.aircraft.tail.empennage import Empennage
 from gpkitmodels.GP.aircraft.tail.tail_boom import TailBoomState
 from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
 from gpkitmodels.tools.summing_constraintset import summing_vars
-from gpkitmodels.tools.fit_constraintset import FitCS
 from gpfit.fit_constraintset import FitCS as FCS
 
 basepath = os.path.abspath(__file__).replace(os.path.basename(__file__), "")
@@ -48,6 +47,7 @@ class Aircraft(Model):
                                           self.wing, tbstate)
 
         Wpay = Variable("W_{pay}", 10, "lbf", "payload weight")
+        Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight")
         Wtotal = Variable("W_{total}", "lbf", "aircraft weight")
         Wwing = Variable("W_{wing}", "lbf", "wing weight")
         Wcent = Variable("W_{cent}", "lbf", "center weight")
@@ -60,11 +60,11 @@ class Aircraft(Model):
             self.empennage.substitutions["m_h"] = 0.1
 
         constraints = [
-            Wtotal >= (Wpay + sum(summing_vars(self.components, "W"))),
+            Wtotal >= (Wpay + Wavn + sum(summing_vars(self.components, "W"))),
             Wwing >= (sum(summing_vars([self.wing, self.battery,
                                         self.solarcells], "W"))),
-            Wcent >= Wpay + sum(summing_vars([self.empennage, self.motor],
-                                             "W")),
+            Wcent >= Wpay + Wavn + sum(
+                summing_vars([self.empennage, self.motor], "W")),
             self.solarcells["S"] <= self.wing["S"],
             self.wing["c_{MAC}"]**2*0.5*self.wing["\\tau"]*self.wing["b"] >= (
                 self.battery["\\mathcal{V}"]),
@@ -159,8 +159,9 @@ class AircraftPerf(Model):
         CD = Variable("C_D", "-", "aircraft drag coefficient")
         cda = Variable("CDA", "-", "non-wing drag coefficient")
         Pshaft = Variable("P_{shaft}", "hp", "shaft power")
-        Pacc = Variable("P_{acc}", 0.0, "W", "Accessory power draw")
+        Pavn = Variable("P_{avn}", 0.0, "W", "Accessory power draw")
         Poper = Variable("P_{oper}", "W", "operating power")
+        mfac = Variable("m_{fac}", 1.2, "-", "drag margin factor")
 
         dvars = []
         for dc, dm in zip(areadragcomps, areadragmodel):
@@ -178,11 +179,11 @@ class AircraftPerf(Model):
                 Poper*state["t_{night}"]
                 + state["(E/S)_C"]*static.solarcells["\\eta"]
                 * static.solarcells["S"]),
-            Poper >= Pacc + Pshaft/static.motor["\\eta"],
+            Poper >= Pavn + Pshaft/static.motor["\\eta"],
             Poper == (state["(P/S)_{min}"]*static.solarcells["S"]
                       * static.solarcells["\\eta"]),
             cda >= sum(dvars),
-            CD >= cda + self.wing["C_d"],
+            CD/mfac >= cda + self.wing["C_d"],
             Poper <= static.motor["P_{max}"]
             ]
 
