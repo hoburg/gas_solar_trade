@@ -46,7 +46,7 @@ class Aircraft(Model):
                                           self.empennage.tailboom,
                                           self.wing, tbstate)
 
-        Wpay = Variable("W_{pay}", 10, "lbf", "payload weight")
+        Wpay = Variable("W_{pay}", 0, "lbf", "payload weight")
         Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight")
         Wtotal = Variable("W_{total}", "lbf", "aircraft weight")
         Wwing = Variable("W_{wing}", "lbf", "wing weight")
@@ -352,14 +352,14 @@ class Mission(Model):
 
 def test():
     " test model for continuous integration "
-    m = Mission(latitude=25)
+    m = Mission(latitude=20)
     m.cost = m["W_{total}"]
     m.solve()
-    m = Mission(latitude=25, sp=True)
+    m = Mission(latitude=20, sp=True)
     m.cost = m["W_{total}"]
     m.localsolve()
 
 if __name__ == "__main__":
-    M = Mission(latitude=25)
+    M = Mission(latitude=20)
     M.cost = M["W_{total}"]
     sol = M.solve("mosek")

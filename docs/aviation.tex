@@ -2,6 +2,7 @@
 % \documentclass[aspectratio=169]{beamer}
  
 \usepackage{multirow}
+\usepackage{multimedia}
 \usepackage{longtable,booktabs,tabularx}
 \usepackage[utf8]{inputenc}
 \def\Put(#1,#2)#3{\leavevmode\makebox(0,0){\put(#1,#2){#3}}}
@@ -16,7 +17,7 @@
      \rlap{}\hfill\llap{\insertframenumber}%
      \end{beamercolorbox}%
      }
-   
+
 %Information to be included in the title page:
 \title{Solar-Electric and Gas Powered, Long-Endurance UAV Sizing via Geometric Programming}
 \author{Michael Burton and Warren Hoburg}
@@ -32,51 +33,6 @@
     \titlepage
 \end{frame}
 
-\begin{frame}{Hoburg research group overview}
-Mission: make conceptual design reliable and efficient\\
-\begin{tabularx}{\textwidth}{XXX}
-\includegraphics[width=0.31\textwidth]{nlp_example6.pdf} &
-\includegraphics[width=0.31\textwidth]{gpkit-code.png} &
-\includegraphics[width=0.31\textwidth]{D8-day.jpg} \\ [-3.0ex]
-\begin{mdframed}[roundcorner=0pt]
-\parbox[t][0.85cm][t]{\linewidth}{\centering
-\vfill
-Optimization mathematics
-\vfill
-}
-\end{mdframed} &
-\begin{mdframed}[roundcorner=0pt]
-\parbox[t][0.85cm][t]{\linewidth}{\centering
-\vfill
-Design tools
-\vfill
-}
-\end{mdframed} &
-\begin{mdframed}[roundcorner=0pt]
-\parbox[t][0.85cm][t]{\linewidth}{\centering
-\vfill
-Aerospace applications
-\vfill
-}
-\end{mdframed} \\ [-3.5ex]
-\begin{itemize}
-\item Signomial programming
-\item Robust GP
-\item Black-box interfaces
-\end{itemize} &
-\begin{itemize}
-\item GPkit
-\item TRADES
-\end{itemize} &
-\begin{itemize}
-\item D8
-\item Jungle Hawk Owl
-\item Solar-electric
-\item 787 comp fab
-\end{itemize}
-\end{tabularx}
-\end{frame}
- 
 \begin{frame}
 
 \frametitle{Long-endurance UAV Applications}
@@ -219,58 +175,44 @@ Aerospace applications
 
 \end{frame}
 
-
 \begin{frame}
-    \frametitle{How to set up the problem?}
-
-    \pause 
-    \begin{columns}
-        \column{0.6\textwidth}
-        \includegraphics[width=1.0\textwidth]{simpleaircraft.pdf}
-        
-        \column{0.4\textwidth}
-        \begin{itemize}
-            \pause
-            \item Wind speeds
-            \pause
-            \item Solar energy
-            \pause
-            \item Endurance
-            \pause
-            \item Structural loads
-            \pause
-            \item Control authority
-            \pause
-            \item Aerodynamics
-            \pause
-            \item Powerplant
-            \pause
-            \item Weights \\~\\
-            \end{itemize}
-    \end{columns}
-    
-    \pause
-    \begin{columns}
-        \column{0.6\textwidth}
-    \begin{center}
-       number of unknowns
-    \end{center}
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{center}
-        Gas: 607 
-        \end{center}
-        
-        \column{0.5\textwidth}
-        \begin{center}
-        Solar: 375
-        \end{center}
-        
-    \end{columns}
-        \column{0.4\textwidth}
-    \end{columns}
+    \includegraphics[width=1.0\textwidth]{simpleaircraft.pdf}
 
 \end{frame}
+
+\begin{frame}
+
+    \begin{columns}
+        \column{0.33\textwidth}
+        Wing Loading Cases \\~\\~\\
+        \footnotesize
+        g-loading
+        \includegraphics[width=1.0\textwidth]{gbending.pdf} 
+        \\~\\~\\
+        gust loading
+        \includegraphics[width=1.0\textwidth]{gustloaddiagram.pdf} \\
+        
+        \column{0.33\textwidth}
+        \normalsize
+        Aerodynamics \\~\\
+        \footnotesize
+        wing drag polar
+        \includegraphics[width=1.0\textwidth]{jho1polarfit1.pdf} \\
+        tail drag polar
+        \includegraphics[width=1.0\textwidth]{taildragpolar.pdf} \\
+        
+        \column{0.33\textwidth}
+        \normalsize
+        Engine \\~\\
+        \footnotesize
+        thottle to BSFC curve
+        \includegraphics[width=1.0\textwidth]{powertobsfcfit.pdf} \\
+        engine power law
+        \includegraphics[width=1.0\textwidth]{powervsweightfit.pdf} \\
+    \end{columns}
+    
+\end{frame}
+
 
 \begin{frame}
     \frametitle{Geometric Programming}
@@ -429,6 +371,30 @@ Aerospace applications
         \pause
     \item Parameter sweeps
     \end{itemize}
+    
+    \pause
+    \begin{centering}
+    \begin{columns}
+        \column{0.6\textwidth}
+    \begin{center}
+       number of unknowns
+    \end{center}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{center}
+        Gas: 607 
+        \end{center}
+        
+        \column{0.5\textwidth}
+        \begin{center}
+        Solar: 375
+        \end{center}
+        
+    \end{columns}
+        \column{0.4\textwidth}
+    \end{columns}
+    \end{centering}
+
 \end{frame}
 
 
@@ -541,325 +507,6 @@ Aerospace applications
         \item Built a working sizing model for gas and solar powered, long-endurance aircraft
         \end{itemize}
 
-\end{frame}
-
-
-\begin{frame}
-    \frametitle{Weight Breakdown}
-
-    \pause
-    Gas Aircraft
-    \begin{align*}
-        \text{MTOW} &\geq W_{\text{structural}}  + W_{\text{payload}} + W_{\text{fuel}} + W_{\text{engine}} \\
-        W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} + W_{\text{fuse}}
-    \end{align*}
-
-    \pause
-    Solar-electric Aircraft
-    \begin{align*}
-        \text{MTOW} &\geq W_{\text{structural}} + W_{\text{payload}} + W_{\text{solar}} + W_{\text{batt}} + W_{\text{motor}} \\
-        W_{\text{structural}} &\geq W_{\text{wing}} + W_{\text{boom}} + W_{\text{h}}+ W_{\text{v}} \\
-        W_{\text{solar}} &\geq \rho_{\text{solar}} S_{\text{solar}} g \\
-        W_{\text{batt}} &\geq \frac{E_{\text{batt}}}{h_{\text{batt}}} g \\
-        E_{\text{batt}} &= 350 \text{ [Whr/kg]}
-    \end{align*}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Solar Energy Constraints}
-
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{lat30.pdf}
-    \end{center}
-    
-    \pause
-    \scriptsize
-    \[ \begin{array}{rrl}
-        \text{Solar Energy} : & (E/S)_{\text{sun}}  &\geq (E/S)_{\text{day}} + \frac{E_{\text{batt}}}{\eta_{\text{charge}}\eta_{\text{solar}} S_{\text{solar}}} \\
-        \text{Battery Energy} : &E_{\text{batt}} &\geq \frac{P_{\text{oper}}t_{\text{night}}}{\eta_{\text{discharge}}} + (E/S)_{\text{twilight}} \eta_{\text{solar}} S_{\text{solar}} \\
-        \text{Minimum operational solar power} : & (P/S)_{\text{min}} &= \frac{P_{\text{oper}}}{\eta_{\text{solar}} S_{\text{solar}}} 
-    \end{array} \]
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Wind Speed and Air Density Constraint}
-
-    \pause
-    \[ V \geq V_{\text{wind}} \]
-        \pause
-    \[P_{\text{shaft}} \sim V^3 \]
-
-    \pause
-    \begin{center}
-    \includegraphics[width=0.6\textwidth]{windfitl35.pdf}
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Solar Aircraft Environmental Constraints}
-    
-    \begin{columns}
-        \column{0.5\textwidth}
-    \tiny
-    \begin{itemize}
-        \item Wind speed
-        \begin{align*}
-            V & \geq V_{\text{wind}} \\
-        \left(\frac{V_{\text{wind}}}{V_{\text{ref}}}\right)^{\alpha} &\geq c_1 \rho^{e_{1,1}}p_{\text{wind}}^{e_{1,2}} + c_2 \rho^{e_{2,1}}p_{\text{wind}}^{e_{2,2}} \\
-                                                                     &+ c_3 \rho^{e_{3,1}}p_{\text{wind}}^{e_{3,2}} + c_4 \rho^{e_{4,1}}p_{\text{wind}}^{e_{4,2}} \\
-\end{align*}
-    
-        \item Solar energy
-        \begin{align*}
-        (E/S)_{\text{sun}}  &\geq (E/S)_{\text{day}} + \frac{E_{\text{batt}}}{\eta_{\text{charge}}\eta_{\text{solar}} S_{\text{solar}}} \\
-    E_{\text{batt}} &\geq \frac{P_{\text{oper}}t_{\text{night}}}{\eta_{\text{discharge}}} + (E/S)_{\text{twilight}} \eta_{\text{solar}} S_{\text{solar}} \\
-    (P/S)_{\text{min}} &= \frac{P_{\text{oper}}}{\eta_{\text{solar}} S_{\text{solar}}} \\
-    \eta_{\text{motor}} P_{\text{oper}} &\geq P_{\text{shaft}} + P_{\text{avionics}}\\
-            (E/S)_{\text{twilight}} &= c_1 (P/S)_{\text{min}}^{e_1} \\
-            (E/S)_{\text{day}} &= c_2(P/S)_{\text{min}}^{e_2} \\
-            S_{\text{solar}} & \leq f_{\text{solar}}S
-        \end{align*}
-    \end{itemize}
-        
-    \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{latvswind.pdf} \\~\\
-        \includegraphics[width=1.0\textwidth]{solaranglepic.pdf}
-
-\end{columns}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Throttled Operation Affects BSFC and Endurance}
-
-    \pause
-    \[ \text{Breguet Endurance}: t = \frac{W_{\text{ave}}}{P_{\text{shaft}}\text{BSFC}g} \ln{\left( \frac{W_{\text{initial}}}{W_{\text{final}}}\right)} \]
-        
-    \pause
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{powertobsfcfit.pdf}
-    \end{center}
-
-\end{frame}
-        
-\begin{frame}
-    \frametitle{Engine Power Requirement Set at Top of Climb}
-
-    \pause
-    \scriptsize
-    \[ \begin{array}{rrl}
-            \text{Climb Rate}: & \dot{h} &\geq 100 \text{ [ft/min]} \\
-            \text{Lapse Rate Definition}: &L_{\text{eng}}(h) &\equiv \frac{P_{\text{max}}}{P_{\text{SL-max}}} \\
-            \text{Approxmiate Lapse Rate Equation}: & L_{\text{eng}}(h) &= 1 - \frac{0.035}{1000 \text{ [ft]}} h
-    \end{array} \]
-
-    \pause
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{powervsweightfit.pdf}
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Drag Model}
-
-    \pause
-    \[ C_D \geq C_{d_0} + c_{d_p} + \frac{C_L^2}{\pi e A} \]
-
-    \begin{center}
-    aircraft drag $\geq$ non-wing drag + wing profile drag + induced drag
-    \pause
-    \includegraphics[width=0.7\textwidth]{jho1polarfit1.pdf} \\
-    \scriptsize
-    JHO airfoil profile drag
-    \end{center}
-    
-\end{frame}
-
-\begin{frame}
-    \frametitle{Wing Sizing for Load Cases}
-      
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{center}
-        Standard g-loading ($N_{\text{max}}$ = 5) \\~\\
-        \end{center}
-        
-        \column{0.5\textwidth}
-        \begin{center}
-        Gust Loading ($N_{\text{max}}$ = 2) \\~\\
-        \end{center}
-    \end{columns}
-
-    \begin{columns}
-        \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{gbending.pdf}
-        
-        \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{gustloaddiagram.pdf}
-    \end{columns}
-    
-    \pause
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{center}
-        Constrains gas powered aircraft \\~\\
-        \end{center}
-        
-        \column{0.5\textwidth}
-        \begin{center}
-        Constrains solar-electric aircraft \\~\\
-        \end{center}
-    \end{columns}
-
-    \pause
-    \begin{table}[]
-        \centering
-        \begin{tabular}{cc}
-            Architecture & Wing Loading [lbs/ft$^2$] \\ \hline
-            Solar        & $\sim$ 1                        \\
-            Gas          & $\sim$ 8                       
-        \end{tabular}
-    \end{table}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Discretized Beam}
-
-    \pause
-    \begin{center}
-        \includegraphics[width=0.8\textwidth]{disctbeam.pdf}
-    \end{center}
-
-    \pause
-    \begin{align*}
-        \mathcal{S}_{i+1} &\geq \mathcal{S}_i + \frac{q_{i+1} + q_i}{2} \Delta y \\
-        \mathcal{M}_{i+1} &\geq \mathcal{M}_i + \frac{\mathcal{S}_{i+1} + \mathcal{S}_i}{2} \Delta y \\
-        \Theta_{i} &\geq \Theta_{i+1} + \frac{1}{2} \left(\frac{\mathcal{M}_i}{EI_i} + \frac{\mathcal{M}_{i-1}}{EI_{i-1}} \right) \Delta y \\
-        w_{i} &\geq w_{i+1} + \frac{1}{2} (\Theta_i + \Theta_{i-1}) \Delta y 
-    \end{align*}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Cap Spar}
-
-    \pause
-    \begin{center}
-    \includegraphics[width=0.8\textwidth]{capspar.jpg}
-    \end{center}
-
-    \pause
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{center}
-        Sizing Constraints
-        \end{center}
-        \column{0.5\textwidth}
-        \begin{center}
-        Stress and Deflection Constraints
-        \end{center}
-    \end{columns}
-    
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{align*}
-            I_i &\leq 2w_{\text{cap}_i}t_{\text{cap}_i}\left(\frac{h_{\text{cap}_i}}{2}\right)^2 \\
-            c(y)\tau_t &\geq h_{\text{cap}_i} + 2t_{\text{cap}_i} \\
-            c(y)\tau_w &\geq w_{\text{cap}_i} 
-        \end{align*}
-
-        \column{0.5\textwidth}
-        \begin{align*}
-            \sigma_{\text{cfrp}} &\geq \mathcal{M}_i \frac{h_{\text{cap}_i}+t_{\text{cap}_i}}{I_i}\\
-            w_n &\leq w_{\text{max}}
-        \end{align*}
-        
-    \end{columns}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{With and Without Wind Speed Constraint}
-
-    \begin{center}
-    \includegraphics[width=1.0\textwidth]{polarmission0.pdf} \\
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{With and Without Wind Speed Constraint}
-
-    \begin{center}
-    \includegraphics[width=1.0\textwidth]{polarmission1.pdf} \\
-    \end{center}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{With and Without Wind Speed Constraint}
-
-    \begin{center}
-    \includegraphics[width=1.0\textwidth]{polarmission2.pdf} \\
-    \end{center}
-
-\end{frame}
-\begin{frame}
-    \frametitle{Configuration}
-    
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{center}
-        Component Weight
-        \end{center}
-        \column{0.5\textwidth}
-        \begin{center}
-        Component Drag
-        \end{center}
-    \end{columns}
-
-    \begin{columns}
-        \column{0.5\textwidth}
-        \scriptsize
-        \begin{align*}
-        W_{\text{skin}} &\geq 2 \rho_{A_{\text{cfrp}}} S g \\
-        W_{\text{boom}} &\geq \pi \rho_{\text{cfrp}} t_0 d l_{\text{h}}g \left( 1 - \frac{1}{2} k\right) \\
-        W_{\text{h}}/m_{\text{fac}} &\geq \rho_{\text{foam}} \frac{S_{\text{h}}^2}{b_{\text{h}}} \bar{A} + g\rho_{A_{\text{cfrp}}} S_{\text{h}} \\
-        W_{\text{v}}/m_{\text{fac}} &\geq \rho_{\text{foam}} \frac{S_{\text{v}}^2}{b_{\text{v}}} \bar{A} + g\rho_{A_{\text{cfrp}}} S_{\text{v}} \\
-            W_{\text{fuse}} &\geq S_{\text{fuse}} \rho_{A_{\text{cfrp}}} g
-        \end{align*}
-        \column{0.5\textwidth}
-        \scriptsize
-        \begin{align*}
-        D_{\text{boom}} &\geq \frac{1}{2} C_f \rho V^2 l_{\text{h}}\pi d \\
-        D_{\text{fuse}} &\geq C_f k_{\text{fuse}} \frac{1}{2} \rho V^2 S_{\text{fuse}} \\
-        C_f &\geq \frac{0.455}{Re^{0.3}} \\
-        D_{\text{h}} &\geq \frac{1}{2} c_{d_{\text{h}}} \rho V^2 S_{\text{h}} \\
-        D_{\text{v}} &\geq \frac{1}{2} c_{d_{\text{v}}} \rho V^2 S_{\text{v}} 
-        \end{align*}
-    \end{columns}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Percentile Wind Speed}
-    
-    \pause
-    \begin{columns}
-        \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{Boston_dec_2015.pdf}
-    
-        \column{0.5\textwidth}
-        \includegraphics[width=1.0\textwidth]{Boston_dec_2015auto.pdf}
-    \end{columns}
-
-    \begin{center}
-    Wind speeds in Boston, December 2015 at 60,000 ft. 
-    \end{center}
-    
 \end{frame}
 
 \end{document}
