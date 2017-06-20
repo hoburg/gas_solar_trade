@@ -208,7 +208,7 @@ class FlightState(Model):
                              orient="records")[0]
         with StdoutCaptured(None):
             dft, dfd = twi_fits(latitude, day, gen=True)
-        esirr, _, tn, _ = get_Eirr(latitude, day)
+        esirr, td, tn, _ = get_Eirr(latitude, day)
 
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
         V = Variable("V", "m/s", "true airspeed")
@@ -225,6 +225,7 @@ class FlightState(Model):
         ESvar = Variable("(E/S)_{ref}", 1, "W*hr/m^2", "energy units variable")
         PSvar = Variable("(P/S)_{ref}", 1, "W/m^2", "power units variable")
         tnight = Variable("t_{night}", tn, "hr", "night duration")
+        tday = Variable("t_{day}", td, "hr", "day duration")
         pct = Variable("p_{wind}", 0.9, "-", "percentile wind speeds")
         Vwindref = Variable("V_{wind-ref}", 100.0, "m/s",
                             "reference wind speed")
