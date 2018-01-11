@@ -83,7 +83,7 @@ class AircraftPerf(Model):
     def setup(self, static, state):
 
         self.wing = static.wing.flight_model(static.wing, state)
-        self.fuselage = static.fuselage.flight_model(state)
+        self.fuselage = static.fuselage.flight_model(static.fuselage, state)
         self.engine = static.engine.flight_model(state)
         self.htail = static.emp.htail.flight_model(static.emp.htail, state)
         self.vtail = static.emp.vtail.flight_model(static.emp.vtail, state)
@@ -181,7 +181,7 @@ class Mission(Model):
             mission[-1]["W_{end}"][-1] >= JHO["W_{zfw}"],
             Wcent >= Wfueltot + JHO["W_{pay}"] + JHO["W_{avn}"] + sum(summing_vars(JHO.smeared_loads, "W")),
             LS == mtow/JHO.wing["S"],
-            JHO.fuselage["\\mathcal{V}"] >= Wfueltot/JHO.fuselage["\\rho_{fuel}"],
+            JHO.fuselage.Vol >= Wfueltot/JHO.fuselage.rhofuel,
             Wcent == loading[0]["W"],
             Wcent == loading[1]["W"],
             loiter1["V"][0] == loading[1].v,
