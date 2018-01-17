@@ -54,6 +54,8 @@ class Aircraft(Model):
         Wcent = Variable("W_{cent}", "lbf", "center weight")
 
         self.emp.substitutions[self.emp.vtail.Vv] = 0.04
+        self.emp.substitutions[self.emp.vtail.planform.tau] = 0.08
+        self.emp.substitutions[self.emp.htail.planform.tau] = 0.08
         self.wing.substitutions[self.wing.planform.tau] = 0.115
 
         if not sp:
