@@ -42,15 +42,10 @@ class Aircraft(Model):
         self.emp.substitutions[self.emp.htail.planform.tau] = 0.08
         self.wing.substitutions[self.wing.planform.tau] = 0.115
 
-        loading = []
         if not sp:
             self.emp.substitutions[self.emp.htail.Vh] = 0.45
             self.emp.substitutions[self.emp.htail.planform.AR] = 5.0
             self.emp.substitutions[self.emp.htail.mh] = 0.1
-        else:
-            loading.append(TailBoomFlexibility(self.emp.htail,
-                                               self.emp.hbend,
-                                               self.wing))
 
         constraints = [
             Wzfw >= sum(summing_vars(components, "W")) + Wpay + Wavn,
@@ -66,7 +61,7 @@ class Aircraft(Model):
             self.wing.planform.tau*self.wing.planform.croot >= self.emp.tailboom.d0
             ]
 
-        return components, constraints, loading
+        return components, constraints
 
     def flight_model(self, state):
         return AircraftPerf(self, state)
@@ -175,8 +170,17 @@ class Mission(Model):
         # mission = [climb1, cruise1, loiter1, cruise2]
         mission = [climb1, loiter1]
 
-        loading = [JHO.wing.spar.loading(JHO.wing),
-                   JHO.wing.spar.gustloading(JHO.wing)]
+        hbend = JHO.emp.tailboom.tailLoad(JHO.emp.tailboom, JHO.emp.htail,
+                                          loiter1.fs.fs)
+        vbend = JHO.emp.tailboom.tailLoad(JHO.emp.tailboom, JHO.emp.vtail,
+                                          loiter1.fs.fs)
+        loading = [JHO.wing.spar.loading(JHO.wing, loiter1.fs.fs),
+                   JHO.wing.spar.gustloading(JHO.wing, loiter1.fs.fs),
+                   hbend, vbend]
+
+        if sp:
+            loading.append(TailBoomFlexibility(JHO.emp.htail,
+                                               hbend, JHO.wing))
 
         constraints = [
             mtow >= climb1["W_{start}"][0],
