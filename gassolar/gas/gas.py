@@ -66,16 +66,6 @@ class Aircraft(Model):
     def flight_model(self, state):
         return AircraftPerf(self, state)
 
-class AircraftLoadingSP(Model):
-    "aircraft loading model"
-    def setup(self, aircraft, Wcent, Wwing, V, CL):
-
-        # loading = [aircraft.wing.loading(aircraft.wing, Wcent, Wwing, V, CL)]
-        loading = []
-
-
-        return loading
-
 class AircraftPerf(Model):
     "performance model for aircraft"
     def setup(self, static, state):
